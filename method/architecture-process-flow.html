@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>How to use an LLM to create a venture architecture — Simanis-faithful process flow</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Lora:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f5f4f1; --surface: #ffffff; --text: #0f1923;
+      --text-secondary: #4a5568; --text-muted: #718096;
+      --border: #dde1e7; --border-strong: #b0b8c4;
+      --accent: #1f4fa8; --accent-light: #e8eef8;
+      --panel-bg: #0f2744; --panel-text: #ffffff;
+      --warning-bg: #fff8e6; --warning-border: #d4820a;
+      --inset-border: #1f4fa8;
+      --font-ui: 'DM Sans', system-ui, sans-serif;
+      --font-body: 'Lora', Georgia, serif;
+      --width: 980px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: var(--bg); color: var(--text); font-family: var(--font-ui); font-size: 17px; line-height: 1.6; }
+    .container { max-width: var(--width); margin: 0 auto; padding: 48px 32px 96px; background: var(--surface); }
+    .label { font-size: 13px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 10px; }
+    h1 { font-size: 30px; font-weight: 600; line-height: 1.2; margin-bottom: 10px; letter-spacing: -0.01em; }
+    .sub { font-family: var(--font-body); font-size: 18px; color: var(--text-secondary); margin-bottom: 8px; }
+    .meta { font-size: 13px; color: var(--text-muted); border-bottom: 1px solid var(--border); padding-bottom: 24px; margin-bottom: 32px; }
+    .panel { background: var(--panel-bg); color: var(--panel-text); padding: 28px 30px; margin: 28px 0 36px; }
+    .panel .k { font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.7; margin-bottom: 10px; }
+    .panel p { font-family: var(--font-body); font-size: 19px; line-height: 1.55; }
+    .panel p + p { margin-top: 14px; }
+    .panel strong { color: #cfe0ff; font-family: var(--font-ui); font-weight: 600; }
+    h2 { font-size: 22px; font-weight: 600; margin: 44px 0 16px; padding-top: 28px; border-top: 1px solid var(--border); }
+    .diagram-card { border: 1px solid var(--border); background: #fcfcfb; padding: 24px; margin: 8px 0 16px; overflow-x: auto; }
+    .pre-note { font-size: 13px; color: var(--text-muted); margin-bottom: 20px; }
+    ol.principles { list-style: none; counter-reset: p; margin: 8px 0; }
+    ol.principles > li { counter-increment: p; position: relative; padding: 16px 0 16px 52px; border-bottom: 1px solid var(--border); }
+    ol.principles > li:last-child { border-bottom: none; }
+    ol.principles > li::before { content: counter(p); position: absolute; left: 0; top: 16px; width: 34px; height: 34px; background: var(--accent); color: #fff; font-weight: 600; font-size: 15px; display: flex; align-items: center; justify-content: center; border-radius: 50%; }
+    ol.principles .h { font-weight: 600; font-size: 17px; display: block; margin-bottom: 4px; }
+    ol.principles .b { font-family: var(--font-body); font-size: 16px; color: var(--text-secondary); }
+    .inset { border-left: 4px solid var(--inset-border); background: var(--accent-light); padding: 18px 22px; margin: 32px 0 8px; font-family: var(--font-body); font-size: 16.5px; line-height: 1.65; }
+    .inset .k { font-family: var(--font-ui); font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--accent); font-weight: 600; margin-bottom: 8px; }
+    .changed { border-left: 4px solid var(--warning-border); background: var(--warning-bg); padding: 16px 22px; margin: 24px 0; }
+    .changed .k { font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: #7a4a00; font-weight: 600; margin-bottom: 10px; }
+    .changed ul { margin: 0; padding-left: 20px; }
+    .changed li { font-size: 15px; margin-bottom: 7px; color: #5a4410; }
+    .changed li:last-child { margin-bottom: 0; }
+    .changed b { color: #3d2c08; }
+    .foot { margin-top: 44px; padding-top: 20px; border-top: 1px solid var(--border); font-size: 13px; color: var(--text-muted); }
+    .mermaid { font-family: var(--font-ui) !important; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="label">Forge · WS1 · CF reference process · v5 (CLO via broken boundary conditions)</div>
+    <h1>How to use an LLM to create a venture architecture</h1>
+    <div class="sub">An end-to-end process flow — recut against Simanis &amp; Donohue, <em>Deciphering the Market Creator's Dilemma</em>.</div>
+    <div class="meta">Head of Product · 3 June 2026 · IVE/BALM + VA-1–4 discipline + the Market Creator's Dilemma</div>
+
+    <div class="panel">
+      <div class="k">The governing idea</div>
+      <p>Architecture is a <strong>control</strong> task, not a <strong>writing</strong> task — a generate → evaluate → gate loop over external state, with judgement held separate from generation.</p>
+      <p>But Simanis sharpens what the loop optimises <em>for</em>: not "satisfy each requirement well" but <strong>the fewest moves that satisfy the most requirements while breaking the conventional CBA</strong>. Synergy is the moat; the circumvented CLO is the spine.</p>
+    </div>
+
+    <div class="changed">
+      <div class="k">What changed in this cut (reading Simanis)</div>
+      <ul>
+        <li><b>CLO is its own phase and the seed</b> — identified before the loop; everything productizes around its workaround, not treated as "R1 of 10."</li>
+        <li><b>Synergy moved into generation</b> — generate for the move that solves the most requirements at once. Convergence becomes <em>confirmation</em>, not repair (the Calmly non-convergence was a generation defect, not a missing cleanup step).</li>
+        <li><b>Conformity guard on the critic</b> — reward "wrong because it breaks the conventional CBA"; kill only "wrong because incoherent." Otherwise verification regresses toward plausible-but-faulty.</li>
+        <li><b>Customer-research firewall</b> — pain and value-ceiling in; solution-shape out. Following the customer into the form factor imports the faulty CBA.</li>
+        <li><b>Built to hold</b> — verification weights the F3 holding architecture; a venture is designed to hold a position, not flip.</li>
+      </ul>
+    </div>
+
+    <div class="changed">
+      <div class="k">What changed in v3 → v5 — model-build unskippable; conventional model sharpened; CLO found via broken boundary conditions</div>
+      <ul>
+        <li><b>Why:</b> the first autonomous F1 run (3 Jun) followed v2 but built <b>no CTM, no AOM, no fin-sim</b>. It read the BALM skills and skipped their model-build sections — so the FMOS/FIT figures (98–99%) were narrative estimates, not the output of a bottom-up AOM → fin-sim model, and nothing chained from one challenge to the next. The "design loop" wasn't a loop.</li>
+        <li><b>Fix 1 — fire the skills, write the artefacts.</b> Productize (step 6) is no longer "update CTM + AOM" in prose. It fires <b>/ive-ctm-custom → /ive-aom-custom → /ive-fin-sim-custom</b> and produces real model files. Build the models, never describe them.</li>
+        <li><b>Fix 2 — FIT runs on the model.</b> The gate (step 7) reads the fin-sim's actual FMOS via /ive-fit-verifier-custom. A FMOS not produced by the model is invalid and fails the gate by default.</li>
+        <li><b>Fix 3 — the chain IS the models.</b> Step 1 (Retrieve) now reads the current CTM/AOM/fin-sim before designing. Each challenge updates the same model files; the next starts from them. The Design Record is the carrier, not a write-only archive.</li>
+        <li><b>Fix 4 — the CLO needs a conventional model to live in.</b> Phase 1 now states the <b>conventional commercialisation model</b> first — how this CF would typically be made, sold, delivered, paid for — and finds the CLO <em>within</em> it. You cannot locate the operation that drives cost without first naming the model whose cost it drives. (This is also where R1 ≠ CF bites: the conventional model is the CF commercialised the <em>old</em> way; the CLO is its cost bottleneck, and the workaround circumvents that — it is not "use the CF.")</li>
+        <li><b>Fix 5 (v4) — for a Path-A technology CF, the conventional model is the default <em>commercialisation</em> of the capability.</b> SR1 asks how the CF would conventionally be <em>productised</em> — for an expertise-as-automation CF that is the TurboTax / LegalZoom / SaaS pattern, not how incumbents deliver the outcome. So <b>"the obvious productisation of your tech" is the conventional baseline, never the workaround.</b> Test: <em>if your R1 workaround is what a smart team would build by default with this technology, it is the conventional model — go a level deeper for the CLO.</em> (Forge, 3 Jun: "TurboTax for venture architecture" was mistaken for the innovation; it is the baseline. The real CLO is the central codification/maintenance of the standard inside that model.)</li>
+      </ul>
+    </div>
+
+    <h2>The process flow</h2>
+    <p class="pre-note">Frame → state the conventional model &amp; find the CLO within it (the spine) → architect around it generating for synergy → converge to confirm → verify independently → sign off. External design record throughout; judgement separate from generation; humans only at the irreducible points.</p>
+    <div class="diagram-card">
+      <pre class="mermaid">
+flowchart TB
+    START([Raw problem / idea]) --> PCO
+
+    subgraph FRAME["PHASE 0 — Frame (bound the problem, don't shape the solution)"]
+        PCO["PCO: define core functionality<br/>+ use cases + required price"]
+        FW["FIREWALL: customer research sets<br/>PAIN + VALUE CEILING only —<br/>never the form factor"]
+        PCOGATE{"Market-creation<br/>margin &gt; 30%?"}
+        PCO --> FW --> PCOGATE
+    end
+    PCOGATE -->|no| KILL([Drop / reframe])
+    PCOGATE -->|"yes — human confirms PCO"| CONV
+
+    subgraph SPINE["PHASE 1 — State the conventional model, find the CLO, design the seed"]
+        CONV["State the CONVENTIONAL model FIRST:<br/>how would this CF be DEFAULT-productised / taken to market?<br/>For a tech CF: the expertise-as-software pattern<br/>(TurboTax / LegalZoom / platform / SaaS).<br/>The obvious productisation is the BASELINE — not your innovation"]
+        CLO["Find the CLO by the BROKEN BOUNDARY CONDITION:<br/>which functional/human condition that makes the<br/>conventional model work does NOT hold here?<br/>The broken one that RATCHETS (can't remove the cost<br/>without destroying the value) is the CLO —<br/>not a within-model cost hunt"]
+        WA["Design the workaround that<br/>CIRCUMVENTS it — not optimises.<br/>This 'looks-wrong' move is the spine"]
+        CONV --> CLO --> WA
+    end
+    WA --> RET
+
+    subgraph LOOP["PHASE 2 — Architect around the spine (loop the remaining requirements)"]
+        direction TB
+        RET["1. Retrieve — READ the current models (CTM · AOM · fin-sim)<br/>from prior challenges + RAG method + analogous real cases"]
+        DIAG["2. Diagnose — this requirement's block vs the CURRENT models"]
+        THEO["3. Theorize — name class, cite + stress-test a real theory"]
+        GEN["4. Generate FOR SYNERGY — moves that solve THIS requirement<br/>AND back-solve earlier ones / extend the spine"]
+        EVAL["5. Evaluate — independent critic + CONFORMITY GUARD:<br/>keep 'breaks the conventional CBA'; kill only 'incoherent'"]
+        PROD["6. Productize — FIRE the model skills, WRITE the artefacts:<br/>CTM (/ive-ctm-custom) → AOM (/ive-aom-custom) → fin-sim (/ive-fin-sim-custom).<br/>Build the models — never describe them"]
+        FIT{"7. FIT gate (/ive-fit-verifier-custom)<br/>on the fin-sim's REAL FMOS<br/>— never an estimate"}
+        RET --> DIAG --> THEO --> GEN --> EVAL --> PROD --> FIT
+        FIT -->|"fail — diagnose the off lever"| GEN
+    end
+    FIT -->|pass| NEXT{"All requirements<br/>done?"}
+    NEXT -->|"no — next requirement"| RET
+    NEXT -->|yes| CONV
+
+    subgraph CONVERGE["PHASE 3 — Converge (confirm, don't repair)"]
+        CONV["Name the ONE spine + the real-business analogue.<br/>Does a single move solve multiple requirements? (synergy = moat)"]
+        SYN{"Cohered, with a<br/>real analogue?"}
+        CONV --> SYN
+    end
+    SYN -->|"no — generation wasn't synergistic"| GEN
+    SYN -->|"yes — cohered"| VV
+
+    subgraph VER["PHASE 4 — Verify (independent / adversarial + conformity guard)"]
+        VV["verify-venture: completeness · consistency · discipline ·<br/>synthesis (F3 holding weighted) → integrity score"]
+        VGATE{"Score &ge; 85<br/>and gates clear?"}
+        VV --> VGATE
+    end
+    VGATE -->|"fail — route gap by type"| ROUTE{Gap type?}
+    ROUTE -->|"not synergistic / not converged"| GEN
+    ROUTE -->|"open requirement"| RET
+    ROUTE -->|"CLO not actually circumvented"| CLO
+    VGATE -->|pass| SIGN
+
+    SIGN["PHASE 5 — Human + expert sign-off"]
+    SIGN --> DONE([Architecture: SOUND and built to hold])
+
+    DR[("Design Record — BFF · CTM · AOM · fin-sim<br/>single source of truth")]
+    DR -.->|read / write| LOOP
+    DR -.->|read / write| CONVERGE
+    DR -.->|read| VER
+
+    classDef gate fill:#fff8e6,stroke:#d4820a,color:#7a4a00;
+    classDef done fill:#e6f4ec,stroke:#166534,color:#166534;
+    classDef store fill:#0f2744,stroke:#0f2744,color:#ffffff;
+    classDef guard fill:#f0ebfb,stroke:#5b21b6,color:#3d1d6e;
+    class PCOGATE,FIT,NEXT,SYN,VGATE,ROUTE gate;
+    class DONE,START done;
+    class DR store;
+    class FW,WA,GEN,EVAL guard;
+      </pre>
+    </div>
+
+    <h2>The seven design decisions — Simanis-faithful</h2>
+    <ol class="principles">
+      <li><span class="h">Synergy is the generative objective, not a late check.</span><span class="b">Generate for the move that solves the most requirements at once — Airbnb harnessing the host's home solved R1, R2 and R3 in one stroke. "That architectural synergy is the real moat." Optimise for it throughout and coherence becomes a by-product; convergence confirms rather than repairs.</span></li>
+      <li><span class="h">The CLO is the spine — identified first, everything productizes around it.</span><span class="b">"The CLO is the first thing to identify. Before any other design work." The whole form factor exists to circumvent it. The workaround that "looks wrong by conventional standards" is the seed the other requirements build on — not the first of ten equal passes. But the CLO can only be found <em>inside a stated conventional model</em>: first name how the CF would conventionally be made, sold, delivered and paid for, then locate the operation within it that disproportionately drives cost. Skip that and you have no baseline to find a CLO against — and you slide toward "the CF is the answer." And for a Path-A <em>technology</em> CF, the conventional model is the default <em>commercialisation</em> of the capability (the expertise-as-software / platform pattern) — so the obvious productisation of your tech is the baseline, not the innovation. Test: if your workaround is what a smart team would build by default with the tech, it is the conventional model — go a level deeper.</span></li>
+      <li><span class="h">Generation ≠ judgement — and guard the judge against conformity bias.</span><span class="b">An independent critic must score, never the producer. But the critic carries a conformity bias that will mark down the unconventional architecture that's correct. Its rubric must keep "wrong because it breaks the conventional CBA" (the signal it's working) and kill only "wrong because incoherent." Without that, adversarial verification quietly regresses toward plausible-but-faulty.</span></li>
+      <li><span class="h">Firewall customer research.</span><span class="b">"Customer research confirms pain. It doesn't design architecture." Pain and the value ceiling may bound the problem; they must never shape the form factor. Following the customer into the solution is how you import the faulty CBA.</span></li>
+      <li><span class="h">State lives in the artifact, not the context window.</span><span class="b">The design record (BFF, CTM, AOM, fin-sim) is the source of truth every step reads and writes. This is how a 10-requirement architecture stays coherent when it's far too big to hold in one context. The LLM operates on the file, not on its memory of the file.</span></li>
+      <li><span class="h">Gate on money continuously.</span><span class="b">FIT runs after every requirement, not at the end. A requirement can't close until the architecture still pays back. Beautiful-but-unviable designs die early, when they're cheap to fix.</span></li>
+      <li><span class="h">Built to hold — and humans only at the irreducible judgements.</span><span class="b">Weight the F3 holding architecture: a venture is designed to hold a defensible position, not flip. And reserve human judgement for the three points that need it — confirm the PCO, change the objective/gates, final sign-off. Everything between is autonomous. That boundary makes the CF a capability, not a co-pilot.</span></li>
+      <li><span class="h">The models ARE the design — and the chain.</span><span class="b">Each challenge fires the model skills (CTM, AOM, fin-sim) to produce real artefacts, and the next challenge reads them — that is what makes it a loop rather than ten essays. A FIT verdict not produced by the fin-sim is fiction. The first F1 run (3 Jun) skipped the model build and fabricated its FMOS; this decision exists so that never recurs. The model is not the write-up of the design — it is the design, and it is the only thing that carries between challenges.</span></li>
+    </ol>
+
+    <div class="inset">
+      <div class="k">The deepest point</div>
+      A plausible architecture and a sound one look identical on the page. What separates them is whether each move was chosen for cross-requirement leverage against a circumvented CLO — and whether the judge rewarded the design for looking conventionally wrong. Build the loop, choose for synergy, and protect the answer that breaks the rules.
+    </div>
+
+    <div class="foot">Forge WS1 — CF development · v5 reference process · supersedes v4 (adds: find the CLO by the broken boundary condition when importing a conventional model — functional/human BCs that hold in the native context but break here; the broken one that ratchets is the CLO — not a within-model cost hunt. Source: Simanis et al., The Market Creator's Dilemma) · pairs with <code>/verify-venture-custom</code> (Phase 4) and <code>va-design-discipline.md</code> (the generative discipline inside Phase 2).</div>
+  </div>
+
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: 'base',
+      themeVariables: {
+        fontFamily: 'DM Sans, system-ui, sans-serif',
+        fontSize: '14px',
+        primaryColor: '#e8eef8',
+        primaryBorderColor: '#1f4fa8',
+        primaryTextColor: '#0f1923',
+        lineColor: '#4a5568',
+        secondaryColor: '#f5f4f1',
+        tertiaryColor: '#ffffff',
+        clusterBkg: '#fbfbfa',
+        clusterBorder: '#b0b8c4',
+        edgeLabelBackground: '#ffffff'
+      }
+    });
+  </script>
+</body>
+</html>
