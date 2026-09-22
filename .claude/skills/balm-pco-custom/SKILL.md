@@ -1,6 +1,6 @@
 ---
 name: balm-pco-custom
-description: IVE Prime Commercial Opportunity session — the upstream prerequisite to all BALM requirements. Determines the broadest credible use case before any segment or product choice is made. Prevents the beachhead trap. Outputs: PCO statement, investment parameters, use case shortlist, financial directionality verdict.
+description: IVE Prime Commercial Opportunity session — the upstream prerequisite to all BALM requirements. Determines the broadest credible use case before any segment or product choice is made. Prevents the beachhead trap. Outputs — PCO statement, investment parameters, use case shortlist, financial directionality verdict.
 ---
 
 # BALM PCO — Prime Commercial Opportunity
