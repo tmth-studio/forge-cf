@@ -179,7 +179,7 @@ Output a single HTML document using the standard design system (DM Sans + Lora, 
 7. **Validation sequencing** — proposed order of validation actions given resource constraints (which P1 actions can be run in parallel, which are prerequisites for others)
 
 **Output file naming:** `[venture-slug]-assumption-audit-[YYYY-MM-DD].html`
-Example: `calmlyresolve-assumption-audit-2026-06-05.html`
+Example: `{venture}-assumption-audit-{date}.html`
 
 ---
 
@@ -209,15 +209,15 @@ The audit is not a gate — it does not block the financial simulation. It produ
 
 ---
 
-## Worked example structure (Calmly Resolve, 5 June 2026)
+## Worked example structure (illustrative — a transaction-cover venture at C8)
 
 The top P1 assumptions at C8 would include:
 
-1. **Dispute rate (0.05%)** — Critical / T3 — ARM sensitivity shows FMOS drops from 107% to 36% at 0.10%. Validation action: obtain historical dispute rate data from marketplace operators (Checkatrade, Rated People), segmented by transaction value band. A T1-quality answer: >12 months data from ≥2 operators, dispute/claim rate expressed per completed transaction with value band breakdown.
+1. **Dispute rate per completed transaction** — Critical / T3 — the ARM sensitivity shows FMOS falling from well above the gate to near it when the rate doubles. Validation action: obtain historical dispute-rate data from marketplace operators, segmented by transaction value band. A T1-quality answer: more than 12 months of data from two or more operators, expressed per completed transaction with a value-band breakdown.
 
-2. **Transaction site in-house dispute-risk cost (£0.50/txn)** — Critical / T3 — ARM sensitivity shows gate fails if ceiling is below £0.28/txn at 0.05% dispute rate. Validation action: request trust & safety cost disclosure from operator during ITP outreach conversations. A T1-quality answer: operations & support headcount + budget / annual transaction volume, from ≥1 primary operator.
+2. **The customer's in-house cost of the same risk per transaction** — Critical / T3 — the ARM sensitivity shows the gate failing if the ceiling is below the cost floor at the base dispute rate. Validation action: request trust-and-safety cost disclosure from an operator during outreach. A T1-quality answer: operations and support headcount plus budget divided by annual transaction volume, from at least one primary operator.
 
-3. **Expected payout per claim (£252 net)** — High / T4 — ARM sensitivity: if payout doubles, full floor rises to £0.367/txn, FMOS 36%. Validation action: obtain BTE insurance loss ratio data from DAS, ARAG, or DWF Claims. T1-quality: actual loss ratio (claims paid / premiums earned) for comparable legal expense products.
+3. **Expected payout per claim** — High / T4 — the ARM sensitivity: if the payout doubles, the full floor rises past the ceiling. Validation action: obtain loss-ratio data from comparable legal-expense or cover products. T1-quality: actual loss ratio (claims paid over premiums earned) for a comparable product.
 
 These are illustrative — the audit extracts and ranks all assumptions systematically rather than selecting manually.
 
@@ -228,5 +228,5 @@ These are illustrative — the audit extracts and ranks all assumptions systemat
 - This is a custom skill, protected from Dex updates
 - Edit `.claude/skills/ive-assumption-audit-custom/SKILL.md` to modify
 - Invoke as: `/ive-assumption-audit-custom`
-- Related: `/ive-fit-verifier-custom` (the gate this feeds) · `/ive-fin-sim-custom` (downstream) · `/head-of-verification-calmly-custom` (the role that runs this for Calmly)
-- Source: Calmly BTE ARM (5 June 2026) — the dispute rate sensitivity table was the immediate trigger for building this as a repeatable skill
+- Related: `/ive-fit-verifier-custom` (the gate this feeds) · `/ive-fin-sim-custom` (downstream) · the venture's Head of Verification role, where one exists
+- Source: a June 2026 ARM sensitivity table on a studio venture was the immediate trigger for building this as a repeatable skill

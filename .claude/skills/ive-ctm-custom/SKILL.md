@@ -9,6 +9,6 @@ CTM guidance has been consolidated into the challenge skills.
 
 - **Diagram format spec:** `.claude/skills/shared/ctm-diagram-spec.md`
 - **Venture-specific CTM process:** inside each `balm-challenge-N-custom` skill, Section 5
-- **Reference visual:** `.claude/skills/ive-ctm-custom/reference/calmly-demo-workspace.pdf` (kept here — do not move)
+- **Reference visual:** a studio venture workspace PDF, kept in the studio vault only (not shipped)
 
 Do not invoke this skill. It will not produce correct output.
