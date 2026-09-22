@@ -19,7 +19,7 @@ description: IVE Venture Valuation — values an architected venture for two rea
 
 ## IVE framework — where this skill fits
 
-**Integrated Venture Engine (IVE)** is a structured process for building new Core Business Architectures. Source: Simanis, E. et al. (2021), Cornell SC Johnson College of Business.
+**Integrated Venture Engine (IVE)** is a structured process for building new Core Business Architectures. Source: the IVE canon — Simanis, E. et al. (2021), Cornell SC Johnson College of Business, and the co-authored papers 2023–2025 (Simanis, Manuel et al. 2023; Simanis et al. 2024; Simanis 2025). Full list at the foot of this skill or in `architect-custom`.
 
 **Three nested levels of commercial architecture:**
 
@@ -137,10 +137,10 @@ Run these six steps in order. Each is a Section in the workflow below.
 Read the current model stack for the venture (do not re-derive it — read it):
 
 ```
-ventures/{venture-slug}/.../{venture}-fin-sim-at-C[N].html   (or latest fin-sim)
-ventures/{venture-slug}/.../{venture}-aom-at-C[N].html
-ventures/{venture-slug}/.../{venture}-ctm-at-C[N].html
-ventures/{venture-slug}/.../{venture}-cdr-package-*.html      (if CDR exists)
+04-Projects/{venture-slug}/.../{venture}-fin-sim-at-C[N].html   (or latest fin-sim)
+04-Projects/{venture-slug}/.../{venture}-aom-at-C[N].html
+04-Projects/{venture-slug}/.../{venture}-ctm-at-C[N].html
+04-Projects/{venture-slug}/.../{venture}-cdr-package-*.html      (if CDR exists)
 ```
 
 Also read the latest `/verify-venture-custom` SOUND score and FMOS gate clearances — these are the **warrant** for the WTP band (VA-31).
@@ -253,7 +253,7 @@ Tie the ranking explicitly to `/architecture-assumption-audit-custom` (which alr
 
 ## Output spec — HTML valuation document
 
-Save to: `ventures/{venture-slug}/.../{venture}-valuation-YYYY-MM-DD.html`. Open in browser after saving.
+Save to: `04-Projects/{venture-slug}/.../{venture}-valuation-YYYY-MM-DD.html`. Open in browser after saving.
 
 **Structure (Pyramid / SCQA — this is a decision document):**
 1. **SCQA header with BLUF** — the enterprise-value range in one line at the top: *"[Venture] is worth £[EV_low] – £[EV_high] if soundly solved (architecture-conditional); £[Lens2_low] – £[Lens2_high] de-risked today. The £[gap] gap is the value of validation."* Situation → Complication → Question → Answer, answer first.

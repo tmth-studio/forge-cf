@@ -1,17 +1,5 @@
-# Feedback log
+# Feedback
 
-Friction, confusion, and gaps found while running the method. Everything here is
-useful — especially the parts that felt stupid to write down.
-
-Format used by the skills:
-
-```
-## YYYY-MM-DD — <skill or step>
-
-**What was unclear:**
-**What I expected instead:**
-**What I did to get unstuck:**
-**What would have removed the problem:**
-```
-
----
+The skills write their end-of-session feedback to
+`04-Projects/TMTH_Venture_Studio/Forge/WS1/ws1-feedback-log.md`.
+Add anything else there, in the same format. Send us the file, or open a pull request with it.

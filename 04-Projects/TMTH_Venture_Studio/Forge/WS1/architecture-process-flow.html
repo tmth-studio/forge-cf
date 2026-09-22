@@ -54,7 +54,7 @@
 </head>
 <body>
   <div class="container">
-    <div class="label">Forge · WS1 · CF reference process · v5 (CLO via broken boundary conditions)</div>
+    <div class="label">Forge · WS1 · CF reference process · v7 (objective function; validation by launch)</div>
     <h1>How to use an LLM to create a venture architecture</h1>
     <div class="sub">An end-to-end process flow — recut against Simanis &amp; Donohue, <em>Deciphering the Market Creator's Dilemma</em>.</div>
     <div class="meta">Head of Product · 3 June 2026 · IVE/BALM + VA-1–4 discipline + the Market Creator's Dilemma</div>
@@ -73,6 +73,20 @@
         <li><b>Conformity guard on the critic</b> — reward "wrong because it breaks the conventional CBA"; kill only "wrong because incoherent." Otherwise verification regresses toward plausible-but-faulty.</li>
         <li><b>Customer-research firewall</b> — pain and value-ceiling in; solution-shape out. Following the customer into the form factor imports the faulty CBA.</li>
         <li><b>Built to hold</b> — verification weights the F3 holding architecture; a venture is designed to hold a position, not flip.</li>
+      </ul>
+    </div>
+
+    <div class="changed">
+      <div class="k">What changed in v6 → v7 — the objective function, and validation by launch (16 Sep 2026, Tom's instruction, under the delegation)
+<p><strong>The CF now has an objective.</strong> It maximises the expected net present value of the venture at the required rate of return over the investment period, subject to the gates (<code>objective-function.md</code>). Until v7 the loop optimised for clearing gates and generating synergy; a gate is a constraint, and the loop had nothing to rank two gate-clearing designs by. Three changes follow. Phase 2 step 4 (Generate) ranks candidate moves by the NPV band they move, not only by requirements served. Phase 3 (Converge) does not close without an E[NPV] from the financial simulation over time, as a band with its binding input named — the fit gate's one-scale-state margin is a constraint check, not the objective. The TPM record gains an NPV-sensitivity field, and it is what orders validation threads, design attention and verification effort.</p>
+<p><strong>Validation is by launch.</strong> <code>validation-standard.md</code>: every unknown is classified — a designed output is a claim validated at launch, never a question for the customer; a fact in the world takes the desk route first; a person is asked only to decide or to correct. Where launch is cheap, the F2 architecture stood up as the minimum front is the validation instrument; <code>realisation-standard.md</code> Step 3b orders that front in threads by expected NPV narrowed per pound. Phase 5 accordingly puts three things and only three to a human: the PCO, decisions, and corrections.</p>
+What changed in v5 → v6 — role review: each function's planned activity is reviewed by the role that will run it (15 Sep 2026, Tom's delegation)</div>
+      <ul>
+        <li><b>Why:</b> the operational limb of the three-check close (restored 4 Sep) had a question but no competent reviewer. On Datum R3 the role-support check returned FAIL and the challenge passed. Nobody with the competence of the role that would run the activity was asked whether it could be run.</li>
+        <li><b>Canon anchor.</b> Systems engineering already has this construct: <b>specialty engineering</b> (INCOSE SE Handbook 4th ed., ch. 10 — reliability, producibility, supportability, human systems integration, affordability and the rest), integrated through the product team and <b>signed off by discipline at the technical reviews</b> (IEEE 15288.2 / MIL-STD-1521B: SRR, PDR, CDR, TRR, each with entry and exit criteria). A venture's specialty disciplines are sales, marketing, operations, finance, legal, customer success. The CF was missing the review; it was not missing the idea.</li>
+        <li><b>Fix 1 — step 6b, role review, between Productize and FIT.</b> Every AOM component carries a <code>dri:</code> role (10 Sep rule). After the models are written and before the FIT gate, each role reviews the activities under its seat against its craft standard (e.g. Head of Sales against <code>launch-sales-standard.md</code>, Head of Marketing against <code>landing-page-standard.md</code>). The question is <b>executability</b>: can this role run this activity at this cost and volume, and what does it need that the plan does not give it? Findings are disposed under VA-89 — design defect · standing constraint · build item. Output is findings, never rewrites. A role with no craft standard reviews from general practice and reports "standard missing" — a gap in the standards library, logged.</li>
+        <li><b>Fix 2 — the conformity guard applies to the reviewer.</b> A specialist carries the conventional CBA by training. The reviewer is told to reward "breaks how this function is conventionally done" and to fail only "cannot be executed by this role as specified". Without this the review pulls the architecture back to convention.</li>
+        <li><b>Fix 3 — three firings.</b> Per challenge on the components that challenge added or changed (light); a full cross-function pass at Phase 3 Converge once the BFF is fixed; and the specification review in the realisation pipeline (<code>realisation-standard.md</code> step 6b). The full pass is where handoffs between functions are checked; the per-challenge pass cannot see them.</li>
       </ul>
     </div>
 
@@ -120,8 +134,9 @@ flowchart TB
         GEN["4. Generate FOR SYNERGY — moves that solve THIS requirement<br/>AND back-solve earlier ones / extend the spine"]
         EVAL["5. Evaluate — independent critic + CONFORMITY GUARD:<br/>keep 'breaks the conventional CBA'; kill only 'incoherent'"]
         PROD["6. Productize — FIRE the model skills, WRITE the artefacts:<br/>CTM (/ive-ctm-custom) → AOM (/ive-aom-custom) → fin-sim (/ive-fin-sim-custom).<br/>Build the models — never describe them"]
+        ROLE["6b. Role review — each AOM dri: role reviews its activities<br/>for EXECUTABILITY at cost and volume, against its craft standard.<br/>Conformity guard on the reviewer. Findings disposed VA-89, never rewrites"]
         FIT{"7. FIT gate (/ive-fit-verifier-custom)<br/>on the fin-sim's REAL FMOS<br/>— never an estimate"}
-        RET --> DIAG --> THEO --> GEN --> EVAL --> PROD --> FIT
+        RET --> DIAG --> THEO --> GEN --> EVAL --> PROD --> ROLE --> FIT
         FIT -->|"fail — diagnose the off lever"| GEN
     end
     FIT -->|pass| NEXT{"All requirements<br/>done?"}
@@ -129,7 +144,7 @@ flowchart TB
     NEXT -->|yes| CONV
 
     subgraph CONVERGE["PHASE 3 — Converge (confirm, don't repair)"]
-        CONV["Name the ONE spine + the real-business analogue.<br/>Does a single move solve multiple requirements? (synergy = moat)"]
+        CONV["Name the ONE spine + the real-business analogue.<br/>Does a single move solve multiple requirements? (synergy = moat)<br/>+ FULL role review across all functions — handoffs between seats"]
         SYN{"Cohered, with a<br/>real analogue?"}
         CONV --> SYN
     end
@@ -183,7 +198,7 @@ flowchart TB
       A plausible architecture and a sound one look identical on the page. What separates them is whether each move was chosen for cross-requirement leverage against a circumvented CLO — and whether the judge rewarded the design for looking conventionally wrong. Build the loop, choose for synergy, and protect the answer that breaks the rules.
     </div>
 
-    <div class="foot">Forge WS1 — CF development · v5 reference process · supersedes v4 (adds: find the CLO by the broken boundary condition when importing a conventional model — functional/human BCs that hold in the native context but break here; the broken one that ratchets is the CLO — not a within-model cost hunt. Source: Simanis et al., The Market Creator's Dilemma) · pairs with <code>/verify-venture-custom</code> (Phase 4) and <code>va-design-discipline.md</code> (the generative discipline inside Phase 2).</div>
+    <div class="foot">Forge WS1 — CF development · v6 reference process · supersedes v5 (adds: step 6b role review — specialty engineering signed off at the technical review, applied to the venture's functions; full pass at Converge; conformity guard on the reviewer). v5 supersedes v4 (adds: find the CLO by the broken boundary condition when importing a conventional model — functional/human BCs that hold in the native context but break here; the broken one that ratchets is the CLO — not a within-model cost hunt. Source: Simanis et al., The Market Creator's Dilemma) · pairs with <code>/verify-venture-custom</code> (Phase 4) and <code>va-design-discipline.md</code> (the generative discipline inside Phase 2).</div>
   </div>
 
   <script type="module">

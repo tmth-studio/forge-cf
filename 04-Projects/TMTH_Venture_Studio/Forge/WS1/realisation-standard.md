@@ -9,6 +9,8 @@
 
 > **⚠ TWO OPEN RULINGS sit inside this standard.** See "Open rulings" at the end. Each is marked **[OPEN — TOM]** where it lands in the text.
 
+**Review date:** 15 December 2026 (90-day cycle; owner re-reads against the regression set and the canon mapping, bumps the date)
+
 ---
 
 ## The principle
@@ -73,6 +75,12 @@ Order the four products by dependency, then by which components carry the Key Co
 Record the order and its reasons in the realisation queue. Each queue item names the actor it serves.
 Order governs the build sequence only. It does not permit realising one product in isolation — see Step 4.
 
+**Step 3b — For validation, order by risk burn-down, in threads.** (Added 16 September 2026 under Tom's delegation. Canon: thread-based incremental integration and TPM-driven test planning, INCOSE SE Handbook 4th ed. ch. 4 (integration, verification, validation) and INCOSE Technical Measurement; the V-model's right leg.)
+Where the purpose of realisation is to validate the architecture's claims, the unit of realisation is the **thread**: the thinnest end-to-end path through the products that produces one real observation of one claim, in the operational environment, with the real actor. A thread names the AOM activities and CTM transitions it needs and nothing else.
+Order threads by three keys: (1) risk burn-down — the expected NPV the thread's observation narrows (the TPM record's NPV-sensitivity field, `objective-function.md`) per unit cost to stand the thread up — the value of information; (2) dependency — a thread runs after the threads whose products it needs; (3) reversibility — a thread that touches regulated activity, capital or a named counterparty runs after its Q4 decision (`validation-standard.md`).
+Record the thread list at the F2 close: for each thread, the claim it observes, the products and activities it needs, the cost to stand it up, and the TPM band it narrows. Each thread's observation updates the TPM record and re-runs the fit gate on the narrowed band. The list replaces "which processes do we stand up" with "which observation next".
+Step 3's dependency order still applies to the build of a full product; Step 3b decides what is built first when the aim is to observe.
+
 **Step 4 — Hold the journeys across the four products.**
 The actor does not experience four products. The actor experiences one journey, and the four products are its stages: become aware → act → reach the outcome → make the payment. A partner runs its own journey to its own outcome.
 The four products are realised in conjunction, with awareness of each other. The connective tissue between them is the easiest thing to lose, because no single product owns it.
@@ -99,6 +107,13 @@ This is the VA-1 move one level down: the synthesis check finds the business ana
 Close the design to buildable per the detailed-design discipline (PDR→CDR): a specification per component, a routine per activity, an interface specification per connection.
 Each acceptance criterion, if passed, must evidence the Level-1 chain. A criterion that a component can pass while the loss survives is decorative. Rewrite it.
 
+**Step 6b — Role review of the specification.** (Added 15 September 2026 under Tom's delegation. Canon: specialty-engineering sign-off at the technical review, INCOSE SE Handbook 4th ed. ch. 10; IEEE 15288.2.)
+Before a Test Product is built, the role that will run each routine reviews its specification. The role is the `dri:` on the AOM component. The reviewer is the agent for that role and its craft standard is the reference (`launch-sales-standard.md` for Head of Sales; `landing-page-standard.md` and `sales-marketing-asset-standard.md` for Head of Marketing).
+The reviewer answers one question: can this role run this routine at the cost and volume the fin-sim assumes, and what does it need that the specification does not give it?
+The conformity guard applies to the reviewer. Reward a routine that breaks how the function is conventionally done. Fail only a routine the role cannot execute as specified.
+The output is findings, not rewrites. Dispose each finding under VA-89: design defect, standing constraint or build item. A design defect returns to the owning challenge as an NCR.
+A role with no craft standard reviews from general practice and records "standard missing" in the finding. That entry is a gap in the standards library.
+
 **Step 7 — Build the Test Product first.**
 A Test Product verifies or demonstrates the design. It is never for live use.
 Give it a TP-NNN identity and a banner that states what is not yet true.
@@ -115,7 +130,7 @@ Inspect the FIRST Realised Product of each type. The check is two questions:
 2. Did anything fall outside the VDR's bounds?
 The bounds register is the VDR itself. Maintain no separate list.
 At tranche 1, also walk each actor's full journey across the four products, as the actor. The per-type inspections do not test the handoffs; the walk does.
-**[OPEN — TOM]** A second axis is proposed: each product also meets a named external design standard for its kind. Candidates and the selection rule are in the verification register. Do not apply this axis until Tom selects the standards.
+The second axis, ruled 15 September 2026 under Tom's delegation: each product also meets the craft standard of the role that owns it. The role's agent applies it at first-article inspection, the same way it did at Step 6b. Where the standards library has no craft standard for that role, the inspection records "standard missing" and the gap goes to the Head of Product. The candidate external standards in the verification register are inputs to those craft standards, not a separate axis.
 A failed first article raises an NCR. The NCR route decides rework, use-as-is, or scrap.
 
 ---
@@ -168,7 +183,7 @@ Each insert gives only what is specific to the type. The pipeline above applies 
 | # | Ruling needed | Where it lands | Owner |
 |---|---|---|---|
 | 1 | Payment Product Level-1 symmetry — change the definition to a loss eliminated in an actor's routine, or keep the venture-benefit form | Payment insert, Level-1 sentence | Tom |
-| 2 | External design standards — select the named standard per product type (second axis of first-article inspection) | Step 9 | Tom |
+| 2 | ~~External design standards — select the named standard per product type~~ Ruled 15 Sep 2026: the owning role's craft standard is the standard; see Step 6b and Step 9 | Step 9 | Closed |
 | 3 | Process-primary re-basing — decides the nouns this file uses at v1.0 | Whole file | Tom |
 
 ---

@@ -40,4 +40,4 @@ The split is **within** a skill, not between skills:
 
 ## Record
 
-Measurement and rationale: Studio Director memory, session log 2026-09-01. 
+Measurement and rationale: Studio Director memory, session log 2026-09-01. Forge-relevance (execution cost per architecture feeds Forge's own unit economics / R1 at-scale cost): noted in `04-Projects/TMTH_Venture_Studio/Forge/WS1/forge-cf-development-backlog.md`.

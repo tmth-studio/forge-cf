@@ -19,8 +19,8 @@ This is not a design skill itself. It does not generate architecture. It knows t
 
 This skill is the front door. The user invokes it; it conducts. **Load these two specs before routing, and enforce them throughout:**
 
-- **The flow:** `method/architecture-process-flow.html` — the five phases and what each does, and *why* (CLO-as-spine, synergy-as-objective, the conformity guard).
-- **The criteria registry:** `method/criteria-registry.md` — the objectively-verifiable test (Tier-1 mechanical or Tier-2 anchored-rubric) for **every** mini-output. **This is the referee.**
+- **The flow:** `04-Projects/TMTH_Venture_Studio/Forge/WS1/architecture-process-flow.html` — the five phases and what each does, and *why* (CLO-as-spine, synergy-as-objective, the conformity guard).
+- **The criteria registry:** `04-Projects/TMTH_Venture_Studio/Forge/WS1/criteria-registry.md` — the objectively-verifiable test (Tier-1 mechanical or Tier-2 anchored-rubric) for **every** mini-output. **This is the referee.**
 
 **The session experience:** the user names a venture. Orient (new → Phase 0; existing → resume at the current phase), then drive phase by phase, routing to the sub-skill for each step. At every mini-output, check its registry criterion. **Do not pass a gate that fails its criterion — return to the step.** The run ends at Phase 4 with `/verify-venture-custom` and an integrity score.
 
@@ -177,8 +177,8 @@ PCO — Prime Commercial Opportunity
 
 When invoked, immediately read the venture's **authoritative** design record (never a stale memo).
 
-- **Worked examples from other ventures are not included in this bundle.** Where a skill cites a prior venture artefact as precedent, treat it as a citation, not a file to read.
-- **Other ventures:** ask for the workspace/design-record path, or look in `ventures/{venture}/`.
+- **Calmly:** follow the reading order in `04-Projects/Family_High_Performance/context/ceo-calmly-resolve-memory.md` — canonical VDR is `04-Projects/TMTH_Venture_Studio/FinTech_Justice/calmlyresolve-venture-design-record-v12-2026-09-01.html` (or the highest version number present in that folder). Do not read `calmly-design-memo.html` (flagged stale).
+- **Other ventures:** ask for the workspace/design-record path, or look in `04-Projects/{venture}/`.
 
 Scan for:
 - Which requirements have ✓ (complete), ~ (partial), or are blank
@@ -442,10 +442,62 @@ Fee structure — who pays, how much, and when — is determined by the **Amorti
 
 ---
 
-## Venture design state
+## Calmly — current design state (as of 19 May 2026, v2.0)
 
-This bundle ships the method only. Design state for other ventures is not included.
-Read the venture design record inside `ventures/<slug>/` for the concept you are working on.
+> ⚠ **SUPERSEDED LINEAGE — do not anchor a valuation on this section.** The 19 May "v2.0 exchange / platform-fee" architecture below (and the "exchange model — pool operators bear litigation risk, Calmly earns a platform fee from both parties" framing in the preceding `Applied to Calmly`, `AOM/fin-sim reconciliation`, `Platform model`, and `Both parties as paying customers` notes) is **earlier lineage**. It is retained as an audit trail of how the design evolved — not as the operative model.
+>
+> **The operative Calmly architecture is the 6 June Lloyd's / network-operator, per-transaction B2B fee model.** Calmly earns a per-transaction fee from B2B partners (transaction sites / financial platforms) and does **NOT** participate in recovery economics. Capital stays off Calmly's balance sheet. Operative figures: per-transaction cost floor ~£0.14, price ceiling ~£0.50; **FMOS ~196% refined / ~107% conservative**; ~**£21m/yr at-scale EBITDA midpoint** (PV £12–25m). Do **not** use the per-claim £221 cost floor / FMOS 66% / "~20% platform fee" numbers below for any new valuation work.
+>
+> **Operative sources of truth (anchor here):**
+> - Valuation: `04-Projects/TMTH_Venture_Studio/FinTech_Justice/calmlyresolve-valuation-memo-2026-06-05.html`
+> - VDR + latest gate: `04-Projects/TMTH_Venture_Studio/FinTech_Justice/calmlyresolve-VDR-changelog.html` and the C8 snapshot `calmlyresolve-venture-design-record-v12-2026-09-01.html`
+> - Per-transaction FIT exhibit: `04-Projects/TMTH_Venture_Studio/FinTech_Justice/calmlyresolve-exhibit-C10-fit-per-transaction-2026-06-03.html`
+>
+> When a new `/architect-custom` or valuation session opens, read the operative sources first. Treat everything below this banner as historical.
+
+**Status columns:** SR = sub-requirements filled | CTM | AOM | Fin-sim | FIT = FIT Verifier PASSED
+
+| Requirement | SR | CTM | AOM | Fin-sim | FIT | Notes |
+|---|---|---|---|---|---|---|
+| PCO | ✓ | — | — | — | — | Claimants AND defendants in England & Wales with unresolved small claims. Both parties are paying customers. HIO: reach a settlement that reflects the merits of the case. |
+| C1 — At-scale cost bottleneck | ✓ | ✓ | ✓ | ~ | ✓ | CLO: credible litigation threat at individual claim level. Workaround: claims pooling (EV/risk distribution). BFF (C1): dispute resolution exchange pooling consumer claims. CTM/AOM updated to C1+C2+C3 scope (platform-only economics, pool operator costs excluded). Fin-sim v3 C3 inputs added but model still uses old solicitor+student module — needs rebuild to AOM v2 LMU specialist structure. FIT PASS 63.6% (19 May, four-layer FMOS). |
+| C2 — Value bottleneck | ✓ | ✓ | ✓ | ~ | ✓ | Two-customer: C2a claimant KMC (delay as loss accrual, Prospect Theory), C2b defendant KMC (cost of not knowing fair settlement, Spence 1973). BFF (C1+C2): pooled claims exchange + bilateral independent EV settlement report. BORDERLINE from 18 May resolved: AOM/fin-sim discrepancy explained (exchange model removes solicitor cost from Calmly P&L; both costs measured same architecture, different methodology). FIT PASS 63.6% (19 May, covers C1+C2+C3). |
+| C3 — Scaling bottleneck | ✓ | ✓ | ✓ | ~ | ✓ | CLO II: paying assessment org before revenues arrive (£16.28/claim, weighted avg recovery 4.65 months). Scaling Strategy: independent assessment org (university law students, no financial stake) generates every EV report — eliminates defendant credibility objection, shortens recovery cycle. Class of problem: recovery timing (maturity mismatch). Theory: Spence (1973) applied to speed dimension. BFF (C1+C2+C3): pooled claims exchange + bilateral independent EV assessment + dispute resolution platform. CTM: calmly-ctm-v2-2026-05-18.html. AOM: calmly-aom-v2-2026-05-18.html. Fin-sim: calmly-fin-sim-v3-2026-05-19.html (C3 inputs; model rebuild pending). FIT: calmly-fit-verifier-c3-2026-05-19.html — PASS 63.6%. |
+| **F1 — complete** | **✓** | **✓** | **✓** | **~** | **✓** | **All three requirements closed. FIT Verifier PASS 63.6% (19 May 2026). Fin-sim rebuild to v2 LMU cost model pending (not a blocker).** |
+| R4 — Customer doubt about value | ✓ | ✓ | ✓ | ✓ | ✓ | Attraction Strategy: free independent EV assessment (48hr, university law dept) as conviction mechanism. Same assessment org resolves claimant credibility doubt + investor credibility (C3) — one mechanism, two audiences. CAC: organic SEO + word of mouth. New cost: £38/claim CAC. Cost floor £237. FIT: calmly-fit-verifier-r4-2026-05-19.html — PASS 63.5%. Unit economics: calmly-unit-economics-r4-2026-05-19.html. |
+| R5 — Biggest learning disruption | ✓ | ✓ | ✓ | ✓ | ✓ | Adoption Strategy: guided claim submission flow with progressive disclosure and live completeness indicator. Consumer sees exactly what evidence is needed; auto-save prevents abandonment. Theory: Bandura (1986) self-efficacy + Thaler & Sunstein (2008) choice architecture. No new per-unit cost (UX in SC). Cost floor £237. FIT: calmly-fit-verifier-r5-2026-05-19.html — PASS 63.5%. |
+| R6 — Cash flow constraint | ✓ | ✓ | ✓ | ✓ | ✓ | Amortization Strategy: EV assessment frame resets consumer reference point from face value to expected value before offer is made. "Y% of independently-assessed EV" vs "Y% of what you're owed." Same assessment mechanism — three functions: C3 investor, R4 conviction, R6 reference frame. Theory: Kahneman & Tversky (1979) Prospect Theory + Thaler (1980) mental accounting. No new cost. Cost floor £237. FIT: calmly-fit-verifier-r6-2026-05-19.html — PASS 63.5%. |
+| **F2 — complete** | **✓** | **✓** | **✓** | **✓** | **✓** | **R4–R7 closed. Final F2 FMOS 66% after R7 NTP. Ready for F3.** |
+| R7 — Gateway partners | ✓ | ✓ | ✓ | ✓ | ✓ | Partner Activation Strategy: Resolver (agile, data-driven) as first gateway partner; Citizens Advice and Which? follow on Resolver outcome data. API integration + per-claim referral fee (NTP). NTP £25/claim. Replaces part of organic CAC → blended acquisition cost £22/claim (£16 saving vs R4). Cost floor £221. FIT: calmly-fit-verifier-r7-2026-05-19.html — PASS 66%. |
+| R8 — Switching cost | ✓ | ✓ | ✓ | ✓ | ✓ | Lock-in Strategy: claim history as fast-track asset. Returning claimants (tenants, small businesses) benefit from established evidence patterns and assessment org familiarity. Switching cost = loss of accumulated claim history. Primary switching cost for one-time consumers: advocacy identity ("someone who beat a company through Calmly"). No new cost. Cost floor £221. FIT: calmly-fit-verifier-r8-2026-05-19.html — PASS 66%. |
+| R9 — Supplier/partner leverage | ✓ | ✓ | ✓ | ✓ | ✓ | Lock-out Strategy: Calmly owns assessment methodology + quality standards, not the assessment orgs. Multiple university law departments onboarded under same playbook — competition among assessment orgs prevents hold-up. Pool operators compete for claim pools; no single gateway partner >30% of inflow. Assessment org fee upside: multi-org competition could reduce £16/claim → £10/claim at scale. Cost floor £221 (£215 upside). FIT: calmly-fit-verifier-r9-2026-05-19.html — PASS 66%. |
+| R10 — Competitive moat | ✓ | ✓ | ✓ | ✓ | ✓ | Leverage Strategy: compound accuracy advantage data flywheel. More volume → better EV accuracy → tighter pool operator pricing → better claimant offers → more volume. Secondary moats: assessment org network depth (universities invested in training); pool operator calibration (pricing models built on Calmly data). Theory: Metcalfe (1980) network effects + Arrow (1962) learning-by-doing + Teece (1986) complementary assets. No new cost. Final cost floor £221. FIT: calmly-fit-verifier-r10-2026-05-19.html — PASS 66%. |
+| **F3 — complete** | **✓** | **✓** | **✓** | **✓** | **✓** | **R8–R10 closed. Full architecture confirmed.** |
+| CTM | ✓ | — | — | — | — | calmly-ctm-v2-2026-05-18.html — updated through R10. Exchange model, both-party customer model, independent assessment org, gateway partner journeys, switching cost accumulation. |
+| AOM | ✓ | — | — | — | — | calmly-aom-v2-2026-05-18.html — updated through R10. LMU specialist roles, Selling stream (CAC/NTP), methodology ownership function. |
+| Fin-sim | ~ | — | — | — | — | calmly-fin-sim-v3-2026-05-19.html — C3 inputs only. **Full rebuild required** to AOM v2 LMU + complete R4–R10 cost structure (CAC £38 → £22 blended, NTP £25). Cost floor should be £221/claim at-scale. Priority task before capital commitment. |
+| Consistency audit | ✓ | — | — | — | — | calmly-consistency-audit-2026-05-19.html — CONSISTENT. 6 cross-requirement dependencies verified. Key flags: (1) fin-sim rebuild needed, (2) CLV upside for repeat claimants unmodelled, (3) data flywheel accuracy curve not in model, (4) switching cost stronger for B2C repeat users than one-time consumers. |
+| Unit economics | ✓ | — | — | — | — | calmly-unit-economics-r10-2026-05-19.html — final state. Cost floor £221 at-scale. FMOS 66% at price ceiling £650. |
+
+**COST PROGRESSION ACROSS ALL GATES:**
+| Gate | Cost added | Cost floor | FMOS |
+|---|---|---|---|
+| C3 | Base architecture | £199 | 69% |
+| R4 | CAC £38 (organic SEO) | £237 | 64% |
+| R5 | £0 | £237 | 64% |
+| R6 | £0 | £237 | 64% |
+| R7 | NTP £25, CAC net £18 → blended £22 (saves £16 vs R4) | £221 | 66% |
+| R8–R10 | £0 | £221 | 66% |
+
+**Architecture status: ALL 10 REQUIREMENTS COMPLETE. Consistency audit: PASS.**
+
+**Recommended next actions:**
+1. Review R4–R10 outputs (design memo + 14 HTML files + consistency audit)
+2. Full fin-sim rebuild to AOM v2 + complete cost structure (£221 cost floor target)
+3. Validate 5 conditions from C3 FIT Verifier before capital commitment
+4. Run `/ive-research-design-custom` to design F2 fieldwork protocol before pilot
+
+---
 
 ## Notes
 
@@ -454,5 +506,11 @@ Read the venture design record inside `ventures/<slug>/` for the concept you are
 - **Invoke as:** `/architect-custom`
 - **Skill chain this orchestrates:** `/balm-pco-custom` → `/balm-challenge-1-custom` → `/balm-challenge-2-custom` → `/theory-of-change-custom` → `/ive-fin-sim-custom` → `/ive-fit-verifier-custom` → F2 skills → F3 skills
 - **Supporting skills:** `/ive-ctm-custom`, `/ive-aom-custom`, `/ive-consistency-audit-custom`, `/ive-research-design-custom`, `/verify-balm-custom`
-- IVE source: Simanis, E., Samani, S., Burnett, P., & Stuart, J. (2021). *Introduction to the Integrated Venture Engine.* Cornell SC Johnson College of Business
+- IVE source — the canon is a body of co-authored work, not one paper:
+  - Simanis, E., Samani, S., Burnett, P. & Stuart, J. (2021). *Introduction to the Integrated Venture Engine.* Cornell SC Johnson College of Business
+  - Simanis, E., Manuel, T., Khater, M., Palmer, E. & Bergmann, J. (2023). *Rediscovering Capitalism: How Blue-Chip Builders Created Transformative Impact and Profit.* YNOT Institute Working Paper 1, Queens' College Cambridge
+  - Simanis, E., Manuel, T., Khater, M., Palmer, E. & Bergmann, J. (2023). *The Business Architecture: The Hidden Code of Industry Disruption.* YNOT Institute Working Paper 2, Queens' College Cambridge — the Business Architecture Framework
+  - Simanis, E. et al. (2024). *The Core Business Archetype* (Jan); *Engineering New Market Ventures* (Apr); *The Market Creator's Dilemma* (Nov)
+  - Simanis, E. (2025). *Built to Hold* — the FMOS gates; Simanis, E. & Donohue, K. (2025). *Deciphering the Market Creator's Dilemma.* MIT Sloan Management Review
+  - Attribution rule (WS1 feedback log, 5 and 17 Sep 2026): Tom Manuel is a co-author on the 2023 papers; "co-developer of the method" is not supported. TMTH's own additions are the WS1 standards, the VA register, the circle end-state and the direction rule
 - Pawson & Tilley dossier: `06-Resources/Methodology/pawson-tilley/dossier.md`

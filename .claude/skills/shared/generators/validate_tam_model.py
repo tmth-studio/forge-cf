@@ -19,6 +19,10 @@ THE RULE THIS ENFORCES ABOVE ALL OTHERS (L2):
 
 Added 27 August 2026, after the Calmly segment addressability audit found four
 non-conformances that all trace back to a non-KMC partition.
+
+L11 (added 21 September 2026, VA-147 / RD-032): the pool at risk is stated per
+incumbent R2 names, each reading with a source tier, or its absence is declared
+with a reason. Refused on models dated on or after 2026-09-23; warned before.
 """
 
 import sys
@@ -235,6 +239,108 @@ def check_L10_consumers_tracked(m, r):
                           f"expected CURRENT, STALE or CHECK")
 
 
+# Pool at risk per incumbent (VA-147, RD-032, 17 Sep 2026). R2 names the
+# incumbents whose pool the architecture takes; a loss-side partner at R7 is
+# priced against that pool, so the block must exist here before R7 can read it.
+# Models dated on or after the rule date are refused without it; earlier models
+# are warned. A pool is stated per incumbent, never only in aggregate.
+POOL_RULE_FROM = "2026-09-23"
+POOL_STATUSES = {"sized", "none"}
+POOL_QUANTITIES = ["revenue_a_year", "reading_s", "reading_d", "pool_a_year"]
+POOL_CHANNELLING = {"yes", "partly", "no"}
+POOL_AGGREGATE_KEYS = {"total", "aggregate", "pool_total"}
+
+
+def _pool_band(r, ctx, q):
+    """One quantity in the block: {low, high, source, tier}; low <= high; a tier
+    of 'unmeasured' carries no numbers (the L6 rule, applied here)."""
+    if not isinstance(q, dict):
+        r.fail("L11", f"{ctx} must be a mapping {{low, high, source, tier}}, got {type(q).__name__}")
+        return
+    tier = q.get("tier")
+    if tier not in VALID_TIERS:
+        r.fail("L11", f"{ctx}.tier '{tier}' invalid — expected one of {sorted(VALID_TIERS)}")
+    if not str(q.get("source", "")).strip():
+        r.fail("L11", f"{ctx} has no source — every reading carries where it came from")
+    lo, hi = q.get("low"), q.get("high")
+    if tier == "unmeasured":
+        if lo is not None or hi is not None:
+            r.fail("L11", f"{ctx} carries numbers with tier 'unmeasured' — remove them or tier them")
+        return
+    for k, v in (("low", lo), ("high", hi)):
+        if isinstance(v, bool) or not isinstance(v, (int, float)):
+            r.fail("L11", f"{ctx}.{k} must be a number, got {v!r}")
+            return
+    if lo > hi:
+        r.fail("L11", f"{ctx}: low {lo} exceeds high {hi}")
+
+
+def check_L11_pool_at_risk(m, r):
+    """L11 — the pool at risk is stated per incumbent named in R2, with a source
+    tier on every reading, or its absence is declared with a reason."""
+    hard = str(m.get("date", "")) >= POOL_RULE_FROM
+    sink = r.fail if hard else r.warn
+    block = m.get("pool_at_risk")
+    if block is None:
+        sink("L11", "no pool_at_risk block — state the pool per incumbent R2 names "
+                    "(status: sized, incumbents: [...]) or declare status: none with a reason"
+                    + ("" if hard else " (warning — model dated before the rule)"))
+        return
+    if not isinstance(block, dict):
+        r.fail("L11", f"pool_at_risk must be a mapping, got {type(block).__name__}")
+        return
+    status = block.get("status")
+    if status not in POOL_STATUSES:
+        r.fail("L11", f"pool_at_risk.status '{status}' invalid — expected one of {sorted(POOL_STATUSES)}")
+        return
+    rows = block.get("incumbents") or []
+    if status == "none":
+        if not str(block.get("reason", "")).strip():
+            r.fail("L11", "pool_at_risk.status none needs a reason — why no incumbent pool is taken")
+        if rows:
+            r.fail("L11", f"pool_at_risk.status none with {len(rows)} incumbent row(s) — one or the other")
+        r.note("L11: pool at risk declared none — " + str(block.get("reason", ""))[:90])
+        return
+    if POOL_AGGREGATE_KEYS & set(block) and not rows:
+        r.fail("L11", "pool_at_risk states an aggregate and no incumbent rows — "
+                      "a pool is stated per incumbent, never only in aggregate")
+        return
+    if not isinstance(rows, list) or not rows:
+        r.fail("L11", "pool_at_risk.status sized needs at least one row in incumbents")
+        return
+    seen = set()
+    for i, row in enumerate(rows):
+        ctx = f"pool_at_risk.incumbents[{i}]"
+        if not isinstance(row, dict):
+            r.fail("L11", f"{ctx} must be a mapping")
+            continue
+        rid = row.get("id")
+        if not rid:
+            r.fail("L11", f"{ctx} has no id — the AOM's loss-side partner refers to it by id")
+        elif rid in seen:
+            r.fail("L11", f"{ctx} id '{rid}' repeats — one row per incumbent")
+        seen.add(rid)
+        if not str(row.get("class", "")).strip() and not str(row.get("name", "")).strip():
+            r.fail("L11", f"{ctx} ({rid}) names no incumbent — give class (the typical incumbent) or name")
+        for q in POOL_QUANTITIES:
+            if q not in row:
+                r.fail("L11", f"{ctx} ({rid}) missing {q} — the four readings are "
+                              f"{', '.join(POOL_QUANTITIES)}")
+            else:
+                _pool_band(r, f"{ctx}.{q}", row[q])
+        ch = row.get("channelling")
+        if not isinstance(ch, dict):
+            r.fail("L11", f"{ctx} ({rid}) missing channelling {{condition: yes|partly|no, evidence}}")
+        else:
+            if ch.get("condition") not in POOL_CHANNELLING:
+                r.fail("L11", f"{ctx}.channelling.condition '{ch.get('condition')}' — "
+                              f"one of {sorted(POOL_CHANNELLING)}")
+            if not str(ch.get("evidence", "")).strip():
+                r.fail("L11", f"{ctx}.channelling has no evidence")
+    r.note(f"L11: pool at risk stated for {len(rows)} incumbent(s): "
+           f"{', '.join(str(x) for x in seen if x)}")
+
+
 CHECKS = [
     check_L1_every_subclass_has_one_known_kmc,
     check_L2_segment_kmc_purity,
@@ -246,6 +352,7 @@ CHECKS = [
     check_L8_gates_and_screens,
     check_L9_surviving_arithmetic,
     check_L10_consumers_tracked,
+    check_L11_pool_at_risk,
 ]
 
 
@@ -257,6 +364,22 @@ def main():
     if not path.exists():
         print(f"ERROR: {path} not found")
         sys.exit(1)
+
+    # Verify this script and its siblings against the integrity manifest before
+    # producing any verdict. Added 11 September 2026: this is a checker, and it
+    # was the one checker in the set that did not check itself.
+    try:
+        sys.path.insert(0, str(pathlib.Path(__file__).parent))
+        import toolchain_guard
+        toolchain_guard.require_canonical(path)
+    except ImportError:
+        print("TOOLCHAIN REFUSED: toolchain_guard.py is not beside this script. "
+              "A checker that cannot verify its own origin does not run.")
+        sys.exit(2)
+    except Exception as exc:
+        print("TOOLCHAIN REFUSED: %s" % exc)
+        print("Nothing was validated. There is no verdict to quote.")
+        sys.exit(2)
 
     model = yaml.safe_load(path.read_text(encoding="utf-8"))
     r = Report()

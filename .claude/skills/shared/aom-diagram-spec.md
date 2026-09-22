@@ -150,16 +150,90 @@ Use the standard Dex design system: DM Sans + Lora, `#f5f4f1` background, `#0f27
 
 ## Activity volume driver discipline (critical)
 
-Every activity row must specify its volume driver — missing one is a hard stop:
+> **VA-140 (Head of R&D, 16 September 2026, object-after 18 September 2026 17:00 BST) — a driver is a reference, never a sentence.** Ruling: `04-Projects/TMTH_Venture_Studio/R_and_D/rd-031-driver-as-reference-2026-09-16.md`. Until this date the `driver` field was free text and the checking script tested only that it was present. A rebuild of one venture's cost build in a driver-chain form found three drivers ending in a typed number with no counted event behind them and a count that matched its register by coincidence — none of it reachable while the driver was prose. Models dated on or after 18 September 2026 are refused for a breach; earlier models warn.
 
-| Driver type | When to use |
+Every activity row must specify its volume driver — missing one is a hard stop. The driver answers one question: **what counted thing does this row scale with?** The answer is a reference the checking script (`validate_model.py`) resolves. Five clauses.
+
+**(a) The driver is a reference to a named quantity in the model.** One of:
+
+| Reference form | Resolves to |
 |---|---|
-| Per unit purchased | Happens once for every unit the venture commits to |
-| Per inquiry (pre-purchase) | Divide by conversion rate: 50% conversion = 2 inquiries per purchased unit |
-| Per stage probability | Multiply by probability of reaching that stage |
-| Fixed per LMU / month | Amortise across monthly units |
+| `quantities.<id>` | a base quantity declared in the model's `quantities:` block |
+| `events.<id>` | an event declared in the model's `events:` block |
+| `actors.<id>` | a counted actor in the roster |
+| `components` · `build_components` · `controls` · `actors` | a register the model carries, meaning its size |
+| `functions.<id>` | another function row's headcount (a row that scales with people) |
+| `arm.<id>` | an input, derived quantity or activity id in the venture's resource model, when a `[venture]-arm-model*.yaml` sits beside the operating model |
 
-No ratios ("X% of revenue", "1 per Y%"). Every cost traces to a named role + named activity + driver connected to customer base or transaction volume.
+A list of references is one driver with several parts. A mapping `{ref: <reference>, note: <text>}` keeps the sentence beside the reference. A bare word or a sentence in `driver:` is free text and does not resolve. Prose about the driver goes in `note:`.
+
+**(b) An event carries `frequency` and a `parent` reference.** `events.<id>: {frequency: <number>, parent: <reference>, source: …, tier: …}`. Volume is frequency × the parent's volume, walked back until the chain reaches a base quantity or a headcount. An event never types its own volume, and the chain has no cycles.
+
+**(c) A base quantity carries `source` and `tier`.** `quantities.<id>: {label, value | count_of, unit, source, tier}`. Tiers: **T1** a measured or published fact · **T2** counted from a register or record in the vault · **T3** a judgement by a named seat, recorded in a file · **T4** a typed number with no basis recorded anywhere. A T4 is legal and visible; a missing tier is refused.
+
+**(d) A count that equals a register's size is written as the reference, never the number.** `count_of: components` (or `build_components`, `controls`, `actors`), not `value: 24`. A typed value equal to a register's size, on a quantity whose id, unit or label names that register, is refused.
+
+**(e) A floor is declared, with a reason.** A row the design holds above its derived figure writes `floor: <number>` and `floor_reason: <text>`. The derived figure and the floor are then both visible. A floor asserted in `note:` or in the driver's words without `floor:` is refused.
+
+The driver types below remain the vocabulary for choosing the reference; each one names the counted thing it scales with.
+
+| Driver type | When to use | Written as |
+|---|---|---|
+| Per unit purchased | Happens once for every unit the venture commits to | a reference to the unit count (`quantities.<units>` or an event on it) |
+| Per inquiry (pre-purchase) | Divide by conversion rate: 50% conversion = 2 inquiries per purchased unit | an event on the unit count with frequency 1 ÷ conversion |
+| Per stage probability | Multiply by probability of reaching that stage | an event on the prior stage with the probability as frequency |
+| Fixed per LMU / month | Amortise across monthly units | a reference to the LMU count, or to the venture as one entity (`quantities.<venture>`, value 1, T1) for a cost fixed at any volume |
+
+No ratios ("X% of revenue", "1 per Y%"). Every cost traces to a named role + named activity + driver that resolves, by reference, to customer base, transaction volume or a register the model carries.
+
+**What the checking script reports (VA-105).** Two lines on every operating-model validation: activity rows · resolved · unresolved (free text) · whether the rule is in force for the model's date; and events walked with the longest chain · base quantities by tier · floors declared · resource-model ids available.
+
+---
+
+## Partner business case — the side of the book (VA-147)
+
+> **VA-147 (Head of R&D, 17 September 2026; Tom approved the registry row 21 September 2026) — a gateway partner sits on one side of the venture's effect, and a loss-side partner is priced against the pool it loses.** Ruling: `04-Projects/TMTH_Venture_Studio/R_and_D/rd-032-at-risk-pool-gateway-partner-2026-09-17.md`. On the loss side the architecture takes a pool the partner earns today; on the gain side the venture pays it a fee. The party that stands to lose the pool is the one to carry the product, and its price is the pool, never the status quo (this corrects VA-127's status-quo comparison for that actor). The preference is not a gate: a gain-side selection is admissible on one of five stated reasons, with its arithmetic. Models dated on or after 23 September 2026 are refused for a breach; earlier models warn.
+
+Every partner actor (`class: enabler`, species `gateway` or `capability`; a `commodity_vendor` is exempt) whose `business_case` is stated carries `effect_on_book:` beside the five business-case fields (VA-99).
+
+**(a) `effect_on_book` names the side and the signed amount.**
+
+```yaml
+business_case:
+  earns: …            # the five VA-99 fields as before
+  costs: …
+  beats_next_best: …
+  operational_fit: …
+  timing: …
+  effect_on_book:
+    side: loss_side           # loss_side | gain_side
+    amount: -420000           # a year; negative on the loss side, positive on the gain side
+    source: R2 pool-at-risk block, typical incumbent
+    tier: T3                  # T1 | T2 | T3 | T4, as for a base quantity
+    pool_ref: conveyancer     # loss_side only — the incumbent id in the market model
+```
+
+**(b) A loss-side partner is bounded by the pool the market model states.** `pool_ref` names an incumbent row in the venture's market model `pool_at_risk:` block (`<venture>-tam-model.yaml` beside the operating model, or the file `market_model:` names at the top level). The amount may not exceed that row's `pool_a_year.high`. A loss-side partner with no sized pool row to point at is refused: the pool is the price, and a price with no pool behind it is the status quo comparison the rule removes.
+
+**(c) A gain-side gateway chosen over a loss-side candidate states why.** Where a loss-side candidate is present — the market model states at least one incumbent pool, or another partner in the model sits on the loss side — a `species: gateway` partner on the gain side carries `reason:` on its business case:
+
+```yaml
+  reason:
+    code: pool_below_cost_of_carrying     # one of the five below
+    arithmetic: pool £180k a year against £310k a year to carry the product at scale
+```
+
+| `reason.code` | Meaning |
+|---|---|
+| `absent_from_routine` | the loss-side party is not in the customer's routine at the point of purchase |
+| `fails_operational_fit` | the loss-side party cannot perform the partner product |
+| `barred` | a rule or contract bars the loss-side party from carrying it |
+| `pool_below_cost_of_carrying` | the pool is smaller than the cost of carrying the product |
+| `lower_surplus_at_scale` | the gain-side party's surplus at scale is the larger, shown |
+
+A code outside the list is not a reason; a code with no arithmetic is a label.
+
+**What the checking script reports (VA-105).** One line on every operating-model validation: partner cases classified · loss side · gain side · unclassified · the market model read and the pool rows it carries · whether the rule is in force for the model's date.
 
 ---
 

@@ -45,7 +45,7 @@ The gap between the low-point estimate of customers' willingness to pay and the 
 
 A 50% FMOS means the venture remains profitable even if total unit costs rise 50% above the high-end cost estimate (or if unit prices fall 33% below the low-end price estimate). The average cost overrun for complex engineering projects is 62% (Flyvbjerg & Gardner, 2023) — so ≥60% is the IVE target before Phase II.
 
-Gate thresholds — **TWO gates** (canonical single source: `method/criteria-registry.md`). Apply the gate that matches what you are running:
+Gate thresholds — **TWO gates** (canonical single source: `04-Projects/TMTH_Venture_Studio/Forge/WS1/criteria-registry.md`). Apply the gate that matches what you are running:
 
 **Per-requirement / F1→F2 early-warning gate** — this is the gate the design loop runs after each requirement:
 - **≥ 25%**: PASS — clears the per-requirement minimum. Proceed.
@@ -56,6 +56,8 @@ Gate thresholds — **TWO gates** (canonical single source: `method/criteria-reg
 - **≥ 60%**: PASS — clears the IVE Phase II target (avg complex-project overrun is 62%, Flyvbjerg & Gardner 2023).
 - **25–59%**: BORDERLINE — viable but below target; tighten toward ≥ 60% or carry as the critical assumption Phase II fieldwork tests first.
 - **< 25%**: FAIL.
+
+**Corner set — the "residue at its legal minimum" corner (VA-149, RD-035 (Head of R&D, 21 Sep 2026, object-after 23 Sep 12:30)).** Wherever the cost floor carries a statutory or licensed line — hours a rule reserves to a licensed person, a filing, a regulated assessment — the verifier runs one more corner. That corner is the floor with the line at the minimum the law fixes, read from the statute or regulator text R1 cited, not from the hours the profession spends. The margin is reported at that corner beside the others. Testing the neighbourhood of an assumed figure (a fee line, a rate, a client count) and never the figure itself is the defect a loop-back of 17 September 2026 found. `[evidence: VA-149]` A floor that carries such a line with no R1 source for the minimum is reported as **unverifiable at this corner**, and the verdict is capped at PROVISIONAL.
 
 Always report FMOS against **both**: the per-requirement verdict AND the gap to the 60% Phase II target. (This reconciles the prior single-band scheme, which FAILed a 20% venture that design-loop and AOM correctly call BORDERLINE.)
 
@@ -97,7 +99,7 @@ The cost floor is the total cost to deliver one unit across **all four cost laye
 
 **Two types of working capital — keep separate:**
 - **WC to fill losses** — cash needed to fund operational losses during the ramp from zero to at-scale customer base → IC
-- **WC for customer financing** — cash tied up in the gap between cash-out (commitment per unit) and cash-in (settlement received); formula: `cost_of_goods × (cost_of_capital/12) × weighted_avg_months_to_resolution` → IC, and typically the **dominant cost driver** for capital-commitment models (e.g. Calmly, microfinance)
+- **WC for customer financing** — cash tied up in the gap between cash-out (commitment per unit) and cash-in (settlement received); formula: `cost_of_goods × (cost_of_capital/12) × weighted_avg_months_to_resolution` → IC, and typically the **dominant cost driver** for capital-commitment models, microfinance being the published example `[evidence: CS-10]`
 
 Both types of WC are IC, not RC. Do not treat them as operating costs.
 
@@ -153,7 +155,33 @@ Label it: **Price Ceiling (£X per unit)**.
 
 ## Step 4: Run the FMOS calculation
 
-Calculate:
+> ⛔ **THE ARITHMETIC IS RUN BY A SCRIPT, NOT BY YOU (added 10 September 2026, Tom's ruling).**
+> Write the inputs into a fit model file and run the checker. Do not add the layers yourself.
+>
+> ```
+> python3 .claude/skills/shared/generators/fit_margin.py --template > <venture>-fit-model-at-C<N>.yaml
+> # fill it in, then:
+> python3 .claude/skills/shared/generators/fit_margin.py <venture>-fit-model-at-C<N>.yaml
+> ```
+>
+> **The output block below is unprintable without the checker's output.** A verdict
+> stated without it is not a verdict. If the checker refuses, the gate has no
+> result — report the refusal and repair the model file. Never weaken the check.
+>
+> **Why the file, and not the four figures.** A formula whose inputs the run
+> itself defines is judgement wearing arithmetic. The file makes every figure
+> state its amount, its unit, its period, its scale state and its source, names
+> the operating model and customer model it came from, and says whether a cost
+> layer is derived from activities or asserted. The checker then refuses a mixed
+> unit, a mixed scale state, a stored figure that contradicts the arithmetic
+> beneath it, an asserted rate with no reason, a figure with no source, and a
+> missing cost layer.
+>
+> **What it does not do.** It checks that the inputs are declared, dimensioned,
+> sourced and consistent. It cannot check that any figure is true of the world.
+> An empty model of the right shape passes every check in it.
+
+The relation the script computes:
 
 ```
 FMOS = (Price Ceiling − Cost Floor) / Cost Floor × 100%
@@ -185,6 +213,8 @@ Show the working with full layer breakdown:
 | Gap to price ceiling | £X | Clears by £X, or short by £X |
 
 If SC is excluded (R3 not yet run), add a flag row: "⚠ SC layer not included — FMOS is indicative only."
+
+**Paste the checker's own output beneath the table**, including its count of checks that reached a verdict. A green result that verified nothing reads identically to one that verified everything unless the count is shown (VA-105).
 
 ---
 
@@ -386,7 +416,7 @@ Tests whether key suppliers can hold the architecture to ransom. Higher score = 
 
 After the verdict, produce a one-page summary as an HTML file.
 
-Save to: `ventures/{venture-slug}/fit-verifier-{date}.html`
+Save to: `04-Projects/{venture-slug}/fit-verifier-{date}.html`
 
 Use the standard design system (DM Sans + Lora, #f5f4f1 background, #0f2744 navy panel). The card contains:
 
@@ -406,7 +436,7 @@ Open in browser after saving.
 
 After the verdict card, produce a companion unit economics HTML file. This is a standard output at every gate — it shows the cost structure at the current challenge state, updates with each gate, and provides a drillable view of what drives every line item.
 
-Save to: `ventures/{venture-slug}/{venture-slug}-unit-economics-{challenge}-{date}.html`
+Save to: `04-Projects/{venture-slug}/{venture-slug}-unit-economics-{challenge}-{date}.html`
 
 **Table structure:**
 
@@ -435,7 +465,7 @@ Save to: `ventures/{venture-slug}/{venture-slug}-unit-economics-{challenge}-{dat
 
 **Excluded items:** any cost not yet designed at this challenge gate (e.g. NTP fee at C3, defendant fee before C6) must appear in the dim footer note — not in the cost rows. Do not include `[REQUIRES C[N]+]` items in the table figures.
 
-**Reference implementation:** `ventures/FinTech_Justice/calmly-unit-economics-2026-05-19.html` — copy the HTML/CSS/JS structure and parameterise for the current venture.
+**Format authority:** the field list and gate structure stated in this skill. Do not read another venture's unit-economics page to learn the layout. `[evidence: VA-BS1]`
 
 Open in browser after saving.
 

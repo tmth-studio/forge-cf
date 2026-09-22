@@ -1,0 +1,18 @@
+# Studio ventures whose finished answers are the answer key for the next run.
+# One name (or distinctive fragment) per line, case-insensitive.
+# Add a venture here on the day it opens. Public teaching cases do NOT belong here.
+Calmly
+Calmly Resolve
+calmlyresolve
+Datum
+SME Trade Record
+SMETrade
+Forge
+Fairy Food Mother
+
+# ALLOW — exact substrings that contain a venture name but carry no venture answer.
+# Each one is a method path or a plain English word, and each is listed so the
+# exception is visible. Keep this list as short as it can be.
+ALLOW: Forge/WS1/
+ALLOW: forge the venture
+ALLOW: Forge build-tooling
