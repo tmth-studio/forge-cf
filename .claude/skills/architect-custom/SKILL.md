@@ -22,7 +22,7 @@ This skill is the front door. The user invokes it; it conducts. **Load these two
 - **The flow:** `04-Projects/TMTH_Venture_Studio/Forge/WS1/architecture-process-flow.html` — the five phases and what each does, and *why* (CLO-as-spine, synergy-as-objective, the conformity guard).
 - **The criteria registry:** `04-Projects/TMTH_Venture_Studio/Forge/WS1/criteria-registry.md` — the objectively-verifiable test (Tier-1 mechanical or Tier-2 anchored-rubric) for **every** mini-output. **This is the referee.**
 
-**The session experience:** the user names a venture. Orient (new → Phase 0; existing → resume at the current phase), then drive phase by phase, routing to the sub-skill for each step. At every mini-output, check its registry criterion. **Do not pass a gate that fails its criterion — return to the step.** The run ends at Phase 4 with `/verify-venture-custom` and an integrity score.
+**The session experience:** the user names a venture. Orient (new → Phase 0; existing → resume at the current phase), then drive phase by phase, routing to the sub-skill for each step. At every mini-output, check its registry criterion. **Do not pass a gate that fails its criterion — return to the step.** The run ends at Phase 4 with `/verify-venture-custom` and an integrity score. **What the run hands over** once Verify has closed: the business case document and its evidence workbook — `/ive-business-case-custom`, built to `04-Projects/TMTH_Venture_Studio/Forge/WS1/business-case-standard.md` from the model data file the fin-sim wrote. A run that ends with a score and no business case has not finished.
 
 **Enforce the three v2 criteria the older pipeline lacked:**
 1. **Synergy** — in every requirement, seek the move that also solves an *earlier* requirement; the finished architecture must contain ≥1 move solving ≥2 requirements (the moat test). A requirement that generates zero synergy candidates has defaulted to local optimisation — flag it.
@@ -170,6 +170,23 @@ PCO — Prime Commercial Opportunity
 **The design memo may mark challenges ✓ based on sub-requirements alone. This is not the definition of complete.** When diagnosing venture state, check all five conditions for each challenge marked ✓. A challenge with filled sub-requirements but no FIT PASS is `~ (pending FIT)`, not complete.
 
 **Implication for routing:** If sub-requirements are filled but the FIT check has not been run or has not passed, the correct next action is not to start the next challenge — it is to run `/ive-fit-verifier-custom` for the current challenge and resolve any fail diagnosis before proceeding.
+
+---
+
+## Step 0 — Named-business entry ("I want to disrupt X")
+
+When the opening request names a business to disrupt — a company ("disrupt Halfords"), one line of a company ("disrupt Tesco's grocery delivery") or a named kind of business ("disrupt high-street bicycle shops") — the run does **not** open with a PCO conversation. **The named business is challenge one, sub-requirement 1.** The conventional business form factor is how that business makes, sells, delivers and gets paid for the thing today. Route straight to `/ive-design-loop-custom` → `/balm-challenge-1-custom` with the named business as the SR1 input. (Tom, 22 September 2026.)
+
+The run fills the frame itself, from public sources, before SR1 — it does not ask the user for any of it:
+
+- **the line** — if a whole company is named, take its largest line by revenue from its published accounts and state it in one sentence; the user can redirect
+- **the job** the line does for its buyers, in the buyer's terms, levelled per PCO Step 2d — stop where the next-broader case is delivered a different way today
+- **current buyers** — count, price paid, volume, with source. PCO Step 4 on Path C is answered by existence: the line is paid for at scale
+- **the mode** (RD-024) — 3, "just show me", unless the user gives a target group (mode 1) or a number (mode 2). In mode 3 add the incumbent's roadmap form (VA-159) with source, red until sourced
+
+These go into the VDR's PCO block, headed "derived from the named business", each figure red until sourced. That block is the confirmed PCO for the run; challenge one's hard stop 1 is met by it. Do not ask the user to confirm a PCO, to name a core functionality or to name an excluded population — in mode 3 none is required.
+
+One business → one line → one conventional form → one CLO. If the named business has several lines, the run lists the ones it found, takes the largest and says so; it does not stop to ask. The research firewall holds from the first line: the incumbent is the baseline, never an analogue — "a cheaper, digital or automated X" is not a design.
 
 ---
 

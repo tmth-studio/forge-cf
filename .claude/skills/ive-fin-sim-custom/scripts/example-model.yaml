@@ -1,0 +1,122 @@
+# Example fin-sim model data file — a hypothetical venture, used to test the workbook generator.
+# Spec: .claude/skills/shared/finsim-model-spec.md
+# Every load-bearing input carries value, low, high, tier and source (the TPM record).
+# "adverse" names which end of the band raises cost or lowers price — the generator uses it
+# to find the binding input. Omit it on inputs that do not move the margin.
+
+venture:
+  name: Spoke
+  slug: spoke
+  one_line: A mobile bicycle-servicing team, one team per London borough, booked online and serviced at the customer's door.
+  currency: GBP
+  date: 2026-09-22
+  unit_name: borough team
+  unit_description: One van, its mechanics and a shared booking desk, serving one London borough.
+  design_record: ventures/spoke/spoke-vdr.html
+
+market:
+  total_reachable_population:
+    {value: 3400000, low: 3200000, high: 3600000, unit: households, tier: 2,
+     source: "ONS household estimates, Greater London 2024", adverse: low}
+  non_viable_share:
+    {value: 0.62, low: 0.55, high: 0.68, unit: share, tier: 3,
+     source: "Active Lives survey 2024 — households with no adult who cycles", adverse: high}
+  unit_population:
+    {value: 100000, low: 90000, high: 110000, unit: households, tier: 4,
+     source: "assumed — one borough per team", adverse: low}
+  penetration_steady_state:
+    {value: 0.06, low: 0.045, high: 0.075, unit: share, tier: 4,
+     source: "assumed — direct-to-household service penetration after 24 months", adverse: low}
+  transactions_per_customer_per_month:
+    {value: 0.2, low: 0.15, high: 0.25, unit: per month, tier: 3,
+     source: "two to three services a year per active customer, bicycle trade norm", adverse: low}
+
+products:
+  - name: Full service
+    share_of_transactions: 0.6
+    price: {value: 80, low: 65, high: 90, unit: GBP, tier: 3,
+            source: "Halfords and independent price lists, London 2026", adverse: low}
+    cost_of_goods: {value: 9, low: 7, high: 12, unit: GBP, tier: 3,
+                    source: "parts and consumables per service, trade supplier list", adverse: high}
+  - name: Safety check
+    share_of_transactions: 0.4
+    price: {value: 25, low: 20, high: 30, unit: GBP, tier: 3,
+            source: "competitor price lists", adverse: low}
+    cost_of_goods: {value: 2, low: 1, high: 3, unit: GBP, tier: 4,
+                    source: "assumed — lubricants and small parts", adverse: high}
+
+hr:
+  available_hours_per_person_month: 140
+  unit_roles:
+    Mechanic: {monthly_cost: {value: 3200, low: 3000, high: 3600, unit: GBP, tier: 2,
+               source: "ONS ASHE 2025, vehicle technicians, London, plus 20% on-costs", adverse: high}}
+    Booking coordinator: {monthly_cost: {value: 2600, low: 2400, high: 2900, unit: GBP, tier: 2,
+               source: "ONS ASHE 2025, customer service, London, plus on-costs", adverse: high}}
+  unit_activities:
+    - {activity: Service the bicycle, role: Mechanic, minutes: 45, driver: per_transaction, multiplier: 0.6,
+       note: "full services only — 60% of transactions"}
+    - {activity: Safety check, role: Mechanic, minutes: 15, driver: per_transaction, multiplier: 0.4}
+    - {activity: Travel between jobs, role: Mechanic, minutes: 12, driver: per_transaction, multiplier: 1}
+    - {activity: Take and confirm booking, role: Booking coordinator, minutes: 6, driver: per_transaction, multiplier: 1.3,
+       note: "1.3 contacts per booking — enquiries that do not convert"}
+    - {activity: Monthly customer contact, role: Booking coordinator, minutes: 1, driver: per_customer_month, multiplier: 1}
+    - {activity: Van and stock admin, role: Mechanic, minutes: 480, driver: per_unit_month, multiplier: 1}
+  head_office_roles:
+    - {role: General manager, count: 1, monthly_cost: 6500}
+    - {role: Marketing lead, count: 1, monthly_cost: 4500}
+    - {role: Finance and admin, count: 1, monthly_cost: 3500}
+
+assets:
+  unit:
+    - {name: Service van, cost: 28000, life_months: 60, quantity: 1}
+    - {name: Tool set, cost: 1500, life_months: 36, quantity_driver: per_head}
+    - {name: Booking tablet, cost: 400, life_months: 24, quantity_driver: per_head}
+  head_office:
+    - {name: Booking platform build, cost: 60000, life_months: 36, quantity: 1}
+
+running:
+  unit:
+    - {name: Van fuel and maintenance, driver: per_unit_month, amount: 550}
+    - {name: Van insurance and tax, driver: per_unit_month, amount: 220}
+    - {name: Card payment fees, driver: per_transaction, amount: 0.9}
+    - {name: Customer reminders and messaging, driver: per_customer_month, amount: 0.05}
+    - {name: Uniform and phone per head, driver: per_head, amount: 45}
+  head_office:
+    - {name: Office and software, amount: 1800}
+    - {name: Marketing spend, amount: 6000}
+    - {name: Professional fees and insurance, amount: 900}
+
+startup:
+  unit_one_time:
+    - {name: Van fit-out and livery, cost: 4000}
+    - {name: Recruitment and training, cost: 3500}
+    - {name: Launch marketing in the borough, cost: 5000}
+  working_capital_months: 2
+  head_office_development:
+    - {name: Brand and website, cost: 15000}
+    - {name: Company set-up and legal, cost: 5000}
+  investment_period_months: 60
+
+finance:
+  cost_of_capital_annual: {value: 0.12, low: 0.10, high: 0.15, unit: share, tier: 3,
+                           source: "British Business Bank Start Up Loans 6% plus equity return, blended", adverse: high}
+  tax_rate: 0.25
+  head_office_target_ebit_margin: 0.10
+  target_margin: 0.25
+
+cashflow:
+  year1_units: 1
+  year1_head_office_share: 0.3   # the founder as general manager and a part-time marketer; the full head office is sized for 34 units
+  ramp_share_of_steady_state: [0.15, 0.25, 0.35, 0.45, 0.55, 0.65, 0.75, 0.85, 0.9, 0.95, 1.0, 1.0]
+  opening_balance: 0
+  loan_amount: 25000
+  loan_rate_annual: 0.06
+  loan_term_months: 60
+  other_equity: 60000
+  stress_revenue_reduction: 0.10
+
+forecast:                        # the five-year statements on tabs 15 to 18; year one must match the cashflow block
+  years: 5
+  units_open_by_year: [1, 2, 5, 10, 16]          # operating units open at each year end (34 at scale)
+  head_office_share_by_year: [0.3, 0.6, 1.0, 1.0, 1.0]
+  equity_raised_by_year: [60000, 200000, 200000, 0, 0]   # year one = cashflow.other_equity; later raises fund the roll-out

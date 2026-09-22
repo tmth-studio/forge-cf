@@ -16,10 +16,10 @@ the next one will be too.
 ## Setup — about two minutes
 
 1. Install Claude Code if you do not have it: https://claude.com/claude-code
-2. Install the one Python package the model tools need:
+2. Install the three Python packages the model tools need:
 
 ```bash
-pip3 install pyyaml
+pip3 install pyyaml openpyxl formulas
 ```
 
 3. Open a terminal in this folder and start Claude Code:
@@ -52,6 +52,24 @@ That skill is the front door. It reads what already exists, works out where the
 venture sits in the sequence, and routes you to the right next step. Do not start
 with one of the other skills — the sequence matters and the front door enforces it.
 
+**Starting from a business you want to disrupt.** If you have an incumbent in
+mind, say so in your first message: "I want to disrupt [business]". The run takes
+that business as the conventional form at challenge one and researches the rest
+itself — the line, the job it does, who buys it and at what price. You are not
+asked to define an opportunity first. Name one line of one company where you can;
+if you name a whole company, the run takes its largest line and tells you.
+
+**What you get at the end.** Two files, in a form you can take into your own
+company or a funding conversation: a business case document in the seven sections
+of the GOV.UK *Write a business plan* template, and an Excel evidence workbook
+laid out the way the IFC bottom-up method (Simanis, *Running the Right Numbers*)
+prescribes — twelve tabs; the sales and twelve-month cash-flow sheets of the same
+template, with a 10% revenue stress test; the three forecast financial statements
+by year (profit and loss, cash flow, balance sheet — five years by default); and a
+Check tab that proves the workbook arrived whole. Every figure in the document is
+a named cell in the workbook. The workbook is live formulas; change a blue cell and everything moves.
+A worked example is in `.claude/skills/ive-business-case-custom/reference/`.
+
 ### What the sequence does
 
 | Phase | What happens |
@@ -61,6 +79,7 @@ with one of the other skills — the sequence matters and the front door enforce
 | R4–R7 | Why people would want it, use it, pay for it, and who controls access to them |
 | R8–R10 | Switching costs, resource moat, supplier leverage |
 | Verify | Cross-checks all ten for contradictions, then scores the whole architecture |
+| Business case | Writes the business case document and builds the evidence workbook from one model data file |
 
 Each of the ten requirements runs the same loop: diagnose, theorise, productise,
 simulate. A requirement is finished only when it passes its gate. The method will
@@ -77,7 +96,7 @@ not land. The referee for every gate is `criteria-registry.md` in the same folde
 ## What is in here
 
 ```
-.claude/skills/         the 29 method skills, plus shared diagram, model and checking tools
+.claude/skills/         the 30 method skills, plus shared diagram, model and checking tools
 04-Projects/TMTH_Venture_Studio/Forge/WS1/
                         the process flow, the gate criteria, the glossary, the standards,
                         and the feedback log the skills write to
