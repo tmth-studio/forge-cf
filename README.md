@@ -1,15 +1,50 @@
-# Forge — venture architecture method
+# Forge — design a venture-scale company, free
 
-This folder turns Claude Code into a venture architect. You describe a business
-concept; the method takes it through a fixed sequence of design steps, scores it
-at each gate, and tells you where it fails.
+Describe a business idea, or name a company you want to beat. Forge designs the
+venture that could reach scale, scores the design at ten gates, and hands you a
+business case document and a live financial workbook you can take into your own
+company or a funding conversation.
 
-It is not a brainstorming tool. It is a process with pass and fail marks.
+It runs inside Claude Code on your own machine. The method is free and stays
+free. You pay only for your own Claude usage.
 
-**Version 2 — 22 September 2026.** Built from the studio's working copy of the
-method on that date. `PROVENANCE.md` lists every file with its digest. Version 1
-was a hand-made copy of 3 September 2026; this version is built by a script, so
-the next one will be too.
+**What "venture-scale" means here.** A company whose cost to serve sits below
+what customers will pay, at the volume the opportunity supports, with a way to
+reach that volume without running out of cash. Those three conditions are the
+first three gates. A design that fails one of them is stopped there and told why.
+
+**Why this and not a pitch deck.** A deck states a plan. A spreadsheet with an
+assumed growth rate states a hope. Forge builds the design requirement by
+requirement, refuses to move on when a requirement fails its gate, and every
+figure in the final document traces to a named cell in the workbook. You finish
+with a design that has been tested, or a clear account of where it broke.
+
+**Where it comes from.** This is the studio's own working method, built from its
+files by script on 22 September 2026 (`PROVENANCE.md` lists every file with its
+digest). It rests on a body of published work led by Erik Simanis at Cornell,
+written with co-authors 2021–2025. The skills name the sources they draw on.
+
+---
+
+## What you get
+
+At the end of a run, two files:
+
+- **A business case document** in the seven sections of the GOV.UK *Write a
+  business plan* template. Every figure in it is a named cell in the workbook.
+- **An Excel evidence workbook** laid out the way the IFC bottom-up method
+  (Simanis, *Running the Right Numbers*) prescribes. Twelve tabs: the sales and
+  twelve-month cash-flow sheets of the same template, with a 10 per cent revenue
+  stress test; the three forecast financial statements by year (profit and loss,
+  cash flow, balance sheet, five years by default); and a Check tab that proves
+  the workbook arrived whole. The workbook is live formulas. Change a blue cell
+  and everything moves.
+
+And behind them, the design itself: ten requirements, each with its diagnosis,
+its strategy, its simulation and its pass or fail, plus a cross-check of all ten
+for contradictions and a score for the whole.
+
+A worked example is in `.claude/skills/ive-business-case-custom/reference/`.
 
 ---
 
@@ -52,23 +87,15 @@ That skill is the front door. It reads what already exists, works out where the
 venture sits in the sequence, and routes you to the right next step. Do not start
 with one of the other skills — the sequence matters and the front door enforces it.
 
-**Starting from a business you want to disrupt.** If you have an incumbent in
-mind, say so in your first message: "I want to disrupt [business]". The run takes
-that business as the conventional form at challenge one and researches the rest
-itself — the line, the job it does, who buys it and at what price. You are not
-asked to define an opportunity first. Name one line of one company where you can;
-if you name a whole company, the run takes its largest line and tells you.
+**Starting from an idea.** Describe it in your first message. The run opens by
+finding the widest commercial opportunity the idea could serve, before any
+product or segment choice, and works forward from there.
 
-**What you get at the end.** Two files, in a form you can take into your own
-company or a funding conversation: a business case document in the seven sections
-of the GOV.UK *Write a business plan* template, and an Excel evidence workbook
-laid out the way the IFC bottom-up method (Simanis, *Running the Right Numbers*)
-prescribes — twelve tabs; the sales and twelve-month cash-flow sheets of the same
-template, with a 10% revenue stress test; the three forecast financial statements
-by year (profit and loss, cash flow, balance sheet — five years by default); and a
-Check tab that proves the workbook arrived whole. Every figure in the document is
-a named cell in the workbook. The workbook is live formulas; change a blue cell and everything moves.
-A worked example is in `.claude/skills/ive-business-case-custom/reference/`.
+**Starting from a business you want to beat.** Say so in your first message: "I
+want to disrupt [business]". The run takes that business as the conventional form
+at challenge one and researches the rest itself — the line, the job it does, who
+buys it and at what price. Name one line of one company where you can; if you
+name a whole company, the run takes its largest line and tells you.
 
 ### What the sequence does
 
@@ -104,7 +131,7 @@ not land. The referee for every gate is `criteria-registry.md` in the same folde
                         the register of design rules the skills cite by number (VA-nn)
 ventures/               your work goes here, one folder per concept
 PROVENANCE.md           what this copy was built from, file by file
-FEEDBACK.md             where to put what you found
+FEEDBACK.md             where to put what you found, if you want to
 ```
 
 The long folder path is deliberate. The skills cite the method files by that path,
@@ -121,16 +148,16 @@ what and why, and we will issue a new version.
 
 ---
 
-## Please log the friction
+## If something did not work
 
-This is the method running outside its own workshop. Every point where a step
-was unclear, a gate felt arbitrary, or the output needed interpretation is worth
-more than a compliment.
+You do not owe us anything for using this. If you want to help, the most useful
+thing is a note of where a step was unclear, a gate felt arbitrary, or the output
+needed interpretation.
 
-Some skills will ask you four questions at the end of a session and write your
-answers to `04-Projects/TMTH_Venture_Studio/Forge/WS1/ws1-feedback-log.md`. Say
-yes when they ask. Add anything else there yourself, in the same format. Then
-send us the file, or open a pull request with it.
+Some skills ask four questions at the end of a session and write your answers to
+`04-Projects/TMTH_Venture_Studio/Forge/WS1/ws1-feedback-log.md`. Say yes if you
+are willing. Add anything else there in the same format, then send us the file or
+open a pull request with it.
 
 ---
 
