@@ -117,9 +117,10 @@ send us the file, or open a pull request with it.
 
 ## Terms
 
-This method is unpublished work by Tough Minds, Tender Hearts. It is shared with
-you for our joint review of a concept. Please do not redistribute it or use it for
-other commercial work without asking first.
+This method is the work of Tough Minds, Tender Hearts. It is public so that
+other people can run it and improve it through their runs. You may use it,
+run it and share it. Keep this notice and the attribution below with any copy.
+Tough Minds, Tender Hearts keeps ownership of the method.
 
 The method rests on a body of published work led by Erik Simanis at Cornell,
 written with co-authors 2021–2025. The skills name the sources they draw on.
