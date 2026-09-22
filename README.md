@@ -5,8 +5,9 @@ venture that could reach scale, scores the design at ten gates, and hands you a
 business case document and a live financial workbook you can take into your own
 company or a funding conversation.
 
-It runs inside Claude Code on your own machine. The method is free and stays
-free. You pay only for your own Claude usage.
+It runs on your own machine inside the coding agent you already use: Claude
+Code, GitHub Copilot, Codex, Cursor or Gemini CLI. The method is free and stays
+free. You pay only for your own model usage.
 
 **What "venture-scale" means here.** A company whose cost to serve sits below
 what customers will pay, at the volume the opportunity supports, with a way to
@@ -50,27 +51,37 @@ A worked example is in `.claude/skills/ive-business-case-custom/reference/`.
 
 ## Setup — about two minutes
 
-1. Install Claude Code if you do not have it: https://claude.com/claude-code
-2. Install the three Python packages the model tools need:
+1. Install the three Python packages the model tools need. Python 3.9 or later
+   is required; check with `python3 --version`.
 
 ```bash
 pip3 install pyyaml openpyxl formulas
 ```
 
-3. Open a terminal in this folder and start Claude Code:
+2. Open a terminal in this folder and start your agent. The method is written
+   in the open Agent Skills format, so the same files work in each of these:
 
-```bash
-cd ~/forge-cf && claude
-```
+| Agent | Start it | Then type |
+|-------|----------|-----------|
+| Claude Code | `claude` | `/architect-custom my-concept-name` |
+| GitHub Copilot (VS Code, JetBrains or CLI) | open the folder, or `copilot` | `/architect-custom my-concept-name` |
+| Codex | `codex` | `$architect-custom my-concept-name` |
+| Cursor | open the folder | `/architect-custom my-concept-name` |
+| Gemini CLI | `gemini` | "Run the architect skill on my-concept-name" |
 
-That is the whole setup. The skills live in `.claude/skills/` and Claude Code
-loads them automatically for any session started inside this folder.
+That is the whole setup. The skills live in `.claude/skills/`. Claude Code,
+Copilot and Cursor read that folder directly. Codex and Gemini CLI read
+`.agents/skills/`, which points at the same folder. `AGENTS.md` at the root
+tells every agent where the method is, which skill to start with and what not
+to change; `CLAUDE.md`, `GEMINI.md` and `.github/copilot-instructions.md` each
+point to it.
 
-Type `/` to see them listed. If they do not appear, you are running Claude Code
+If the skills do not appear when you type `/` or `$`, you started the agent
 from a different folder.
 
-Python 3.9 or later is needed for the diagram, model and checking tools. Check
-with `python3 --version`.
+**Windows.** `.agents/skills` is a link. If Git did not create it as one on
+your machine, copy the folder instead: `xcopy .claude\skills .agents\skills /E /I`.
+Claude Code, Copilot and Cursor do not need this step.
 
 ---
 
@@ -130,6 +141,10 @@ not land. The referee for every gate is `criteria-registry.md` in the same folde
 04-Projects/Family_High_Performance/context/va-design-discipline.md
                         the register of design rules the skills cite by number (VA-nn)
 ventures/               your work goes here, one folder per concept
+AGENTS.md               what every agent reads first: where the method is, how to start, what not to change
+CLAUDE.md, GEMINI.md, .github/copilot-instructions.md
+                        one line each, pointing the named agent at AGENTS.md
+.agents/skills          a link to .claude/skills, for Codex and Gemini CLI
 PROVENANCE.md           what this copy was built from, file by file
 FEEDBACK.md             where to put what you found, if you want to
 ```

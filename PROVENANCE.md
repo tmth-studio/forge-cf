@@ -1,7 +1,7 @@
 # Bundle provenance
 
-built: 2026-09-22T09:38:40Z
-vault commit: d1404074 (working tree; uncommitted edits included)
+built: 2026-09-22T09:53:19Z
+vault commit: c138a148 (working tree; uncommitted edits included)
 builder: 04-Projects/TMTH_Venture_Studio/Forge/WS1/build-cf-bundle.sh
 
 ## Files
@@ -18,7 +18,7 @@ d2b24b0dee9844f4  .claude/skills/balm-challenge-4-custom/SKILL.md
 9047512bc233b3e3  .claude/skills/balm-challenge-7-custom/SKILL.md
 d59e25634b75a0af  .claude/skills/balm-challenge-8-custom/SKILL.md
 2ece5a690ff965cb  .claude/skills/balm-challenge-9-custom/SKILL.md
-b3837d4de61903e3  .claude/skills/balm-pco-custom/SKILL.md
+8d154475043fd790  .claude/skills/balm-pco-custom/SKILL.md
 8081f996ed6bfac9  .claude/skills/ive-aom-custom/SKILL.md
 375f97b99ba32546  .claude/skills/ive-aom-custom/reference/aom-format-example-coaching.png
 f04756c1b6aaf91b  .claude/skills/ive-aom-custom/reference/aom-guide-to-operational-modelling.pdf
@@ -71,6 +71,7 @@ bad759e71950ade6  .claude/skills/shared/generators/test_pool_at_risk.py
 8378efae35cc6349  .claude/skills/theory-of-change-custom/SKILL.md
 b2ff9a06d74b1a4e  .claude/skills/verify-balm-custom/SKILL.md
 788d08116d4b6020  .claude/skills/verify-venture-custom/SKILL.md
+36ddeb7c09aa3a6b  .github/copilot-instructions.md
 60c9bdd905fcf45a  .gitignore
 d75b03e19f2b31c9  04-Projects/Family_High_Performance/context/va-design-discipline.md
 c4f8e2d2838fd574  04-Projects/TMTH_Venture_Studio/Forge/WS1/architecture-process-flow.html
@@ -91,7 +92,7 @@ e47de927ee3aac36  04-Projects/TMTH_Venture_Studio/Forge/WS1/landing-page-standar
 4fb803ff1c67288a  04-Projects/TMTH_Venture_Studio/Forge/WS1/position-register-standard.md
 0ab66642acbb82b3  04-Projects/TMTH_Venture_Studio/Forge/WS1/print-operations-standard.md
 ff4603f2c7cf885d  04-Projects/TMTH_Venture_Studio/Forge/WS1/realisation-standard.md
-6ef0995c4ad69d6b  04-Projects/TMTH_Venture_Studio/Forge/WS1/regression-set.md
+e633bb9f85d15b45  04-Projects/TMTH_Venture_Studio/Forge/WS1/regression-set.md
 797cbe1f0cb06b35  04-Projects/TMTH_Venture_Studio/Forge/WS1/routine-register-standard.md
 7239b5245bc28b51  04-Projects/TMTH_Venture_Studio/Forge/WS1/run-record-standard.md
 b30de421a91b61f0  04-Projects/TMTH_Venture_Studio/Forge/WS1/runs/runs.py
@@ -103,6 +104,9 @@ f427e95326e57f71  04-Projects/TMTH_Venture_Studio/Forge/WS1/validation-standard.
 745dda3ec50bf21b  04-Projects/TMTH_Venture_Studio/Forge/WS1/ws1-feedback-log.md
 69825776d64ddbbd  04-Projects/TMTH_Venture_Studio/TMTH_IVE_Wiki/wiki/Methodology/Model_Stack.md
 c4b1868b1e3ac202  04-Projects/TMTH_Venture_Studio/TMTH_IVE_Wiki/wiki/Methodology/V_Model_Process.md
+d8710c26498c9e3f  AGENTS.md
+336cc4fbf19beaad  CLAUDE.md
 ec442c566e909a0e  FEEDBACK.md
-f05b531d1089aa83  README.md
+42fbbc9d55ee0d14  GEMINI.md
+3c3c4eff015a021e  README.md
 a69100d58140c163  ventures/_template/README.md
