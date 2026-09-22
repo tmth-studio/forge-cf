@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Spoke — business case</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Lora:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f5f4f1; --surface: #ffffff; --text: #0f1923; --text-secondary: #4a5568; --text-muted: #718096;
+      --border: #dde1e7; --border-strong: #b0b8c4; --accent: #1f4fa8; --accent-light: #e8eef8;
+      --panel-bg: #0f2744; --panel-text: #ffffff; --warning-bg: #fff8e6; --warning-border: #d4820a;
+      --inset-border: #1f4fa8; --tag-radius: 3px; --font-ui: 'DM Sans', system-ui, sans-serif;
+      --font-body: 'Lora', Georgia, serif; --width: 960px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: var(--bg); color: var(--text); font-family: var(--font-ui); font-size: 17px; line-height: 1.6; }
+    .container { max-width: var(--width); margin: 0 auto; padding: 40px 24px 80px; background: var(--surface); }
+    h1 { font-size: 30px; font-weight: 600; margin-bottom: 6px; }
+    h2 { font-size: 22px; font-weight: 600; margin: 40px 0 12px; padding-top: 16px; border-top: 1px solid var(--border); }
+    h3 { font-size: 18px; font-weight: 600; margin: 24px 0 8px; }
+    p { font-family: var(--font-body); margin-bottom: 12px; }
+    ul, ol { font-family: var(--font-body); padding-left: 1.5rem; margin-bottom: 12px; }
+    li { margin-bottom: 8px; }
+    .meta { font-size: 13px; letter-spacing: 0.04em; color: var(--text-muted); margin-bottom: 24px; }
+    .panel { background: var(--panel-bg); color: var(--panel-text); padding: 24px; margin: 24px 0; }
+    .panel p { color: var(--panel-text); }
+    .panel dl { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 24px; margin-top: 12px; }
+    .panel dt { font-size: 13px; letter-spacing: 0.04em; color: #b8c8e8; }
+    .panel dd { font-size: 20px; font-weight: 600; margin-bottom: 8px; }
+    .panel .cite { color: #b8c8e8; }
+    .cite { font-family: var(--font-ui); font-size: 12px; color: var(--text-muted); letter-spacing: 0.02em; }
+    .cite::before { content: "·"; margin: 0 4px; }
+    dl.summary { display: grid; grid-template-columns: 220px 1fr; margin-bottom: 16px; }
+    dl.summary dt { font-weight: 600; padding: 8px 0; border-bottom: 1px solid var(--border); }
+    dl.summary dd { padding: 8px 0; border-bottom: 1px solid var(--border); font-family: var(--font-body); }
+    table { border-collapse: collapse; width: 100%; margin: 12px 0 20px; font-size: 15px; }
+    th { text-align: left; font-weight: 600; border-bottom: 2px solid var(--border-strong); padding: 8px 6px; }
+    td { padding: 8px 6px; border-bottom: 1px solid var(--border); vertical-align: top; }
+    td.num, th.num { text-align: right; white-space: nowrap; }
+    .inset { border-left: 4px solid var(--inset-border); background: var(--accent-light); padding: 12px 16px; margin: 16px 0; }
+    .inset p { margin-bottom: 0; }
+    .warning { border-left: 4px solid var(--warning-border); background: var(--warning-bg); padding: 12px 16px; margin: 16px 0; }
+    .warning p { margin-bottom: 0; }
+    .tag { display: inline-block; font-size: 13px; font-weight: 500; padding: 1px 8px; border-radius: var(--tag-radius); border: 1px solid; }
+    .tag-green { background: #e6f4ec; color: #166534; border-color: #a7d4b8; }
+    .tag-yellow { background: #fef9e6; color: #854d0e; border-color: #f0d98a; }
+    .tag-grey { background: #f1f3f5; color: #4a5568; border-color: #d0d5dd; }
+    code { font-family: var(--font-ui); font-size: 13px; background: var(--accent-light); padding: 0 4px; border-radius: 3px; }
+    @media (max-width: 640px) { dl.summary { grid-template-columns: 1fr; } .panel dl { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+<div class="container">
+
+<h1>Spoke — business case</h1>
+<p class="meta">Version 0.1 · 22 September 2026 · Evidence workbook: <code>spoke-business-case-evidence.xlsx</code> · Model data file: <code>spoke-model.yaml</code> · Format: GOV.UK <em>Write a business plan</em> (Start Up Loans template) · <span class="tag tag-grey">illustrative venture — an example of the format, not a real business</span></p>
+
+<div class="panel">
+  <p>Spoke services bicycles at the customer's door. One team per London borough — a van, three mechanics and a booking coordinator — booked online, priced below a shop visit once the customer's time is counted.</p>
+  <dl>
+    <dt>Average price per service</dt><dd>£58.00 <span class="cite">interim_price</span></dd>
+    <dt>Whole cost per service</dt><dd>£43.47 <span class="cite">cost_per_transaction</span></dd>
+    <dt>Margin of safety</dt><dd>33.4% — passes the 25% gate <span class="cite">margin_of_safety</span> <span class="cite">verdict</span></dd>
+    <dt>Extra cash needed in year one</dt><dd>£115,461 <span class="cite">cash_needed</span></dd>
+    <dt>Extra cash needed if revenue is 10% lower</dt><dd>£129,675 <span class="cite">cash_needed_stress</span></dd>
+    <dt>The input that moves the margin most</dt><dd>The full-service price <span class="cite">binding_input</span></dd>
+  </dl>
+</div>
+
+<p>Every number in this document is a named cell in the evidence workbook. The name sits beside the number in small type. Open the workbook, find the name on the Check tab's list or in the appendix, and the formula behind the number is there. Blue cells on the Master tab are the inputs; change one and every figure moves.</p>
+
+<h2>1 · Your business and objectives</h2>
+
+<h3>What the business does</h3>
+<p>Spoke is a mobile bicycle-servicing business. A customer books a slot online; a mechanic arrives in a liveried van and services the bicycle at the door. Two products: a full service at £80 <span class="cite">in_product_0_price</span> (band £65 to £90, from Halfords and independent price lists) and a safety check at £25 <span class="cite">in_product_1_price</span> (band £20 to £30). Full services are 60% of jobs <span class="cite">in_product_0_share</span>.</p>
+<p>The business is organised as borough teams. One team serves 100,000 households <span class="cite">in_market_unit_population</span>, of which 38% own a bicycle an adult rides <span class="cite">in_market_non_viable_share</span>. At 6% penetration <span class="cite">in_market_penetration_steady_state</span> that is 2,280 customers <span class="cite">customers_per_unit</span> and 456 services a month <span class="cite">transactions_per_unit</span>. Greater London supports 34 teams <span class="cite">units</span>. At that scale the business turns over £899,232 a month <span class="cite">venture_revenue_per_month</span> and returns £2,703,643 a year <span class="cite">venture_surplus_per_year</span> after every cost, including the return on capital and tax.</p>
+
+<h3>Objectives</h3>
+<dl class="summary">
+  <dt>Short term (this year)</dt>
+  <dd>Open the first borough team by month one and reach 456 services a month <span class="cite">transactions_per_unit</span> by month eleven. Sell 3,580 services in the year <span class="cite">year1_volume</span> for £207,617 <span class="cite">year1_sales</span>. Confirm the full-service price holds at £80 <span class="cite">in_product_0_price</span> with real customers by month six — this is the number the whole case rests on.</dd>
+  <dt>Medium term (one to two years)</dt>
+  <dd>Open team two in an adjoining borough once the first team runs at a margin of safety of 25% or more for three consecutive months. Two teams open at the end of year two <span class="cite">in_forecast_units_open_year_2</span>, selling £524,993 <span class="cite">forecast_revenue_year_2</span> at the unit economics on the Unit P&amp;L tab: a surplus of £6,627 per team per month <span class="cite">unit_surplus</span> once a team is at steady state.</dd>
+</dl>
+
+<h3>The five-year line</h3>
+<p>The forecast statements on tabs 15 to 18 carry the roll-out from one team to 16 <span class="cite">in_forecast_units_open_year_5</span>: one, two, five, ten and 16 teams open at the end of each year. Revenue grows from £207,617 <span class="cite">forecast_revenue_year_1</span> to £4,419,461 <span class="cite">forecast_revenue_year_5</span>. The business loses money for three years while the head office is built ahead of the teams — £122,293 <span class="cite">forecast_profit_after_tax_year_1</span>, £74,584 <span class="cite">forecast_profit_after_tax_year_2</span> and £69,484 <span class="cite">forecast_profit_after_tax_year_3</span> — and turns a profit in year four of £268,271 <span class="cite">forecast_profit_after_tax_year_4</span>, then £619,968 <span class="cite">forecast_profit_after_tax_year_5</span>. Net assets at the end of year five are £1,081,878 <span class="cite">forecast_net_assets_year_5</span> and the loan is repaid <span class="cite">forecast_loan_outstanding_year_5</span>.</p>
+<table>
+  <thead><tr><th>Year</th><th class="num">Teams open</th><th class="num">Revenue</th><th class="num">Profit after tax</th><th class="num">Closing cash</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td class="num">1 <span class="cite">in_forecast_units_open_year_1</span></td><td class="num">£207,617 <span class="cite">forecast_revenue_year_1</span></td><td class="num">−£122,293 <span class="cite">forecast_profit_after_tax_year_1</span></td><td class="num">−£108,913 <span class="cite">forecast_closing_cash_year_1</span></td></tr>
+    <tr><td>2</td><td class="num">2 <span class="cite">in_forecast_units_open_year_2</span></td><td class="num">£524,993 <span class="cite">forecast_revenue_year_2</span></td><td class="num">−£74,584 <span class="cite">forecast_profit_after_tax_year_2</span></td><td class="num">£13,011 <span class="cite">forecast_closing_cash_year_2</span></td></tr>
+    <tr><td>3</td><td class="num">5 <span class="cite">in_forecast_units_open_year_3</span></td><td class="num">£1,257,602 <span class="cite">forecast_revenue_year_3</span></td><td class="num">−£69,484 <span class="cite">forecast_profit_after_tax_year_3</span></td><td class="num">£92,145 <span class="cite">forecast_closing_cash_year_3</span></td></tr>
+    <tr><td>4</td><td class="num">10 <span class="cite">in_forecast_units_open_year_4</span></td><td class="num">£2,624,964 <span class="cite">forecast_revenue_year_4</span></td><td class="num">£268,271 <span class="cite">forecast_profit_after_tax_year_4</span></td><td class="num">£214,162 <span class="cite">forecast_closing_cash_year_4</span></td></tr>
+    <tr><td>5</td><td class="num">16 <span class="cite">in_forecast_units_open_year_5</span></td><td class="num">£4,419,461 <span class="cite">forecast_revenue_year_5</span></td><td class="num">£619,968 <span class="cite">forecast_profit_after_tax_year_5</span></td><td class="num">£962,934 <span class="cite">forecast_closing_cash_year_5</span></td></tr>
+  </tbody>
+</table>
+<p>The roll-out needs two further equity rounds: £200,000 in year two <span class="cite">in_forecast_equity_raised_year_2</span> and £200,000 in year three <span class="cite">in_forecast_equity_raised_year_3</span>, on top of the £60,000 in year one <span class="cite">in_forecast_equity_raised_year_1</span>. With those rounds the year-end cash balance is above zero from year two. Year one closes below zero by £108,913 <span class="cite">forecast_closing_cash_year_1</span>; section 7 sets out how that year-one gap is closed without new money.</p>
+
+<h3>What the funding will be used for</h3>
+<table>
+  <thead><tr><th>Cost</th><th class="num">Amount</th><th>Reason</th></tr></thead>
+  <tbody>
+    <tr><td>Van, tools and tablets for the first team</td><td class="num">£35,600 <span class="cite">capital_per_unit</span></td><td>The team cannot operate without them; depreciated over three to five years</td></tr>
+    <tr><td>Fit-out, recruitment and launch marketing, plus two months of working capital</td><td class="num">£45,503 <span class="cite">startup_per_unit</span></td><td>One-time costs to open a borough, and the cash to run before revenue covers costs</td></tr>
+    <tr><td>Booking platform</td><td class="num">£60,000 <span class="cite">capital_head_office</span></td><td>Shared by every team; built once</td></tr>
+    <tr><td>Brand, website, company set-up</td><td class="num">£20,000 <span class="cite">development_head_office</span></td><td>Shared by every team; built once</td></tr>
+  </tbody>
+</table>
+<p>The funding in hand is a £25,000 loan <span class="cite">in_cashflow_loan_amount</span> at 6% over five years <span class="cite">in_cashflow_loan_rate_annual</span> and £60,000 of equity <span class="cite">in_cashflow_other_equity</span>. Section 7 sets out the gap between that and the year-one need.</p>
+
+<h2>2 · Your skills and experience</h2>
+<p>The design needs four seats at the first team and three at head office. Each is named by role, with who holds it today and what triggers a hire.</p>
+<table>
+  <thead><tr><th>Seat</th><th>Holder today</th><th>Hire trigger</th></tr></thead>
+  <tbody>
+    <tr><td>General manager</td><td>The founder — twelve years in bicycle retail, the last four running a three-shop group</td><td>None; the founder holds it through year one</td></tr>
+    <tr><td>Mechanic × 3</td><td>Two hired at launch; the founder covers the third until month four</td><td>Bookings above 300 a month</td></tr>
+    <tr><td>Booking coordinator</td><td>Part-time from launch</td><td>Full-time at 350 bookings a month</td></tr>
+    <tr><td>Marketing lead</td><td>A contractor two days a week</td><td>Full-time at team three</td></tr>
+    <tr><td>Finance and admin</td><td>The founder with an external bookkeeper</td><td>Full-time at team four</td></tr>
+  </tbody>
+</table>
+<p>The gap is workshop management at scale: nobody on the team has run more than three sites. The plan is to bring in an adviser from a multi-site trade business as a non-executive at team three. That is an assumption to confirm, not a commitment made.</p>
+
+<h2>3 · Your target customers</h2>
+<p>The customer is a London household with at least one adult who rides regularly and does not want to lose half a day taking the bicycle to a shop. The problem is time, not price: a shop service costs about the same, but it costs two trips, a wait of three to ten days and a bicycle out of use. Spoke removes the two trips and the wait.</p>
+<p>The market is bounded from the bottom up: 3,400,000 reachable households <span class="cite">in_market_total_reachable_population</span> (ONS 2024), less the 62% with no regular rider <span class="cite">in_market_non_viable_share</span>, gives 1,292,000 households <span class="cite">tam</span>. A customer buys 0.2 services a month <span class="cite">in_market_transactions_per_customer_per_month</span> — two to three a year — the trade norm.</p>
+<h3>How the prices were set</h3>
+<p>Prices were set from what customers pay today, then tested against cost. A full service at an independent London shop is £65 to £90. Spoke prices at £80 <span class="cite">in_product_0_price</span>, inside that band. The customer's saved time is the extra value and it does not need to be given away. The whole cost of a service is £43.47 <span class="cite">cost_per_transaction</span>. That includes parts, staff, the van, the booking platform, start-up costs spread over five years, the return on capital, tax and the share of head office. The average price is £58.00 <span class="cite">interim_price</span>. The margin of safety is 33.4% <span class="cite">margin_of_safety</span>. The gate is 25%. The price needed to sit exactly at the gate is £54.34 <span class="cite">required_price</span> on average: £74.94 <span class="cite">required_price_product_1</span> for a full service and £23.42 <span class="cite">required_price_product_2</span> for a check. There is £8.01 <span class="cite">price_fall_to_floor</span> of room before the margin reaches the 15% floor.</p>
+
+<h2>4 · Your market and competition</h2>
+<h3>Research done</h3>
+<p>Household counts are from ONS (tier 2 in the workbook: a public statistical source). Cycling participation is from Sport England's Active Lives survey (tier 3: a survey, applied by assumption to households). Staff costs are from the ONS earnings survey for vehicle technicians and customer-service staff in London, plus 20% on-costs (tier 2) <span class="cite">in_role_mechanic_monthly_cost</span>. Penetration, the population per team and the small-parts cost are assumed (tier 4) and are the first things to test with real bookings. Every source is on the Master tab beside its number.</p>
+<h3>Competitors</h3>
+<table>
+  <thead><tr><th></th><th>Competitor 1 — a national chain's in-store service</th><th>Competitor 2 — an independent shop in the borough</th></tr></thead>
+  <tbody>
+    <tr><td>Location and website</td><td>Every borough; the chain's site</td><td>One site; own site or none</td></tr>
+    <tr><td>Average prices</td><td>Full service £65 to £75 <span class="cite">in_product_0_price</span>; check free with a purchase</td><td>Full service £70 to £90 <span class="cite">in_product_0_price</span>; check £15 to £30 <span class="cite">in_product_1_price</span></td></tr>
+    <tr><td>Strengths</td><td>Brand, parts stock, opening hours</td><td>Skill, trust, regulars</td></tr>
+    <tr><td>Weaknesses</td><td>Wait times; the customer does the travelling</td><td>Capacity; closed Sundays; the customer does the travelling</td></tr>
+  </tbody>
+</table>
+<h3>What sets Spoke apart</h3>
+<p>The bicycle never leaves the house. Once a customer has booked twice, the mechanic knows the bicycle and its history sits in the booking record; moving to a shop means starting again. The vans, the routing and the trained team are the asset a shop cannot copy without becoming a mobile business itself. Parts come from two trade suppliers and either can be replaced at a week's notice.</p>
+<h3>Strengths, weaknesses, opportunities and threats</h3>
+<ul>
+  <li>strengths: the time saving is real and visible; the unit economics pass the gate with room</li>
+  <li>weaknesses: the case depends on the full-service price holding at £80 <span class="cite">in_product_0_price</span>; penetration is assumed, not measured</li>
+  <li>opportunities: e-bike servicing, which shops are slow to take on; corporate fleets</li>
+  <li>threats: a chain launching a mobile service; a wet spring reducing bookings in the ramp months</li>
+</ul>
+
+<h2>5 · Your sales and marketing plans</h2>
+<p>Customers hear of Spoke three ways: a leaflet drop and local social advertising in the launch borough (£5,000 <span class="cite">line_startup_launch_marketing_in_the_borough</span> in the funding table above, within the £45,503 <span class="cite">startup_per_unit</span> of start-up cost), a referral credit for existing customers, and partnerships with the borough's cycling clubs and employers with cycle-to-work schemes. The booking coordinator follows up every enquiry: 1.3 contacts per confirmed booking are costed in the staffing <span class="cite">hr_cost_per_unit</span>. Head-office marketing spend at scale is £6,000 a month <span class="cite">line_ho_running_marketing_spend</span>, inside the £8,700 <span class="cite">running_head_office</span> of head-office running cost, and 30% of it is carried in year one <span class="cite">in_cashflow_year1_head_office_share</span>.</p>
+
+<h2>6 · Your operational plans</h2>
+<h3>Key suppliers and relationships</h3>
+<table>
+  <thead><tr><th>Relationship</th><th>Status</th><th>Key terms</th></tr></thead>
+  <tbody>
+    <tr><td>Parts and consumables — trade supplier</td><td>Account open</td><td>30-day terms; next-day delivery; £9 <span class="cite">in_product_0_cogs</span> of parts per full service</td></tr>
+    <tr><td>Van lease and maintenance</td><td>Quote received</td><td>£550 <span class="cite">line_running_van_fuel_and_maintenance</span> a month for fuel and maintenance, on the Running tab</td></tr>
+  </tbody>
+</table>
+<h3>Staff</h3>
+<p>Now: the founder, two mechanics and a part-time coordinator. In twelve months: three mechanics and a full-time coordinator at the first team — four people <span class="cite">headcount_per_unit</span> costing £12,200 a month <span class="cite">hr_cost_per_unit</span> — plus the launch head office. The staffing is built from the work: 45 minutes per full service, 15 per check, 12 travelling between jobs, six per booking. The HR tab shows each role's hours and how full each person is.</p>
+<h3>Premises</h3>
+<p>None in year one. The van is the workshop; parts are held in the van and at the founder's home. A small unit for parts and a second van is planned at team three.</p>
+<h3>Laws, regulations and insurance</h3>
+<p>Van insurance and vehicle tax at £220 a month <span class="cite">line_running_van_insurance_and_tax</span>; public liability and employer's liability insurance inside the head-office professional fees at £900 a month <span class="cite">line_ho_running_professional_fees_and_insurance</span>. Mechanics work to the Cytech standard. Waste tyres and oils go through a licensed carrier. Card payments are taken through a regulated provider at £0.90 a transaction <span class="cite">line_running_card_payment_fees</span>.</p>
+
+<h2>7 · Back-up plan</h2>
+<div class="warning"><p>⚠ The year-one plan needs £115,461 <span class="cite">cash_needed</span> more than the opening balance to stay above zero, and £129,675 <span class="cite">cash_needed_stress</span> if revenue is 10% below forecast. Funding in hand is £85,000: the £25,000 loan <span class="cite">in_cashflow_loan_amount</span> and £60,000 of equity <span class="cite">in_cashflow_other_equity</span>. The gap is £30,461 in the base case and £44,675 under stress.</p></div>
+<p>Three things protect the loan repayment of £483 a month <span class="cite">loan_repayment_per_month</span>.</p>
+<ol>
+  <li>Price can fall £8.01 <span class="cite">price_fall_to_floor</span> per service before the margin reaches the 15% floor. The full-service price is the input that moves the margin most <span class="cite">binding_input</span>: at the bottom of its band, £65, the margin falls to 12.7% and the case fails. The first six months test that price with real customers before any second team is opened.</li>
+  <li>If every input lands at its bad end at once the margin is −43.2% <span class="cite">margin_of_safety_worst_corner</span>. That is the case for not opening team two until the first team has run three months at the gate. Nothing is committed to a second borough until then.</li>
+  <li>The gap is closed by delaying the booking platform. Year one runs on an off-the-shelf booking tool at £150 a month; the £60,000 <span class="cite">capital_head_office</span> platform is built from the surplus of teams two to four. With that change the plan needs no cash beyond the £85,000 in hand, and the stress case needs £8,000 of it held back as a reserve. Both numbers are read from the Cash flow tab with the platform line set to zero.</li>
+</ol>
+<p>Beyond year one, the forecast cash flow on tab 17 is the test. Its lowest year-end balance is the year-one figure, −£108,913 <span class="cite">forecast_lowest_closing_cash</span>, so the extra funding the five-year plan needs is £108,913 <span class="cite">forecast_funding_needed</span> — the same year-one gap, closed by the platform delay above. If a later round does not come, the plan stops opening teams at the number the cash supports and the head office is held at the share already staffed; the unit economics do not depend on the roll-out.</p>
+<p>If the price does not hold, the margin sits below the 15% floor <span class="cite">margin_from_failure</span> at month six. Then the business stops opening teams and runs the one van as a lifestyle business. At 456 services a month the one team clears its costs and the loan; that is the realistic floor, and it does not need a second borough to be true.</p>
+
+<h2 id="appendix">Where each number lives</h2>
+<p>The results, the line items and the inputs, as named in the workbook. The first table is the workbook's outputs, including the five-year forecast; the second is each cost line as entered; the third is the forecast's per-year inputs; the fourth is every input on the Master tab with its band, its tier and its source.</p>
+<h3>Results</h3>
+<p>The workbook's outputs at the base scenario, including the forecast by year.</p>
+<table><thead><tr><th>Name</th><th>Cell</th><th>Base value</th><th>Meaning</th></tr></thead><tbody>
+<tr><td><code>scenario</code></td><td>&#x27;1 Master&#x27;!$B$4</td><td>1</td><td>Scenario switch: 1 base, 2 all-low, 3 all-high</td></tr>
+<tr><td><code>tam</code></td><td>&#x27;2 Customers&#x27;!$B$5</td><td>1,292,000</td><td>Total addressable market, households or customers</td></tr>
+<tr><td><code>units</code></td><td>&#x27;2 Customers&#x27;!$B$6</td><td>34</td><td>Number of operating units at scale</td></tr>
+<tr><td><code>customers_per_unit</code></td><td>&#x27;2 Customers&#x27;!$B$9</td><td>2,280</td><td>Customer base per operating unit at steady state</td></tr>
+<tr><td><code>transactions_per_unit</code></td><td>&#x27;2 Customers&#x27;!$B$10</td><td>456</td><td>Transactions per operating unit per month at steady state</td></tr>
+<tr><td><code>transactions_venture</code></td><td>&#x27;2 Customers&#x27;!$B$11</td><td>15,504</td><td>Transactions across the venture per month at steady state</td></tr>
+<tr><td><code>revenue_per_unit</code></td><td>&#x27;2 Customers&#x27;!$E$16</td><td>26,448</td><td>Revenue per operating unit per month at interim prices</td></tr>
+<tr><td><code>cogs_per_unit</code></td><td>&#x27;2 Customers&#x27;!$G$16</td><td>2,827</td><td>Cost of goods per operating unit per month</td></tr>
+<tr><td><code>headcount_per_unit</code></td><td>&#x27;3 HR&#x27;!$D$15</td><td>4</td><td>Headcount per operating unit</td></tr>
+<tr><td><code>hr_cost_per_unit</code></td><td>&#x27;3 HR&#x27;!$F$15</td><td>12,200</td><td>Staff cost per operating unit per month</td></tr>
+<tr><td><code>ho_staff_cost</code></td><td>&#x27;3 HR&#x27;!$D$22</td><td>14,500</td><td>Head-office staff cost per month</td></tr>
+<tr><td><code>capital_per_unit</code></td><td>&#x27;4 Depreciation&#x27;!$F$8</td><td>35,600</td><td>Capital assets per operating unit</td></tr>
+<tr><td><code>depreciation_per_unit</code></td><td>&#x27;4 Depreciation&#x27;!$G$8</td><td>700</td><td>Depreciation per operating unit per month</td></tr>
+<tr><td><code>capital_head_office</code></td><td>&#x27;4 Depreciation&#x27;!$F$12</td><td>60,000</td><td>Head-office capital assets</td></tr>
+<tr><td><code>depreciation_head_office</code></td><td>&#x27;4 Depreciation&#x27;!$G$12</td><td>1,667</td><td>Head-office depreciation per month</td></tr>
+<tr><td><code>running_per_unit</code></td><td>&#x27;5 Running&#x27;!$E$10</td><td>1,474</td><td>General running cost per operating unit per month</td></tr>
+<tr><td><code>running_head_office</code></td><td>&#x27;5 Running&#x27;!$E$18</td><td>8,700</td><td>Head-office running cost per month</td></tr>
+<tr><td><code>startup_per_unit</code></td><td>&#x27;6 Start-up&#x27;!$B$10</td><td>45,503</td><td>Start-up cost per operating unit (one-time plus working capital)</td></tr>
+<tr><td><code>startup_charge_per_unit</code></td><td>&#x27;6 Start-up&#x27;!$B$12</td><td>758</td><td>Start-up charge per operating unit per month</td></tr>
+<tr><td><code>development_head_office</code></td><td>&#x27;6 Start-up&#x27;!$B$17</td><td>20,000</td><td>Head-office development cost, one-time</td></tr>
+<tr><td><code>development_charge_per_month</code></td><td>&#x27;6 Start-up&#x27;!$B$18</td><td>333</td><td>Head-office development charge per month</td></tr>
+<tr><td><code>returns_per_unit</code></td><td>&#x27;7 Returns&#x27;!$B$6</td><td>811</td><td>Investment return required per operating unit per month</td></tr>
+<tr><td><code>returns_head_office</code></td><td>&#x27;7 Returns&#x27;!$B$8</td><td>800</td><td>Investment return required at head office per month</td></tr>
+<tr><td><code>tax_per_unit</code></td><td>&#x27;8 Tax&#x27;!$B$5</td><td>203</td><td>Tax per operating unit per month</td></tr>
+<tr><td><code>tax_head_office</code></td><td>&#x27;8 Tax&#x27;!$B$6</td><td>200</td><td>Tax at head office per month</td></tr>
+<tr><td><code>unit_own_cost</code></td><td>&#x27;9 Unit costs&#x27;!$B$12</td><td>18,974</td><td>Operating unit&#x27;s own costs per month, before head office</td></tr>
+<tr><td><code>ho_costs</code></td><td>&#x27;9 Unit costs&#x27;!$B$13</td><td>26,200</td><td>Head-office costs per month</td></tr>
+<tr><td><code>ho_total</code></td><td>&#x27;9 Unit costs&#x27;!$B$15</td><td>28,820</td><td>Head-office costs plus target profit per month</td></tr>
+<tr><td><code>ho_allocated_per_unit</code></td><td>&#x27;9 Unit costs&#x27;!$B$16</td><td>848</td><td>Head office allocated per operating unit per month</td></tr>
+<tr><td><code>whole_cost_per_unit</code></td><td>&#x27;9 Unit costs&#x27;!$B$17</td><td>19,821</td><td>Whole cost per operating unit per month</td></tr>
+<tr><td><code>cost_per_transaction</code></td><td>&#x27;9 Unit costs&#x27;!$B$18</td><td>43.47</td><td>Whole cost per transaction — the cost floor</td></tr>
+<tr><td><code>margin_of_safety</code></td><td>&#x27;10 Pricing&#x27;!$B$6</td><td>33.4%</td><td>Margin of safety at the interim price, base scenario</td></tr>
+<tr><td><code>interim_price</code></td><td>&#x27;10 Pricing&#x27;!$B$5</td><td>58.00</td><td>Interim price per transaction</td></tr>
+<tr><td><code>verdict</code></td><td>&#x27;10 Pricing&#x27;!$B$8</td><td>PASS</td><td>Verdict on the margin of safety: PASS, BORDERLINE or FAIL</td></tr>
+<tr><td><code>required_price</code></td><td>&#x27;10 Pricing&#x27;!$B$9</td><td>54.34</td><td>Required price per transaction at the target margin of safety</td></tr>
+<tr><td><code>price_uplift_to_target</code></td><td>&#x27;10 Pricing&#x27;!$B$10</td><td>93.7%</td><td>Price uplift needed to reach the target margin of safety (required ÷ interim)</td></tr>
+<tr><td><code>margin_from_failure</code></td><td>&#x27;10 Pricing&#x27;!$B$11</td><td>18.4%</td><td>Margin of safety less the 15% floor, in percentage points</td></tr>
+<tr><td><code>price_fall_to_floor</code></td><td>&#x27;10 Pricing&#x27;!$B$12</td><td>8.01</td><td>Price fall per transaction that takes the margin of safety to the 15% floor</td></tr>
+<tr><td><code>required_price_product_1</code></td><td>&#x27;10 Pricing&#x27;!$C$15</td><td>74.94</td><td>Required price at the target margin of safety — Full service</td></tr>
+<tr><td><code>required_price_product_2</code></td><td>&#x27;10 Pricing&#x27;!$C$16</td><td>23.42</td><td>Required price at the target margin of safety — Safety check</td></tr>
+<tr><td><code>binding_input</code></td><td>&#x27;10 Pricing&#x27;!$B$33</td><td>Full service — price</td><td>The input whose adverse end lowers the margin of safety most</td></tr>
+<tr><td><code>margin_of_safety_worst_corner</code></td><td>&#x27;10 Pricing&#x27;!$B$34</td><td>-43.2%</td><td>Margin of safety with every banded input at its adverse end</td></tr>
+<tr><td><code>unit_surplus</code></td><td>&#x27;11 Unit P&amp;L&#x27;!$B$17</td><td>6,627</td><td>Surplus per operating unit per month at the interim price</td></tr>
+<tr><td><code>unit_surplus_at_required</code></td><td>&#x27;11 Unit P&amp;L&#x27;!$C$17</td><td>4,955</td><td>Surplus per operating unit per month at the required price</td></tr>
+<tr><td><code>venture_surplus_per_month</code></td><td>&#x27;12 Venture P&amp;L&#x27;!$D$20</td><td>225,304</td><td>Venture surplus per month at scale, interim price</td></tr>
+<tr><td><code>venture_surplus_per_year</code></td><td>&#x27;12 Venture P&amp;L&#x27;!$D$21</td><td>2,703,643</td><td>Venture surplus per year at scale, interim price</td></tr>
+<tr><td><code>venture_revenue_per_month</code></td><td>&#x27;12 Venture P&amp;L&#x27;!$D$5</td><td>899,232</td><td>Venture revenue per month at scale</td></tr>
+<tr><td><code>year1_sales</code></td><td>&#x27;13 Sales&#x27;!$N$16</td><td>207,617</td><td>Sales in year one, the units open in year one</td></tr>
+<tr><td><code>year1_volume</code></td><td>&#x27;13 Sales&#x27;!$N$18</td><td>3,580</td><td>Transactions in year one</td></tr>
+<tr><td><code>loan_repayment_per_month</code></td><td>&#x27;14 Cash flow&#x27;!$B$7</td><td>483</td><td>Monthly loan repayment</td></tr>
+<tr><td><code>lowest_closing_balance</code></td><td>&#x27;14 Cash flow&#x27;!$B$29</td><td>-115,461</td><td>Lowest closing cash balance in year one</td></tr>
+<tr><td><code>lowest_closing_balance_stress</code></td><td>&#x27;14 Cash flow&#x27;!$B$30</td><td>-129,675</td><td>Lowest closing cash balance in year one under the revenue stress test</td></tr>
+<tr><td><code>closing_balance_month12</code></td><td>&#x27;14 Cash flow&#x27;!$B$31</td><td>-108,913</td><td>Closing cash balance at the end of year one</td></tr>
+<tr><td><code>cash_needed</code></td><td>&#x27;14 Cash flow&#x27;!$B$32</td><td>115,461</td><td>Extra cash needed to keep the balance at or above zero</td></tr>
+<tr><td><code>cash_needed_stress</code></td><td>&#x27;14 Cash flow&#x27;!$B$33</td><td>129,675</td><td>Extra cash needed under the stress test</td></tr>
+<tr><td><code>forecast_revenue_year_1</code></td><td>&#x27;16 Forecast P&amp;L&#x27;!$B$5</td><td>207,617</td><td>Forecast revenue, year 1</td></tr>
+<tr><td><code>forecast_operating_profit_year_1</code></td><td>&#x27;16 Forecast P&amp;L&#x27;!$B$15</td><td>-120,913</td><td>Forecast operating profit, year 1</td></tr>
+<tr><td><code>forecast_profit_after_tax_year_1</code></td><td>&#x27;16 Forecast P&amp;L&#x27;!$B$22</td><td>-122,293</td><td>Forecast profit after tax, year 1</td></tr>
+<tr><td><code>forecast_revenue_year_2</code></td><td>&#x27;16 Forecast P&amp;L&#x27;!$C$5</td><td>524,993</td><td>Forecast revenue, year 2</td></tr>
+<tr><td><code>forecast_operating_profit_year_2</code></td><td>&#x27;16 Forecast P&amp;L&#x27;!$C$15</td><td>-73,476</td><td>Forecast operating profit, year 2</td></tr>
+<tr><td><code>forecast_profit_after_tax_year_2</code></td><td>&#x27;16 Forecast P&amp;L&#x27;!$C$22</td><td>-74,584</td><td>Forecast profit after tax, year 2</td></tr>
+<tr><td><code>forecast_revenue_year_3</code></td><td>&#x27;16 Forecast P&amp;L&#x27;!$D$5</td><td>1,257,602</td><td>Forecast revenue, year 3</td></tr>
+<tr><td><code>forecast_operating_profit_year_3</code></td><td>&#x27;16 Forecast P&amp;L&#x27;!$D$15</td><td>-68,666</td><td>Forecast operating profit, year 3</td></tr>
+<tr><td><code>forecast_profit_after_tax_year_3</code></td><td>&#x27;16 Forecast P&amp;L&#x27;!$D$22</td><td>-69,484</td><td>Forecast profit after tax, year 3</td></tr>
+<tr><td><code>forecast_revenue_year_4</code></td><td>&#x27;16 Forecast P&amp;L&#x27;!$E$5</td><td>2,624,964</td><td>Forecast revenue, year 4</td></tr>
+<tr><td><code>forecast_operating_profit_year_4</code></td><td>&#x27;16 Forecast P&amp;L&#x27;!$E$15</td><td>269,418</td><td>Forecast operating profit, year 4</td></tr>
+<tr><td><code>forecast_profit_after_tax_year_4</code></td><td>&#x27;16 Forecast P&amp;L&#x27;!$E$22</td><td>268,271</td><td>Forecast profit after tax, year 4</td></tr>
+<tr><td><code>forecast_revenue_year_5</code></td><td>&#x27;16 Forecast P&amp;L&#x27;!$F$5</td><td>4,419,461</td><td>Forecast revenue, year 5</td></tr>
+<tr><td><code>forecast_operating_profit_year_5</code></td><td>&#x27;16 Forecast P&amp;L&#x27;!$F$15</td><td>826,808</td><td>Forecast operating profit, year 5</td></tr>
+<tr><td><code>forecast_profit_after_tax_year_5</code></td><td>&#x27;16 Forecast P&amp;L&#x27;!$F$22</td><td>619,968</td><td>Forecast profit after tax, year 5</td></tr>
+<tr><td><code>forecast_revenue_total</code></td><td>&#x27;16 Forecast P&amp;L&#x27;!$G$5</td><td>9,034,637</td><td>Forecast revenue over years one to 5</td></tr>
+<tr><td><code>forecast_operating_profit_total</code></td><td>&#x27;16 Forecast P&amp;L&#x27;!$G$15</td><td>833,170</td><td>Forecast operating profit over years one to 5</td></tr>
+<tr><td><code>forecast_profit_after_tax_total</code></td><td>&#x27;16 Forecast P&amp;L&#x27;!$G$22</td><td>621,878</td><td>Forecast profit after tax over years one to 5</td></tr>
+<tr><td><code>forecast_closing_cash_year_1</code></td><td>&#x27;17 Forecast cash flow&#x27;!$B$19</td><td>-108,913</td><td>Forecast closing cash, end of year 1</td></tr>
+<tr><td><code>forecast_closing_cash_year_2</code></td><td>&#x27;17 Forecast cash flow&#x27;!$C$19</td><td>13,011</td><td>Forecast closing cash, end of year 2</td></tr>
+<tr><td><code>forecast_closing_cash_year_3</code></td><td>&#x27;17 Forecast cash flow&#x27;!$D$19</td><td>92,145</td><td>Forecast closing cash, end of year 3</td></tr>
+<tr><td><code>forecast_closing_cash_year_4</code></td><td>&#x27;17 Forecast cash flow&#x27;!$E$19</td><td>214,162</td><td>Forecast closing cash, end of year 4</td></tr>
+<tr><td><code>forecast_closing_cash_year_5</code></td><td>&#x27;17 Forecast cash flow&#x27;!$F$19</td><td>962,934</td><td>Forecast closing cash, end of year 5</td></tr>
+<tr><td><code>forecast_lowest_closing_cash</code></td><td>&#x27;17 Forecast cash flow&#x27;!$B$21</td><td>-108,913</td><td>Lowest year-end cash balance across the forecast</td></tr>
+<tr><td><code>forecast_funding_needed</code></td><td>&#x27;17 Forecast cash flow&#x27;!$B$22</td><td>108,913</td><td>Extra funding needed to keep year-end cash at or above zero across the forecast</td></tr>
+<tr><td><code>forecast_net_assets_year_1</code></td><td>&#x27;18 Forecast balance sheet&#x27;!$B$11</td><td>-62,293</td><td>Forecast net assets, end of year 1</td></tr>
+<tr><td><code>forecast_loan_outstanding_year_1</code></td><td>&#x27;18 Forecast balance sheet&#x27;!$B$8</td><td>20,580</td><td>Loan outstanding, end of year 1</td></tr>
+<tr><td><code>forecast_net_assets_year_2</code></td><td>&#x27;18 Forecast balance sheet&#x27;!$C$11</td><td>63,123</td><td>Forecast net assets, end of year 2</td></tr>
+<tr><td><code>forecast_loan_outstanding_year_2</code></td><td>&#x27;18 Forecast balance sheet&#x27;!$C$8</td><td>15,887</td><td>Loan outstanding, end of year 2</td></tr>
+<tr><td><code>forecast_net_assets_year_3</code></td><td>&#x27;18 Forecast balance sheet&#x27;!$D$11</td><td>193,639</td><td>Forecast net assets, end of year 3</td></tr>
+<tr><td><code>forecast_loan_outstanding_year_3</code></td><td>&#x27;18 Forecast balance sheet&#x27;!$D$8</td><td>10,905</td><td>Loan outstanding, end of year 3</td></tr>
+<tr><td><code>forecast_net_assets_year_4</code></td><td>&#x27;18 Forecast balance sheet&#x27;!$E$11</td><td>461,910</td><td>Forecast net assets, end of year 4</td></tr>
+<tr><td><code>forecast_loan_outstanding_year_4</code></td><td>&#x27;18 Forecast balance sheet&#x27;!$E$8</td><td>5,616</td><td>Loan outstanding, end of year 4</td></tr>
+<tr><td><code>forecast_net_assets_year_5</code></td><td>&#x27;18 Forecast balance sheet&#x27;!$F$11</td><td>1,081,878</td><td>Forecast net assets, end of year 5</td></tr>
+<tr><td><code>forecast_loan_outstanding_year_5</code></td><td>&#x27;18 Forecast balance sheet&#x27;!$F$8</td><td>0</td><td>Loan outstanding, end of year 5</td></tr>
+<tr><td><code>all_checks</code></td><td>&#x27;19 Check&#x27;!$D$17</td><td>ALL CHECKS PASS</td><td>ALL CHECKS PASS when every check row passes</td></tr>
+</tbody></table>
+<h3>Line items</h3>
+<p>Each asset, running cost, start-up and development line as entered on tabs 3 to 6.</p>
+<table><thead><tr><th>Name</th><th>Cell</th><th>Base value</th><th>Meaning</th></tr></thead><tbody>
+<tr><td><code>line_ho_role_general_manager</code></td><td>&#x27;3 HR&#x27;!$D$19</td><td>6,500</td><td>Staff cost per month, head office — General manager × 1</td></tr>
+<tr><td><code>line_ho_role_marketing_lead</code></td><td>&#x27;3 HR&#x27;!$D$20</td><td>4,500</td><td>Staff cost per month, head office — Marketing lead × 1</td></tr>
+<tr><td><code>line_ho_role_finance_and_admin</code></td><td>&#x27;3 HR&#x27;!$D$21</td><td>3,500</td><td>Staff cost per month, head office — Finance and admin × 1</td></tr>
+<tr><td><code>line_asset_service_van</code></td><td>&#x27;4 Depreciation&#x27;!$B$5</td><td>28,000</td><td>Asset cost, operating unit — Service van</td></tr>
+<tr><td><code>line_asset_tool_set</code></td><td>&#x27;4 Depreciation&#x27;!$B$6</td><td>1,500</td><td>Asset cost, operating unit — Tool set</td></tr>
+<tr><td><code>line_asset_booking_tablet</code></td><td>&#x27;4 Depreciation&#x27;!$B$7</td><td>400</td><td>Asset cost, operating unit — Booking tablet</td></tr>
+<tr><td><code>line_ho_asset_booking_platform_build</code></td><td>&#x27;4 Depreciation&#x27;!$B$11</td><td>60,000</td><td>Asset cost, head office — Booking platform build</td></tr>
+<tr><td><code>line_running_van_fuel_and_maintenance</code></td><td>&#x27;5 Running&#x27;!$C$5</td><td>550</td><td>Running cost amount, operating unit (per_unit_month) — Van fuel and maintenance</td></tr>
+<tr><td><code>line_running_van_insurance_and_tax</code></td><td>&#x27;5 Running&#x27;!$C$6</td><td>220</td><td>Running cost amount, operating unit (per_unit_month) — Van insurance and tax</td></tr>
+<tr><td><code>line_running_card_payment_fees</code></td><td>&#x27;5 Running&#x27;!$C$7</td><td>0.90</td><td>Running cost amount, operating unit (per_transaction) — Card payment fees</td></tr>
+<tr><td><code>line_running_customer_reminders_and_messaging</code></td><td>&#x27;5 Running&#x27;!$C$8</td><td>0.05</td><td>Running cost amount, operating unit (per_customer_month) — Customer reminders and messaging</td></tr>
+<tr><td><code>line_running_uniform_and_phone_per_head</code></td><td>&#x27;5 Running&#x27;!$C$9</td><td>45</td><td>Running cost amount, operating unit (per_head) — Uniform and phone per head</td></tr>
+<tr><td><code>line_ho_running_office_and_software</code></td><td>&#x27;5 Running&#x27;!$C$15</td><td>1,800</td><td>Running cost per month, head office — Office and software</td></tr>
+<tr><td><code>line_ho_running_marketing_spend</code></td><td>&#x27;5 Running&#x27;!$C$16</td><td>6,000</td><td>Running cost per month, head office — Marketing spend</td></tr>
+<tr><td><code>line_ho_running_professional_fees_and_insurance</code></td><td>&#x27;5 Running&#x27;!$C$17</td><td>900</td><td>Running cost per month, head office — Professional fees and insurance</td></tr>
+<tr><td><code>line_startup_van_fit_out_and_livery</code></td><td>&#x27;6 Start-up&#x27;!$B$5</td><td>4,000</td><td>Start-up cost, operating unit, one-time — Van fit-out and livery</td></tr>
+<tr><td><code>line_startup_recruitment_and_training</code></td><td>&#x27;6 Start-up&#x27;!$B$6</td><td>3,500</td><td>Start-up cost, operating unit, one-time — Recruitment and training</td></tr>
+<tr><td><code>line_startup_launch_marketing_in_the_borough</code></td><td>&#x27;6 Start-up&#x27;!$B$7</td><td>5,000</td><td>Start-up cost, operating unit, one-time — Launch marketing in the borough</td></tr>
+<tr><td><code>line_development_brand_and_website</code></td><td>&#x27;6 Start-up&#x27;!$B$15</td><td>15,000</td><td>Development cost, head office, one-time — Brand and website</td></tr>
+<tr><td><code>line_development_company_set_up_and_legal</code></td><td>&#x27;6 Start-up&#x27;!$B$16</td><td>5,000</td><td>Development cost, head office, one-time — Company set-up and legal</td></tr>
+</tbody></table>
+<h3>Forecast inputs</h3>
+<p>Units open, head-office share and equity raised by year, on tab 15.</p>
+<table><thead><tr><th>Name</th><th>Cell</th><th>Base value</th><th>Meaning</th></tr></thead><tbody>
+<tr><td><code>in_forecast_units_open_year_1</code></td><td>&#x27;15 Roll-out&#x27;!$B$5</td><td>1</td><td>Operating units open at the end of year 1</td></tr>
+<tr><td><code>in_forecast_head_office_share_year_1</code></td><td>&#x27;15 Roll-out&#x27;!$B$8</td><td>30.0%</td><td>Share of the at-scale head office staffed and run in year 1</td></tr>
+<tr><td><code>in_forecast_equity_raised_year_1</code></td><td>&#x27;15 Roll-out&#x27;!$B$9</td><td>60,000</td><td>Equity raised in year 1</td></tr>
+<tr><td><code>in_forecast_units_open_year_2</code></td><td>&#x27;15 Roll-out&#x27;!$C$5</td><td>2</td><td>Operating units open at the end of year 2</td></tr>
+<tr><td><code>in_forecast_head_office_share_year_2</code></td><td>&#x27;15 Roll-out&#x27;!$C$8</td><td>60.0%</td><td>Share of the at-scale head office staffed and run in year 2</td></tr>
+<tr><td><code>in_forecast_equity_raised_year_2</code></td><td>&#x27;15 Roll-out&#x27;!$C$9</td><td>200,000</td><td>Equity raised in year 2</td></tr>
+<tr><td><code>in_forecast_units_open_year_3</code></td><td>&#x27;15 Roll-out&#x27;!$D$5</td><td>5</td><td>Operating units open at the end of year 3</td></tr>
+<tr><td><code>in_forecast_head_office_share_year_3</code></td><td>&#x27;15 Roll-out&#x27;!$D$8</td><td>100.0%</td><td>Share of the at-scale head office staffed and run in year 3</td></tr>
+<tr><td><code>in_forecast_equity_raised_year_3</code></td><td>&#x27;15 Roll-out&#x27;!$D$9</td><td>200,000</td><td>Equity raised in year 3</td></tr>
+<tr><td><code>in_forecast_units_open_year_4</code></td><td>&#x27;15 Roll-out&#x27;!$E$5</td><td>10</td><td>Operating units open at the end of year 4</td></tr>
+<tr><td><code>in_forecast_head_office_share_year_4</code></td><td>&#x27;15 Roll-out&#x27;!$E$8</td><td>100.0%</td><td>Share of the at-scale head office staffed and run in year 4</td></tr>
+<tr><td><code>in_forecast_equity_raised_year_4</code></td><td>&#x27;15 Roll-out&#x27;!$E$9</td><td>0</td><td>Equity raised in year 4</td></tr>
+<tr><td><code>in_forecast_units_open_year_5</code></td><td>&#x27;15 Roll-out&#x27;!$F$5</td><td>16</td><td>Operating units open at the end of year 5</td></tr>
+<tr><td><code>in_forecast_head_office_share_year_5</code></td><td>&#x27;15 Roll-out&#x27;!$F$8</td><td>100.0%</td><td>Share of the at-scale head office staffed and run in year 5</td></tr>
+<tr><td><code>in_forecast_equity_raised_year_5</code></td><td>&#x27;15 Roll-out&#x27;!$F$9</td><td>0</td><td>Equity raised in year 5</td></tr>
+</tbody></table>
+<h3>Inputs</h3>
+<p>Every input on the Master tab with its band, its tier and its source.</p>
+<table><thead><tr><th>Name</th><th>Cell</th><th>Base</th><th>Low</th><th>High</th><th>Tier</th><th>Source</th></tr></thead><tbody>
+<tr><td><code>in_market_total_reachable_population</code></td><td>&#x27;1 Master&#x27;!$B$7</td><td>3,400,000</td><td>3,200,000</td><td>3,600,000</td><td>2</td><td>ONS household estimates, Greater London 2024</td></tr>
+<tr><td><code>in_market_non_viable_share</code></td><td>&#x27;1 Master&#x27;!$B$8</td><td>62.0%</td><td>55.0%</td><td>68.0%</td><td>3</td><td>Active Lives survey 2024 — households with no adult who cycles</td></tr>
+<tr><td><code>in_market_unit_population</code></td><td>&#x27;1 Master&#x27;!$B$9</td><td>100,000</td><td>90,000</td><td>110,000</td><td>4</td><td>assumed — one borough per team</td></tr>
+<tr><td><code>in_market_penetration_steady_state</code></td><td>&#x27;1 Master&#x27;!$B$10</td><td>6.0%</td><td>4.5%</td><td>7.5%</td><td>4</td><td>assumed — direct-to-household service penetration after 24 months</td></tr>
+<tr><td><code>in_market_transactions_per_customer_per_month</code></td><td>&#x27;1 Master&#x27;!$B$11</td><td>0.2</td><td>0.15</td><td>0.25</td><td>3</td><td>two to three services a year per active customer, bicycle trade norm</td></tr>
+<tr><td><code>in_product_0_share</code></td><td>&#x27;1 Master&#x27;!$B$12</td><td>0.6</td><td>0.6</td><td>0.6</td><td></td><td></td></tr>
+<tr><td><code>in_product_0_price</code></td><td>&#x27;1 Master&#x27;!$B$13</td><td>80</td><td>65</td><td>90</td><td>3</td><td>Halfords and independent price lists, London 2026</td></tr>
+<tr><td><code>in_product_0_cogs</code></td><td>&#x27;1 Master&#x27;!$B$14</td><td>9</td><td>7</td><td>12</td><td>3</td><td>parts and consumables per service, trade supplier list</td></tr>
+<tr><td><code>in_product_1_share</code></td><td>&#x27;1 Master&#x27;!$B$15</td><td>0.4</td><td>0.4</td><td>0.4</td><td></td><td></td></tr>
+<tr><td><code>in_product_1_price</code></td><td>&#x27;1 Master&#x27;!$B$16</td><td>25</td><td>20</td><td>30</td><td>3</td><td>competitor price lists</td></tr>
+<tr><td><code>in_product_1_cogs</code></td><td>&#x27;1 Master&#x27;!$B$17</td><td>2</td><td>1</td><td>3</td><td>4</td><td>assumed — lubricants and small parts</td></tr>
+<tr><td><code>in_hr_available_hours</code></td><td>&#x27;1 Master&#x27;!$B$18</td><td>140</td><td>140</td><td>140</td><td></td><td></td></tr>
+<tr><td><code>in_role_mechanic_monthly_cost</code></td><td>&#x27;1 Master&#x27;!$B$19</td><td>3,200</td><td>3,000</td><td>3,600</td><td>2</td><td>ONS ASHE 2025, vehicle technicians, London, plus 20% on-costs</td></tr>
+<tr><td><code>in_role_booking_coordinator_monthly_cost</code></td><td>&#x27;1 Master&#x27;!$B$20</td><td>2,600</td><td>2,400</td><td>2,900</td><td>2</td><td>ONS ASHE 2025, customer service, London, plus on-costs</td></tr>
+<tr><td><code>in_startup_working_capital_months</code></td><td>&#x27;1 Master&#x27;!$B$21</td><td>2</td><td>2</td><td>2</td><td></td><td></td></tr>
+<tr><td><code>in_startup_investment_period_months</code></td><td>&#x27;1 Master&#x27;!$B$22</td><td>60</td><td>60</td><td>60</td><td></td><td></td></tr>
+<tr><td><code>in_finance_cost_of_capital</code></td><td>&#x27;1 Master&#x27;!$B$23</td><td>12.0%</td><td>10.0%</td><td>15.0%</td><td>3</td><td>British Business Bank Start Up Loans 6% plus equity return, blended</td></tr>
+<tr><td><code>in_finance_tax_rate</code></td><td>&#x27;1 Master&#x27;!$B$24</td><td>25.0%</td><td>25.0%</td><td>25.0%</td><td></td><td></td></tr>
+<tr><td><code>in_finance_ho_target_ebit</code></td><td>&#x27;1 Master&#x27;!$B$25</td><td>10.0%</td><td>10.0%</td><td>10.0%</td><td></td><td></td></tr>
+<tr><td><code>in_finance_target_margin</code></td><td>&#x27;1 Master&#x27;!$B$26</td><td>25.0%</td><td>25.0%</td><td>25.0%</td><td></td><td></td></tr>
+<tr><td><code>in_cashflow_year1_units</code></td><td>&#x27;1 Master&#x27;!$B$27</td><td>1</td><td>1</td><td>1</td><td></td><td></td></tr>
+<tr><td><code>in_cashflow_year1_head_office_share</code></td><td>&#x27;1 Master&#x27;!$B$28</td><td>30.0%</td><td>30.0%</td><td>30.0%</td><td></td><td></td></tr>
+<tr><td><code>in_cashflow_opening_balance</code></td><td>&#x27;1 Master&#x27;!$B$29</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+<tr><td><code>in_cashflow_loan_amount</code></td><td>&#x27;1 Master&#x27;!$B$30</td><td>25,000</td><td>25,000</td><td>25,000</td><td></td><td></td></tr>
+<tr><td><code>in_cashflow_loan_rate_annual</code></td><td>&#x27;1 Master&#x27;!$B$31</td><td>6.0%</td><td>6.0%</td><td>6.0%</td><td></td><td></td></tr>
+<tr><td><code>in_cashflow_loan_term_months</code></td><td>&#x27;1 Master&#x27;!$B$32</td><td>60</td><td>60</td><td>60</td><td></td><td></td></tr>
+<tr><td><code>in_cashflow_other_equity</code></td><td>&#x27;1 Master&#x27;!$B$33</td><td>60,000</td><td>60,000</td><td>60,000</td><td></td><td></td></tr>
+<tr><td><code>in_cashflow_stress_revenue_reduction</code></td><td>&#x27;1 Master&#x27;!$B$34</td><td>10.0%</td><td>10.0%</td><td>10.0%</td><td></td><td></td></tr>
+</tbody></table>
+</div>
+</body>
+</html>

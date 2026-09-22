@@ -266,6 +266,16 @@ Source validation is a separate audit step, run after the simulation is built. T
 
 Once all inputs are gathered, build the HTML simulation. Do not ask further questions — generate from the answers.
 
+### Stage 2a — The model data file and the evidence workbook (added 22 September 2026)
+
+Before the HTML simulation, write the confirmed inputs to **`{venture-folder}/{venture-slug}-model.yaml`** in the form `.claude/skills/shared/finsim-model-spec.md` defines (worked example: `scripts/example-model.yaml`). Every input the verdict depends on is a band with a tier, a source and its adverse end. The `forecast` block gives the units open, the head-office share and the equity raised by year — take units by year from the scaling architecture (R3) and equity from the funding route; year one must match the `cashflow` block. Then run the builder:
+
+```bash
+python3 .claude/skills/ive-fin-sim-custom/scripts/generate_business_case_xlsx.py {venture-folder}/{venture-slug}-model.yaml {venture-folder}
+```
+
+It writes `{venture-slug}-business-case-evidence.xlsx` (the IFC twelve tabs; the Start Up Loans sales and cash-flow sheets; the forecast profit and loss, cash flow and balance sheet by year, driven by a roll-out tab; and a Check tab — all live formulas) and `{venture-slug}-business-case-evidence-cells.md` (the cell index the business case document cites from). The workbook is what leaves the studio — `04-Projects/TMTH_Venture_Studio/Forge/WS1/business-case-standard.md`. If the builder prints a warning that an "adverse" end raises the margin, fix the label in the model file and re-run. The one-line summary it prints must agree with the HTML simulation's base case; if it does not, the two were built from different inputs — fix the inputs, not the outputs.
+
 ### File location
 
 Save to: `04-Projects/{venture-slug}/{venture-slug}-fin-sim.html`
