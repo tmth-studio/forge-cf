@@ -18,7 +18,18 @@ This skill is the front door. It absorbs three checks that used to be run separa
 
 Passes 1 and 2 reuse the criteria in `verify-balm-custom` and `ive-consistency-audit-custom` as engines — read those files for the detailed per-sub-requirement standards and the dependency-matrix method. Passes 3 and 4 are owned in full here.
 
-Canonical discipline reference: `method/context/va-design-discipline.md`.
+> ⛔ **LOAD THESE BEFORE PASS 1 — MANDATORY (added 10 September 2026, Tom's ruling).**
+>
+> 1. `04-Projects/Family_High_Performance/context/va-design-discipline.md` — the discipline register.
+> 2. `04-Projects/TMTH_Venture_Studio/Forge/WS1/criteria-registry.md` — **the specification this skill runs.** Its own opening line names this skill as the critic that runs it. Until today this file was never read here, and about twenty rows marked hard were invisible from the grader's side.
+>
+> **Do not load** `va-design-evidence.md`. It names ventures, figures and outcomes, and handing it to a verification run gives it the answer key.
+>
+> **The report must state, in the verdict panel: how many registry rows were applied, how many were not applicable to this venture and why, and how many could not be applied because the record does not carry the element they test.** A count of zero for the third is the claim to check hardest.
+>
+> **A rule the run was never handed may not dock it.** Where a registry row or a register rule appears in no design skill, score it, then list it separately under "scored on rules the run was never told" — that list is a defect in the method, not in the venture, and it routes to the Head of R&D.
+
+Canonical discipline reference: `04-Projects/Family_High_Performance/context/va-design-discipline.md`.
 
 ---
 
@@ -27,8 +38,8 @@ Canonical discipline reference: `method/context/va-design-discipline.md`.
 Ask the user (or take from context):
 1. **What venture are we verifying?** (one word — the slug for file paths and the report title)
 2. **Where is the design record?** The authoritative record of completed design work. Typical locations:
-   - `ventures/{slug}/workspace-transcription.md`
-   - `ventures/{slug}/{slug}-workspace.md`
+   - `04-Projects/{slug}/workspace-transcription.md`
+   - `04-Projects/{slug}/{slug}-workspace.md`
    - or a path the user provides.
 
 Read the file fresh each run — never from memory or a memo HTML. Note its `Last updated:` date for the report header. If no record exists, ask the user for the design decisions to verify and capture them verbatim as ground truth.
@@ -107,7 +118,9 @@ Take the latest BFF and run the synthesis test: can you name a *real, existing b
 - **Clean analogue exists** → the parts have fused into a coherent whole. Name it.
 - **No clean analogue** → flag it. The BFF is likely a semicoloned list of challenge solutions, not one architecture. Identify the missing architectural spine — the single mechanism whose removal would cascade failures across the most requirements.
 
-Also check for the synergy signal (from the IVE wiki): does any single design decision solve more than one requirement at once (the Airbnb-style "one move, three requirements")? Genuine synthesis usually shows this; its total absence is a parts-bin tell.
+**The synergy signal, read from the record rather than from your own eye (changed 10 September 2026).** Every requirement's output block carries a VA-106 line naming the earlier requirements its structural move also serves, and the mechanism for each. **Count the requirements whose VA-106 line names at least one other requirement.** Genuine synthesis usually shows several; total absence is a parts-bin tell.
+
+**Where the VA-106 line is missing or blank, that is a Completeness defect on that requirement, not a Synthesis penalty.** Until 10 September 2026 this criterion was scored on a word that appeared in none of the design skills, so no run could satisfy it and every score carrying it was wrong. A run that predates the change cannot be docked on Synthesis for the absence — record it as "criterion not applicable: the run predates VA-106" and score Synthesis on the analogue alone.
 
 Output of this pass: cohered / parts-bin verdict, the real-business analogue (or the flag + the missing spine).
 
@@ -121,11 +134,13 @@ A verdict is not trendable; a number is. Emit one **design-verification integrit
 - **Completeness** = `(complete + 0.5 × partial) / total sub-requirements × 100`.
 - **Consistency** = `100 − (15 × hard contradictions) − (5 × soft contradictions)`, floored at 0.
 - **Discipline** = traceability `(🟢 + 0.5 × 🟡) / total specified details × 100`, **capped at 50 if justification-mode is detected** (Pass 3b). **A bare point estimate, a missing V/Val tag, or a missing convergence event on any load-bearing figure counts as a 🔴 unjustified detail** — it is a verifiability defect (the figure is not expressed to the TPM standard, `tpm-measurement-standard.md`), regardless of lifecycle stage. This is distinct from a validation parameter merely being unfielded — see the rule below.
-- **Synthesis** = clean analogue + a cross-requirement synergy → 100; analogue but no synergy → 70; no analogue (parts-bin) → 30.
+- **Synthesis** = clean analogue + at least one requirement whose VA-106 line names another → 100; analogue but no declared synergy anywhere → 70; no analogue (parts-bin) → 30. **Score the VA-106 lines the run wrote.** For a run predating 10 September 2026 the synergy half is not applicable: score 100 for a clean analogue, 30 for a parts-bin, and say which rule you suspended.
 
 **Overall = weighted average (25% each), then apply gates:**
-- Justification-mode detected → overall **capped at 50**.
-- Parts-bin (no real-business analogue) → overall **capped at 60**.
+- Justification-mode detected (VA-3) → overall **capped at 59** — the ceiling of NOT YET SOUND.
+- Parts-bin, no real-business analogue (VA-1) → overall **capped at 60** — the floor of SOUND WITH GAPS.
+
+> **VA-107 — a verdict cap is a band boundary, not a free number (added 10 September 2026, Tom's ruling).** Both caps used to be bare numbers, 50 and 60, appearing in no rule and ratified by nobody. **Each is now derived from the verdict bands beneath, and from the rule it enforces.** A design built by defending a fixed form factor may not read as sound at all, so its cap is the ceiling of the band below SOUND WITH GAPS. A design whose parts have not fused may not read better than its gaps, so its cap is the floor of SOUND WITH GAPS. **If a band boundary moves, both caps move with it.** A cap stated as a number that does not trace to a band is a defect. The change from 50 to 59 alters no verdict — both sit inside NOT YET SOUND — and it removes an unratified constant from the one number the capital decision reads. `[evidence: VA-107]`
 
 The gates encode the headline rule: a "complete, consistent" VDR built by defending a fixed BFF is still not sound. Always show the four sub-scores alongside the overall — the shape of the failure matters more than the single number.
 
@@ -144,7 +159,7 @@ Report the overall score, all four sub-scores, **and** the validation-maturity r
 Generate one single-file HTML document. Save to:
 
 ```
-ventures/{slug}/venture-verification-{YYYY-MM-DD}.html
+04-Projects/{slug}/venture-verification-{YYYY-MM-DD}.html
 ```
 
 Then open it.
@@ -192,6 +207,12 @@ Use the standard design system (DM Sans UI, Lora body, warm off-white bg, navy p
 - This is a custom skill, protected from Dex updates
 - Edit `.claude/skills/verify-venture-custom/SKILL.md` to modify
 - Engines (read for detailed method): `verify-balm-custom` (completeness criteria), `ive-consistency-audit-custom` (dependency matrix)
-- Canonical discipline reference: `method/context/va-design-discipline.md`
+- Canonical discipline reference: `04-Projects/Family_High_Performance/context/va-design-discipline.md`
 - Replaces the standalone `premature-design-audit-custom` (folded into Pass 3)
-- IVE source: Simanis, E., Samani, S., Burnett, P., & Stuart, J. (2021). *Introduction to the Integrated Venture Engine.* Cornell SC Johnson College of Business
+- IVE source — the canon is a body of co-authored work, not one paper:
+  - Simanis, E., Samani, S., Burnett, P. & Stuart, J. (2021). *Introduction to the Integrated Venture Engine.* Cornell SC Johnson College of Business
+  - Simanis, E., Manuel, T., Khater, M., Palmer, E. & Bergmann, J. (2023). *Rediscovering Capitalism: How Blue-Chip Builders Created Transformative Impact and Profit.* YNOT Institute Working Paper 1, Queens' College Cambridge
+  - Simanis, E., Manuel, T., Khater, M., Palmer, E. & Bergmann, J. (2023). *The Business Architecture: The Hidden Code of Industry Disruption.* YNOT Institute Working Paper 2, Queens' College Cambridge — the Business Architecture Framework
+  - Simanis, E. et al. (2024). *The Core Business Archetype* (Jan); *Engineering New Market Ventures* (Apr); *The Market Creator's Dilemma* (Nov)
+  - Simanis, E. (2025). *Built to Hold* — the FMOS gates; Simanis, E. & Donohue, K. (2025). *Deciphering the Market Creator's Dilemma.* MIT Sloan Management Review
+  - Attribution rule (WS1 feedback log, 5 and 17 Sep 2026): Tom Manuel is a co-author on the 2023 papers; "co-developer of the method" is not supported. TMTH's own additions are the WS1 standards, the VA register, the circle end-state and the direction rule

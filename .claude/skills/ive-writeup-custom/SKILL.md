@@ -17,7 +17,7 @@ description: Produce the venture's public-facing explainer — a write-up of wha
 
 ## IVE framework — where this skill fits
 
-**Integrated Venture Engine (IVE)** is a structured process for building new Core Business Architectures. Source: Simanis, E. et al. (2021), Cornell SC Johnson College of Business.
+**Integrated Venture Engine (IVE)** is a structured process for building new Core Business Architectures. Source: the IVE canon — Simanis, E. et al. (2021), Cornell SC Johnson College of Business, and the co-authored papers 2023–2025 (Simanis, Manuel et al. 2023; Simanis et al. 2024; Simanis 2025). Full list at the foot of this skill or in `architect-custom`.
 
 **Three nested levels of commercial architecture:**
 
@@ -107,7 +107,7 @@ Work through these in order. Sections 1–2 are reading and diagnosis; 3–6 are
 
 Read the venture's design record before writing a word.
 
-- Read the **VDR / CDR** (the requirements record) — e.g. `ventures/{venture-slug}/...-cdr-package-{date}.html` or the VDR markdown.
+- Read the **VDR / CDR** (the requirements record) — e.g. `04-Projects/{venture-slug}/...-cdr-package-{date}.html` or the VDR markdown.
 - Read the **fin-sim** if one exists (`...-fin-sim-at-C[N].html`) — this is where the ranged economics come from.
 - Read the **CTM / AOM** if present — for how the venture actually delivers and who does what.
 - Identify **what architecture exists** — which requirements are solved (✓). This sets the scope of the write-up:
@@ -213,7 +213,7 @@ A single-file HTML brief: **headline + italic standfirst + 4–6 sections (asser
 - Sharp corners throughout. No tables for the quant — the numbers live in the prose.
 - **Flag any assumed/placeholder figure in red** (`#c0392b`) so it is visibly distinct from grounded numbers — consistent with VA-31. A red number is a number the architecture predicts but has not observed, or a stand-in awaiting real data.
 
-**File location:** save as `{venture-slug}-brief-YYYY-MM-DD.html` in the venture's folder (e.g. `ventures/{venture-slug}/`). Open in the browser after saving.
+**File location:** save as `{venture-slug}-brief-YYYY-MM-DD.html` in the venture's folder (e.g. `04-Projects/{venture-slug}/`). Open in the browser after saving.
 
 ---
 
@@ -235,6 +235,12 @@ A single-file HTML brief: **headline + italic standfirst + 4–6 sections (asser
 - Edit `.claude/skills/ive-writeup-custom/SKILL.md` to modify
 - Invoke as: `/ive-writeup-custom`
 - Related: `/ive-valuation-custom` (prices the same architecture) · `/architect-custom` (the design front door that produces the CDR this reads) · `/verify-venture-custom` (integrity scoring of the architecture)
-- Reference for the house HTML system and an example CDR to write up: `ventures/Forge/forge-cdr-package-2026-06-06.html`
-- Standards source: Forge WS1 backlog (VA-31, VA-32) — `method/`
-- IVE source: Simanis, E. et al. (2021). *Introduction to the Integrated Venture Engine.* Cornell SC Johnson College of Business
+- Reference for the house HTML system and an example CDR to write up: `04-Projects/TMTH_Venture_Studio/Forge/forge-cdr-package-2026-06-06.html`
+- Standards source: Forge WS1 backlog (VA-31, VA-32) — `04-Projects/TMTH_Venture_Studio/Forge/WS1/`
+- IVE source — the canon is a body of co-authored work, not one paper:
+  - Simanis, E., Samani, S., Burnett, P. & Stuart, J. (2021). *Introduction to the Integrated Venture Engine.* Cornell SC Johnson College of Business
+  - Simanis, E., Manuel, T., Khater, M., Palmer, E. & Bergmann, J. (2023). *Rediscovering Capitalism: How Blue-Chip Builders Created Transformative Impact and Profit.* YNOT Institute Working Paper 1, Queens' College Cambridge
+  - Simanis, E., Manuel, T., Khater, M., Palmer, E. & Bergmann, J. (2023). *The Business Architecture: The Hidden Code of Industry Disruption.* YNOT Institute Working Paper 2, Queens' College Cambridge — the Business Architecture Framework
+  - Simanis, E. et al. (2024). *The Core Business Archetype* (Jan); *Engineering New Market Ventures* (Apr); *The Market Creator's Dilemma* (Nov)
+  - Simanis, E. (2025). *Built to Hold* — the FMOS gates; Simanis, E. & Donohue, K. (2025). *Deciphering the Market Creator's Dilemma.* MIT Sloan Management Review
+  - Attribution rule (WS1 feedback log, 5 and 17 Sep 2026): Tom Manuel is a co-author on the 2023 papers; "co-developer of the method" is not supported. TMTH's own additions are the WS1 standards, the VA register, the circle end-state and the direction rule

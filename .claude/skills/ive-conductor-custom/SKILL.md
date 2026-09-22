@@ -50,7 +50,13 @@ Then for **each** challenge R1…R10 the **same** sub-sequence (C[n]):
 
 **Challenge R[n] is COMPLETE only when f–i exist. SR1–SR5 prose without f–i = IN PROGRESS, not done.**
 
-Gates/audits in sequence: after R3 → **AR** (FIT verifier on F1, computed) · after R10 → verify-balm → consistency audit = **PDR** · after PDR → detailed design (buildable specs + routines + interfaces, via `/ive-detailed-design-custom`) = **CDR** · then build pilot (`/ive-build-pilot-custom`) = **TRR** · then MRP = **ORR**.
+**After R10 — the fixed-point pass (VA-161, RD-040 (Head of R&D, 21 Sep 2026, object-after 23 Sep 12:30)).** The loop over the ten requirements does not end at a count. It ends at a **fixed point**: one full C1–C10 pass that changes no answer — no verdict moves, no BFF delta, no row of the challenge input ledger (VA-132) re-versioned. The ledger is the instrument: a pass is "no change" when every consumer's input version equals the current version. Each pass is scoped to the customer of record; the customer-facing challenges (C2, C4, C5, C6, C7, C8) are re-run and the others are re-verified from the ledger. The authority file states `fixed_point: pass [n], [date]`; PDR may not be called before that line exists.
+
+| # | Sub-step | Completion artifact |
+|---|----------|--------------------|
+| j | Fixed-point pass after R10 — full C1–C10 pass, no answer changed, ledger unchanged | authority file line `fixed_point: pass [n], [date]` |
+
+Gates/audits in sequence: after R3 → **AR** (FIT verifier on F1, computed) · after R10 → fixed-point pass (VA-161) → verify-balm → consistency audit = **PDR** · after PDR → detailed design (buildable process definitions + asset specs + interfaces, via `/ive-detailed-design-custom`) = **CDR** · then build pilot (`/ive-build-pilot-custom`) = **TRR** · then MRP = **ORR**.
 
 ### C — Determination algorithm (run exactly this, every time)
 1. Walk the ledger top to bottom.
@@ -82,8 +88,8 @@ Phase 4 — Design Definition        → IVE: CTM + AOM + ARM + Fin-Sim        [
                          ▼ BUILD POINT ▼
 RIGHT SIDE (integration — validate)
 ────────────────────────────────────
-Phase 5 — Implementation           → IVE: Build + test individual components
-Phase 6 — Integration              → IVE: Assemble validated components into LMU
+Phase 5 — Implementation           → IVE: Build + test individual processes
+Phase 6 — Integration              → IVE: Assemble validated processes into LMU
 Phase 7 — System Verification      → IVE: Full workflow integration test    [Gate: TRR]
 Phase 8 — Validation               → IVE: MRP — unit economics in real conditions [Gate: ORR]
 ```
@@ -95,8 +101,8 @@ Phase 8 — Validation               → IVE: MRP — unit economics in real con
 | **PCOR** | PCO Review | Is this the right problem, for the right customer, at a scale that can pay back capital? |
 | **AR** | Architecture Review | Is there a plausible F1 architecture — workaround, value ceiling, scaling path — with positive FMOS headroom? |
 | **PDR** | Preliminary Design Review | Are all 10 BALM requirements designed, FMOS ≥ 60%, and the consistency audit PASS? |
-| **CDR** | Critical Design Review | Is every component and activity detailed-designed to buildable depth — a buildable spec per component, a routine per activity, interfaces specified — with no open architectural decisions? |
-| **TRR** | Test Readiness Review | Are individual components verified and the workflow integration test ready to run? |
+| **CDR** | Critical Design Review | Is every process detailed-designed to buildable depth — a buildable definition per process, an acceptance criterion per asset set by the process that runs it, interfaces specified with an owner on each side — with no open architectural decisions? |
+| **TRR** | Test Readiness Review | Are individual processes verified and the workflow integration test ready to run? |
 | **ORR** | Operational Readiness Review | Has the MRP validated unit economics, and does NPV exceed the hurdle rate? |
 
 ---
@@ -106,19 +112,19 @@ Phase 8 — Validation               → IVE: MRP — unit economics in real con
 Ask the user which venture to orient on, or infer from context.
 
 For each venture, the conductor needs to find:
-- Latest BALM verification report (`ventures/{venture}/balm-verification-*.html` or workspace transcription)
-- Latest consistency audit report (`ventures/{venture}/consistency-audit-*.html`)
-- Latest design memo (`ventures/{venture}/*.html` — look for "design-memo")
-- Workspace transcription (`ventures/{venture}/workspace-transcription.md` or similar)
-- Fin-sim status (`ventures/{venture}/` — look for fin-sim or resourcing model files)
-- AOM status (`ventures/{venture}/calmly-aom-*.html` or similar)
-- VDR — the running design record (`ventures/{venture}/{venture}-VDR*.html` or VDR changelog)
+- Latest BALM verification report (`04-Projects/{venture}/balm-verification-*.html` or workspace transcription)
+- Latest consistency audit report (`04-Projects/{venture}/consistency-audit-*.html`)
+- Latest design memo (`04-Projects/{venture}/*.html` — look for "design-memo")
+- Workspace transcription (`04-Projects/{venture}/workspace-transcription.md` or similar)
+- Fin-sim status (`04-Projects/{venture}/` — look for fin-sim or resourcing model files)
+- AOM status (`04-Projects/{venture}/calmly-aom-*.html` or similar)
+- VDR — the running design record (`04-Projects/{venture}/{venture}-VDR*.html` or VDR changelog)
 - Model-stack files (`{venture}-ctm-at-C*.html`, `{venture}-aom-at-C*.html`, `{venture}-fin-sim-at-C*.html`) — note which challenge state (C[N]) each reflects. **Their absence means the model stack has not been built — even if design prose / a brief exists.**
 
 For Calmly's current gate position, read in this order:
-1. Latest conductor report: `ventures/FinTech_Justice/conductor-{latest-date}.html` — the most recent conductor run is the authoritative process position summary
-2. Latest CDR package: `ventures/FinTech_Justice/calmly-cdr-package-2026-05-22.html` — gate entry criteria, FMOS results, open items, and CDR verdict
-3. V-model methodology reference: `method/wiki/Methodology/V_Model_Process.md` — canonical IVE V-model phases and gate definitions
+1. Latest conductor report: `04-Projects/TMTH_Venture_Studio/FinTech_Justice/conductor-{latest-date}.html` — the most recent conductor run is the authoritative process position summary
+2. Latest CDR package: `04-Projects/TMTH_Venture_Studio/FinTech_Justice/calmly-cdr-package-2026-05-22.html` — gate entry criteria, FMOS results, open items, and CDR verdict
+3. V-model methodology reference: `04-Projects/TMTH_Venture_Studio/TMTH_IVE_Wiki/wiki/Methodology/V_Model_Process.md` — canonical IVE V-model phases and gate definitions
 
 Note: `incose-process-2026-05-21.html` was referenced here but was never created. The CDR package and conductor report are the operative evidence sources.
 
@@ -159,20 +165,21 @@ This contract exists because of a logged failure (20 June 2026): a full R1–R3 
 - [ ] FMOS ≥ 60% confirmed (ARM-derived cost floor, not estimated)
 - [ ] BALM verification audit: all 10 challenges COMPLETE (no Partial or Open)
 - [ ] Consistency audit: PASS (or PASS WITH CONDITIONS — all conditions resolved)
+- [ ] Fixed point reached (VA-161): one full C1–C10 pass changed no answer; the authority file states the pass number and date
 
 ### CDR exit criteria
 - [ ] CTM complete — customer state changes mapped across full journey
 - [ ] AOM complete — at-scale operating model showing actors, flows, and LMU structure
 - [ ] ARM complete — cost structure derived from AOM (PVC / RC / SC / IC layers)
 - [ ] Financial simulation complete — unit economics, cash flow timeline, FMOS at LMU level
-- [ ] Detailed design complete (run `/ive-detailed-design-custom`) — for **every component** a buildable design spec (a builder in its function could build it cold), and for **every activity** a routine (decision logic + exceptions + handoffs + SOP)
+- [ ] Detailed design complete (run `/ive-detailed-design-custom`) — for **every process** a buildable definition (named function + decision logic + exceptions + handoffs + SOP, an owner on each side of every interface — an operator in that function could run it cold), and for **every asset** the acceptance criterion set by the process that runs it
 - [ ] Interfaces specified to buildable depth — the contract each connection needs to be built independently
-- [ ] Integrated component set, not a 1:1 requirement→component map (a clean 1:1 signals a badly-integrated BFF, not completeness)
+- [ ] Integrated process set, not a 1:1 requirement→component map (a clean 1:1 signals a badly-integrated BFF, not completeness)
 - [ ] No open architectural decisions — a still-open "how should this work?" is a PDR gap, back to the model stack
 - [ ] Build sequence agreed — which slice is built first, and why
 
 ### TRR exit criteria
-- [ ] Each component built and individually tested against its acceptance criterion
+- [ ] Each process built and individually tested against its acceptance criterion
 - [ ] Integration test plan written — what the end-to-end workflow test will verify
 
 ### ORR exit criteria
@@ -245,17 +252,17 @@ Based on the blocker, name the specific skill or session. Reference the full IVE
 | Design loop (for any requirement) | `/ive-design-loop-custom` |
 | Architecture generator (overview) | `/ive-architecture-generator-custom` |
 | Theory of Change (for any requirement) | `/theory-of-change-custom` |
-| **Detailed design — components & activities to buildable depth (PDR→CDR)** | `/ive-detailed-design-custom` |
+| **Detailed design — processes to buildable depth (PDR→CDR)** | `/ive-detailed-design-custom` |
 | **Build the pilot — build → integrate → MRP (CDR→TRR)** | `/ive-build-pilot-custom` |
 
-The CDR-layer detailed design (component specs, routines, interfaces) is now a skill — route to `/ive-detailed-design-custom`, not a bespoke session. If a blocker genuinely has no skill (e.g. a one-off build-sequence decision), name it as a "Session" and describe what it should produce.
+The CDR-layer detailed design (process definitions, asset specs, interfaces) is now a skill — route to `/ive-detailed-design-custom`, not a bespoke session. If a blocker genuinely has no skill (e.g. a one-off build-sequence decision), name it as a "Session" and describe what it should produce.
 
 ---
 
 ## Step 5 — Save the conductor report
 
 Produce an HTML conductor report and save to:
-`ventures/{venture-slug}/conductor-{date}.html`
+`04-Projects/{venture-slug}/conductor-{date}.html`
 
 Use the standard design system (DM Sans + Lora, #f5f4f1 background, #0f2744 navy panel).
 
@@ -291,10 +298,10 @@ Open in browser after saving.
 
 - This is a custom skill, protected from Dex updates
 - Edit `.claude/skills/ive-conductor-custom/SKILL.md` to modify
-- **Process reference (primary):** `ventures/FinTech_Justice/conductor-{latest-date}.html` — most recent conductor report is the authoritative position summary
-- **Process reference (CDR evidence):** `ventures/FinTech_Justice/calmly-cdr-package-2026-05-22.html` — gate criteria, FMOS, open items
-- **Process reference (TRR preparation):** `ventures/FinTech_Justice/calmly-validation-plan-2026-05-23.html` — slice-ordered validation plan; which slices to build and test first, T4 flows per slice, exit gates, and what is explicitly deferred until each gate clears
-- **Process reference (methodology):** `method/wiki/Methodology/V_Model_Process.md` — canonical V-model phases and gates
-- **Model stack reference:** `method/wiki/Methodology/Model_Stack.md` — the six IVE models and their dependency chain
+- **Process reference (primary):** `04-Projects/TMTH_Venture_Studio/FinTech_Justice/conductor-{latest-date}.html` — most recent conductor report is the authoritative position summary
+- **Process reference (CDR evidence):** `04-Projects/TMTH_Venture_Studio/FinTech_Justice/calmly-cdr-package-2026-05-22.html` — gate criteria, FMOS, open items
+- **Process reference (TRR preparation):** `04-Projects/TMTH_Venture_Studio/FinTech_Justice/calmly-validation-plan-2026-05-23.html` — slice-ordered validation plan; which slices to build and test first, T4 flows per slice, exit gates, and what is explicitly deferred until each gate clears
+- **Process reference (methodology):** `04-Projects/TMTH_Venture_Studio/TMTH_IVE_Wiki/wiki/Methodology/V_Model_Process.md` — canonical V-model phases and gates
+- **Model stack reference:** `04-Projects/TMTH_Venture_Studio/TMTH_IVE_Wiki/wiki/Methodology/Model_Stack.md` — the six IVE models and their dependency chain
 - **Run at the start of every IVE session** to orient before picking up work
 - **Related skills:** all `/balm-challenge-*`, `/verify-balm-custom`, `/ive-consistency-audit-custom`, `/ive-fit-verifier-custom`, `/ive-ctm-custom`, `/ive-aom-custom`, `/ive-fin-sim-custom`

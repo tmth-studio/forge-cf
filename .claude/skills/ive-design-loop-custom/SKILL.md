@@ -9,7 +9,7 @@ description: IVE Design Loop — OPTIONAL status-board and router across the ten
 
 **What this wrapper is still good for:** the cross-challenge view — the status board (which of the ten are PASS / FAIL / BORDERLINE), the routing rules between requirements, and the whole-architecture convergence reminder (the 60% Phase II outer gate, run once after all ten). It orchestrates; it no longer enforces (the skills enforce themselves).
 
-**Bands — single source of truth:** `method/criteria-registry.md`. Per-requirement: PASS ≥25 / BORDERLINE 15–24 / FAIL <15. Phase II (after all ten): PASS ≥60 / BORDERLINE 25–59 / FAIL <25.
+**Bands — single source of truth:** `04-Projects/TMTH_Venture_Studio/Forge/WS1/criteria-registry.md`. Per-requirement: PASS ≥25 / BORDERLINE 15–24 / FAIL <15. Phase II (after all ten): PASS ≥60 / BORDERLINE 25–59 / FAIL <25.
 
 **The rule (now enforced by each skill, surfaced here):** you cannot proceed to the next requirement without a FIT PASS on the current one.
 
@@ -281,7 +281,7 @@ Every requirement's diagnostic framework must be applied in full, regardless of 
 - This is a custom skill, protected from Dex updates
 - Edit `.claude/skills/ive-design-loop-custom/SKILL.md` to modify
 - **BALM skills R3–R10:** skills beyond `/balm-challenge-2-custom` may not yet exist in the vault. If a skill is missing, run the Design Loop steps manually: Diagnose (work through the requirement directly), Theorize (name the theory), Productize (update CTM/AOM), Simulate (FIT Verifier). The gate logic is the same.
-- **FIT Verifier threshold:** 25% FMOS at each requirement gate. The full Phase I gate (after all 10 requirements) is 60% FMOS — a higher bar that accounts for the full operational model. The 25% check at each requirement is the early warning; the 60% check is the go/no-go for Phase II capital. Per-requirement bands: PASS ≥ 25% · BORDERLINE 15–24% · FAIL < 15%. **Canonical FMOS gates (single source of truth):** `method/criteria-registry.md` — do not redefine bands locally.
+- **FIT Verifier threshold:** 25% FMOS at each requirement gate. The full Phase I gate (after all 10 requirements) is 60% FMOS — a higher bar that accounts for the full operational model. The 25% check at each requirement is the early warning; the 60% check is the go/no-go for Phase II capital. Per-requirement bands: PASS ≥ 25% · BORDERLINE 15–24% · FAIL < 15%. **Canonical FMOS gates (single source of truth):** `04-Projects/TMTH_Venture_Studio/Forge/WS1/criteria-registry.md` — do not redefine bands locally.
 - **CTM and AOM update mode:** see Section 5 (CTM) and Section 6 (AOM) inside each `balm-challenge-N-custom` skill — update mode is now venture-specific and lives in the challenge skill, not in the deprecated generic skills. Diagram format specs: `.claude/skills/shared/ctm-diagram-spec.md` and `.claude/skills/shared/aom-diagram-spec.md`.
 - **Fin-sim:** if `/ive-fin-sim-custom` has been built, update Group 4 activities after each requirement before running the FIT Verifier. The fin-sim is the source of truth for the cost floor.
 - **Related skills:** `/ive-architecture-generator-custom`, `/balm-challenge-1-custom` through `/balm-challenge-10-custom`, `/theory-of-change-custom`, `/ive-fin-sim-custom`, `/ive-fit-verifier-custom`, `/ive-research-design-custom`, `/ive-consistency-audit-custom`. Note: `/ive-ctm-custom` and `/ive-aom-custom` are deprecated — their guidance now lives inside the challenge skills.

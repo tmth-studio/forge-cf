@@ -2,7 +2,10 @@
 
 **Owner:** Head of Product · **Capability:** Forge WS1 — CF development
 **Added:** 27 August 2026 (Tom: *"Product should be a derivation too right?"*).
+**Amended:** 7 September 2026 — *the state rule*; 21 September 2026 — *positions derive from routines* (checklist, last item) (Tom: *"architect this document as the at-scale value proposition. Launch phase then decides what of it to use."*). See **Which state you project from** below.
 **Children:** `sales-marketing-asset-standard.md` (what to say) · `landing-page-standard.md` (how to lay it out).
+
+**Review date:** 15 December 2026 (90-day cycle; owner re-reads against the regression set and the canon mapping, bumps the date)
 
 ---
 
@@ -17,6 +20,20 @@ The venture design record already holds the answers. What varies is the projecti
 | **Product** | What must exist — and what must not | Challenge requirements · product use routine · operating rules · invariants |
 | **Assets** | What to say | HIO · exclusive KMC component · use routine · C4/C5/C6 blocks |
 | **Org and process** | Who runs it, on what cadence | AOM activities · routines · interfaces |
+
+### Which state you project from — added 7 September 2026
+
+The table above says which *fields* to read. It said nothing about which **column** to read them from, and that omission has now produced the same defect three times.
+
+> **Every projection is taken at the at-scale state of the architecture — C10, not the launch cohort.** The launch form is a separate, downstream derivation: it selects from the at-scale projection what is true on day one, and says what is not yet available. **A projection that mixes the two states is a defect, and the tell is a sentence that could only be written about launch sitting beside a figure that could only be true at scale.**
+
+**Why this needed saying.** A defect class closed in June across all ten challenge skills — *at-scale absent from productizing* — was fixed in the **product** projection and never propagated to the other two. So a run reading the launch column produces a launch asset and believes it has produced the architecture's asset. What it cost on the run that surfaced it: the mechanism that makes the product work was absent from the document entirely; an at-scale truth was *refused* on the grounds that it was not true at launch; a launch price and an at-scale ratio appeared in the same document, both defensible, jointly impossible; and three launch-state disclosures sat inside what was meant to be the at-scale object.
+
+**The pattern was already in the record and the run did not follow it.** A commercial term on the same venture reads: *"Site pricing designed at scale by the R6 method, then shrunk to the launch form."* **Design at scale, then shrink** — already written down, already applied to the pricing, and not applied to the asset that quotes the pricing.
+
+**Ordering, therefore:** at-scale projection first, always. The launch form is derived *from that projection*, never from the architecture directly — a launch-form artefact with no at-scale parent is the same defect one step earlier.
+
+---
 
 **The test is the same for all three:** every element cites the architecture element it serves. Cannot cite but true → an undocumented requirement; record it upstream, then build it. Cannot cite and not true → invention; delete it.
 
@@ -69,9 +86,12 @@ Three consequences, in ascending order of value.
 
 ## Checklist — any downstream artefact
 
+- [ ] **The projection is taken at the at-scale state (C10), not the launch cohort** — and if a launch form is wanted, it is derived from the at-scale projection, not from the architecture
+- [ ] **No sentence that could only be true at launch sits beside a figure that could only be true at scale**
 - [ ] Every element cites the architecture element it serves
 - [ ] Anything uncitable is deleted, or recorded upstream first and then built
 - [ ] Surfaces map to active routine steps; no surface built for a passive step
 - [ ] Architectural absences are built as absence, not as permission
 - [ ] Operating rules that bind at runtime exist as interlocks that can refuse
 - [ ] Anything that could not be derived is logged as an architecture gap, not worked around
+- [ ] **Every position is derived from its routines, never asserted** — a seat's FTE at scale is the sum of hours per routine × routine volume ÷ hours a year, with the volume traced to a named quantity in the model; a position stated as a number with no routine behind it is an architecture gap. *Added 21 September 2026: the same defect was found in two seats on the Forge record (PR-43 print operations, HM-23 head of method) and belongs here once, as the parent of both.*

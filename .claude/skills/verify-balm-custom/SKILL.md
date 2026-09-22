@@ -11,7 +11,7 @@ Audits the completeness of any venture's BALM across all ten IVE challenges. Rea
 
 ## IVE framework — where this skill fits
 
-**Integrated Venture Engine (IVE)** is a structured process for building new Core Business Architectures. Source: Simanis, E. et al. (2021), Cornell SC Johnson College of Business.
+**Integrated Venture Engine (IVE)** is a structured process for building new Core Business Architectures. Source: the IVE canon — Simanis, E. et al. (2021), Cornell SC Johnson College of Business, and the co-authored papers 2023–2025 (Simanis, Manuel et al. 2023; Simanis et al. 2024; Simanis 2025). Full list at the foot of this skill or in `architect-custom`.
 
 **Three nested levels of commercial architecture:**
 
@@ -56,8 +56,8 @@ PCO — Prime Commercial Opportunity (scope-setter; runs before all requirements
 Ask the user:
 1. **What venture are we auditing?** (One word — used as the slug for file paths and the report title.)
 2. **Where is the workspace transcription?** The authoritative record of completed design work. Typical locations:
-   - `ventures/{venture-slug}/workspace-transcription.md`
-   - `ventures/{venture-slug}/{venture-slug}-workspace.md`
+   - `04-Projects/{venture-slug}/workspace-transcription.md`
+   - `04-Projects/{venture-slug}/{venture-slug}-workspace.md`
    - Or the user can provide the path directly.
 
 Read the file fresh each run — do not rely on memory or any memo HTML. Note the file's `Last updated:` date at the top and include it in the report header.
@@ -121,7 +121,7 @@ Apply these standards when assessing each sub-requirement. A sub-requirement is 
 
 | Sub-requirement | Complete when… |
 |----------------|----------------|
-| Customer's Implicit Efficacy Theory | What the customer currently believes about how the problem should be solved — not Calmly's view, the customer's view |
+| Customer's Implicit Efficacy Theory | What the customer currently believes about how the problem should be solved — not the venture's view, the customer's view |
 | Key Efficacy Doubt | The single most important factor causing the customer to doubt the product — specific and testable |
 | Attraction Theory of Change | Named theory (e.g. Framing Theory, Anchoring) + current state + desired state |
 | Attraction Strategy | Specific reframe or mechanism — not a restatement of the theory |
@@ -152,7 +152,7 @@ Apply these standards when assessing each sub-requirement. A sub-requirement is 
 |----------------|----------------|
 | Key Customer Segments | All segments identified with their distinct routes to the high-import outcome |
 | Gateway Partner | Named + clear explanation of why this entity is common to all segment routines |
-| Integration Theory of Change | A named theory for why the gateway partner would actively champion (not merely tolerate) Calmly — with current and desired state |
+| Integration Theory of Change | A named theory for why the gateway partner would actively champion the venture, rather than merely tolerate it — with current and desired state |
 | Integration Strategy | Specific mechanism to embed product in customer routines through the gateway — not just "partner with law firms" |
 | Business Form Factor (C1–C7) | Updated synthesis |
 
@@ -181,7 +181,7 @@ Apply these standards when assessing each sub-requirement. A sub-requirement is 
 | Interim Value Chain | Key steps and supplier inputs in the operational model — enough to identify where leverage risk sits |
 | Key Input | The specific supplier input with highest cost or volume — named concretely |
 | Leverage Theory of Change | Named theory for how replaceability is manufactured; current state; desired state |
-| Leverage Strategy | Specific mechanism to make the key input replaceable — including what Calmly controls to achieve this |
+| Leverage Strategy | Specific mechanism to make the key input replaceable — including what the venture controls to achieve this |
 
 ---
 
@@ -190,7 +190,7 @@ Apply these standards when assessing each sub-requirement. A sub-requirement is 
 Generate a single-file HTML document using the standard design system below. Save it to:
 
 ```
-ventures/{venture-slug}/balm-verification-{YYYY-MM-DD}.html
+04-Projects/{venture-slug}/balm-verification-{YYYY-MM-DD}.html
 ```
 
 Then open it in the browser.
@@ -280,7 +280,7 @@ Then open it in the browser.
 Build the header block with:
 - Label: "{Venture name} BALM — Verification Report"
 - H1: "Design completeness audit — {venture name}"
-- Meta row: run date (today's date), source file last-updated date extracted from the transcription, link text "Source: calmly-demo-workspace-transcription.md"
+- Meta row: run date (today's date), source file last-updated date extracted from the transcription, link text "Source: <the transcription file this run read>"
 
 Below the header, render a three-box scorecard:
 - Box 1 (green): number of Complete challenges
@@ -338,7 +338,7 @@ One paragraph stating which gap to tackle first and why. Note any gaps that shar
 
 - This is a custom skill, protected from Dex updates
 - Edit `.claude/skills/verify-balm-custom/SKILL.md` to modify
-- Ground truth source: venture workspace transcription — ask user for path, or look in `ventures/{venture-slug}/`
-- Design memo: `ventures/{venture-slug}/{venture-slug}-design-memo.html` (if it exists)
+- Ground truth source: venture workspace transcription — ask user for path, or look in `04-Projects/{venture-slug}/`
+- Design memo: `04-Projects/{venture-slug}/{venture-slug}-design-memo.html` (if it exists)
 - IVE methodology reference: `06-Resources/Methodology/baf-requirements-full.md`
 - Related skill: `/pyramid-doc` (for building memos from completed BALM sections)

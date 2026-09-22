@@ -23,13 +23,13 @@ Builds a bottom-up interactive financial simulation for any IVE venture. Follows
 
 The output is a single-file HTML simulation where every assumption is editable and every calculated line is expandable to show the formula driving it.
 
-**Reference file (quality bar):** `ventures/FinTech_Justice/calmly-financial-sim.html`
+**Quality bar:** the field list and check-cell structure stated in this skill. Do not read another venture's simulation to learn the layout. `[evidence: VA-BS1]`
 
 ---
 
 ## IVE framework — where this skill fits
 
-**Integrated Venture Engine (IVE)** is a structured process for building new Core Business Architectures. Source: Simanis, E. et al. (2021), Cornell SC Johnson College of Business.
+**Integrated Venture Engine (IVE)** is a structured process for building new Core Business Architectures. Source: the IVE canon — Simanis, E. et al. (2021), Cornell SC Johnson College of Business, and the co-authored papers 2023–2025 (Simanis, Manuel et al. 2023; Simanis et al. 2024; Simanis 2025). Full list at the foot of this skill or in `architect-custom`.
 
 **Three nested levels of commercial architecture:**
 
@@ -94,7 +94,7 @@ Every assumption and data point in the simulation must carry a traceable source.
 
 ## Figures are TPM records, not point estimates — apply to every load-bearing input
 
-Canonical standard: `method/tpm-measurement-standard.md` (INCOSE Technical Measurement). Read it; do not restate it here.
+Canonical standard: `04-Projects/TMTH_Venture_Studio/Forge/WS1/tpm-measurement-standard.md` (INCOSE Technical Measurement). Read it; do not restate it here.
 
 Every load-bearing figure (one that moves the FMOS or carries material risk) is expressed as a **TPM record**, not a bare point:
 
@@ -119,7 +119,7 @@ Every load-bearing figure (one that moves the FMOS or carries material risk) is 
 Check for an AOM file:
 
 ```
-ventures/{venture-slug}/aom-{date}.html
+04-Projects/{venture-slug}/aom-{date}.html
 ```
 
 **If no AOM exists yet:** proceed to Stage 1. Note that Group 1 and Group 4 operating inputs (LMU count, cases/LMU, staff structure) are ungrouped assumptions — they must be cross-checked against the AOM when it is built.
@@ -139,7 +139,7 @@ Use these as the starting defaults for Group 1 and Group 4. When the user provid
 
 **Why this matters:** It is possible for the AOM and the fin-sim to drift apart — typically because the fin-sim was updated to reflect a later design stage while the AOM was not revised. When this happens, neither document is reliable on its own. The check takes two minutes and prevents the GIGO problem the methodology exists to solve.
 
-**Reference simulation warning:** `calmly-financial-sim.html` (used as the quality bar for this skill's output) was built on the **law clinic operating model**: 38 LMUs, law student delivery, ~40 cases/module/month, ~1,500 cases/year. This is the R1 Workaround design — not the at-scale county court model (170 LMUs, litigation associates, ~161 cases/LMU/month, ~327,000 cases/year). Do **not** carry operating numbers from the reference simulation into a new build unless you have confirmed the venture uses the same operating model.
+**A warning that applies to any reference simulation.** A simulation built for one operating model does not transfer to another. Where the reference was built on a delivery model the current venture does not use, its unit counts, volumes and cost lines are not comparable — use it for structure, never for levels. `[evidence: VA-BS1]`
 
 ---
 
@@ -180,7 +180,7 @@ Source validation is a separate audit step, run after the simulation is built. T
 
    **Example — Grameen Bank:** The unit is a peer group (5 members + their joint liability structure). The bank replicates groups, not loans. Fixed supervision cost amortises across the 5 members. Working capital scales with group count.
 
-   **Example — Calmly:** The unit might be a student cohort (e.g. 4 students + 1 supervising lawyer, processing X claims per month). Fixed supervision cost amortises across claims in the cohort. Working capital scales with claims under management.
+   **Worked example:** the unit might be a supervised cohort — several trainees plus one qualified supervisor, processing a stated volume per month. Fixed supervision cost amortises across the cohort. Working capital scales with claims under management.
 
    Ask: "What is the operating module for this venture — the thing that gets replicated when you scale? And what is its monthly processing capacity?"
 
@@ -250,7 +250,7 @@ Source validation is a separate audit step, run after the simulation is built. T
 
 ### Group 6: Special mechanism (optional)
 
-11. **Is there a design mechanism that changes the cost structure?** (Like Calmly's C3 independent assessment — adds a small cost per unit but reduces the proportion of units falling into the expensive long-tail cohort.)
+11. **Is there a design mechanism that changes the cost structure?** (For instance an independent assessment at the point of acquisition — it adds a small cost per unit and reduces the proportion of units falling into the expensive long tail. `[evidence: CS-9]`)
     - If yes: What is it? What cost does it add per unit? What does it change in the waterfall?
     - This becomes the "baseline vs mechanism" comparison in the simulation.
 
@@ -268,7 +268,7 @@ Once all inputs are gathered, build the HTML simulation. Do not ask further ques
 
 ### File location
 
-Save to: `ventures/{venture-slug}/{venture-slug}-fin-sim.html`
+Save to: `04-Projects/{venture-slug}/{venture-slug}-fin-sim.html`
 
 Open in browser after saving.
 
@@ -670,8 +670,8 @@ Rules:
 
 - This is a custom skill, protected from Dex updates
 - Edit `.claude/skills/ive-fin-sim-custom/SKILL.md` to modify
-- Reference simulation: `ventures/FinTech_Justice/calmly-financial-sim.html` — **law clinic model only** (R1 Workaround design: 38 LMUs, law students, ~40 cases/module/month). Use as a quality bar for simulation structure; do not use as a source of operating assumptions for the county court at-scale design (170 LMUs, litigation associates, ~161 cases/LMU/month)
-- IFC paper: `[not included in this bundle] Path to Profitability At Scale Financial Modelling instructions.pdf`
+- Structure reference: the field list and check-cell layout stated in this skill. Do not read another venture's simulation for levels — a simulation built on a different operating model carries that model's unit counts and volumes. `[evidence: VA-BS1]`
+- IFC paper: `/Users/tommanuel/Downloads/IFC Path to Profitability At Scale Financial Modelling instructions.pdf`
 - Simanis manuscript (2024): `Desktop/Temporary/Simanis et al Financial Simulations May 1, 2024.pdf`
 - Framework: Integrative Venture Engineering (Simanis / Cornell MCL)
 - Related skills: `/verify-balm-custom` (BALM completeness check), `/theory-of-change-custom` (TOC design)

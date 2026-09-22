@@ -142,7 +142,7 @@ Cross-reference sensitivity × evidence tier to produce the P1–P4 priority sco
 
 ### Step 3b — Tag each assumption: V/Val type and elicitable vs emergent
 
-Canonical: `method/tpm-measurement-standard.md`. Before prescribing a validation action, tag each load-bearing assumption on two axes — because the axes determine which validation actions are even *valid*:
+Canonical: `04-Projects/TMTH_Venture_Studio/Forge/WS1/tpm-measurement-standard.md`. Before prescribing a validation action, tag each load-bearing assumption on two axes — because the axes determine which validation actions are even *valid*:
 
 - **V/Val type (INCOSE):** **Verification** (the figure follows from the design meeting its requirement — cost floor, FMOS arithmetic; confirmable now by analysis/examination) or **Validation** (a claim about real-world behaviour in the operational environment — WTP, adoption, completion rate; ultimately needs demonstration/test).
 - **Elicitable vs emergent:** **Elicitable** — exists independent of the system; can be examined/benchmarked now (e.g. observed consultant fees). **Emergent** — only comes into being once the system works; cannot be surveyed, only revealed by operating the system (e.g. WTP for a credence good, network-effect adoption).

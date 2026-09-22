@@ -28,6 +28,9 @@
 3. One definition per term. If a record needs a different meaning, it needs a different term.
 4. Changes enter by the same route as manual changes — feedback log → Head of Product ratification. This file is the controlled copy; role skills and VDRs reference it, never redefine.
 
+**Owner:** Head of R&D
+**Review date:** 15 December 2026 (90-day cycle; owner re-reads against the regression set and the canon mapping, bumps the date)
+
 ---
 
 ## Product and instance terms

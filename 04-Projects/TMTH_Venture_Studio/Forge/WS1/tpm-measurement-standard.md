@@ -6,6 +6,8 @@
 
 This is the single source of truth for how a number appears in any IVE model. It replaces the bare point estimate (optionally red-flagged `[assumed]`) with a **Technical Performance Measure (TPM) record**. Every other skill references this file; none restates it.
 
+**Review date:** 15 December 2026 (90-day cycle; owner re-reads against the regression set and the canon mapping, bumps the date)
+
 ---
 
 ## Why a point estimate is a defect, not a simplification
@@ -26,6 +28,8 @@ INCOSE's answer is the TPM: carry the critical parameters as bands with a thresh
 | **Threshold** | The must-meet value the band is read against (e.g. FMOS ≥ 60% Phase-II gate). |
 | **Objective** | The want-to-meet value (the design target above threshold). |
 | **Convergence** | The event that will confirm the band, and roughly when — i.e. *how this figure stops being a band and becomes evidence.* For a validation figure this is usually a demonstration or operational test; for a verification figure, an analysis or inspection. |
+
+| **NPV sensitivity** *(added 16 Sep 2026 — `objective-function.md`)* | The change in the venture's expected NPV from the band's low to its high, from the fin-sim. This is the field that ranks: design attention, validation threads (value of information per pound) and verification effort all order by it. Where no fin-sim exists yet, state "not computed" — a blank is a defect. |
 
 Plus a one-or-two-sentence **credibility note**: why this band, and what would push the true value outside it.
 

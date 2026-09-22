@@ -118,7 +118,7 @@ Work through the eight structural classes systematically. Do not limit to the ve
 
 *Information asymmetry:*
 - Ford's assembly line: moved the inspection function upstream (in-process quality checks) rather than end-of-line rejection. Made information about defects available at the point where correction was cheapest.
-- Calmly-style C3 assessment: independent third-party assessment at point of acquisition reduces the proportion of units entering the expensive long tail. Converts outcome uncertainty into a scored probability at low unit cost.
+- Independent third-party assessment at the point of acquisition: reduces the proportion of units entering the expensive long tail, and converts outcome uncertainty into a scored probability at low unit cost. `[evidence: CS-9]`
 - Microfinance loan officers (BRI Indonesia): embedded agents with local knowledge replace central credit assessment. Information cost collapses because the agent already knows the borrower.
 
 *Coordination failure:*
@@ -184,7 +184,7 @@ Present in rank order. Recommend the top candidate with a one-sentence rationale
 
 Produce a summary document as an HTML file.
 
-Save to: `ventures/{venture-slug}/architecture-candidates-{date}.html`
+Save to: `04-Projects/{venture-slug}/architecture-candidates-{date}.html`
 
 Use the standard design system (DM Sans + Lora, #f5f4f1 background, #0f2744 navy panel).
 

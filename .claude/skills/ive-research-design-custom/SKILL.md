@@ -211,7 +211,7 @@ From the same fieldwork data:
 
 Produce the research protocol as an HTML file.
 
-Save to: `ventures/{venture-slug}/research-protocol-{date}.html`
+Save to: `04-Projects/{venture-slug}/research-protocol-{date}.html`
 
 Use the standard design system (DM Sans + Lora, #f5f4f1 background, #0f2744 navy panel).
 

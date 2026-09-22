@@ -17,6 +17,10 @@ Checks, beyond per-field types:
   flow endpoints resolve; spine covers every component exactly once;
   waypoints resolve both ends.
 - Both: a jurisdiction block naming the country and the profile in force.
+- AOM, VA-147: every stated partner business case names the side of the
+  partner's book it sits on; a loss-side partner is bounded by the pool the
+  sibling market model states; a gain-side gateway over a loss-side candidate
+  states an admissible reason with its arithmetic.
 - Cross-model (when the sibling file exists for the same venture+state):
   every component ID the CTM uses must exist in the AOM's component register.
 """
@@ -54,11 +58,164 @@ KMC_TYPES = {"money", "fear", "stress"}
 KMC_SUB_TYPES = {"expended", "foregone", "risk_borne", "friction"}
 KMC_BASIS = {"current_routine", "venture_created"}
 ACTOR_RULE_FROM = "2026-08-27"   # models dated before this warn; on/after, error
+# Partners need a BUSINESS CASE, not a KMC (Tom's ruling, 1 Sep 2026). A KMC asks
+# what loss the actor already carries; a partner is not buying relief from a loss,
+# they are deciding whether supplying us beats their next-best use of the same
+# capacity. Asking a partner for a KMC is what produced weeks of
+# `kmc: unstated, owner: CEO` on Calmly's panel firm, assessor and three funders —
+# the field was unanswerable, so it was carried unanswered.
+PARTNER_RULE_FROM = "2026-09-01"
+BUSINESS_CASE_FIELDS = ["earns", "costs", "beats_next_best", "operational_fit", "timing"]
+# Every actor's track opens where the actor is NOT YET in the journey (VA-102,
+# 7 Sep 2026). The four fixed Become states put arrival at the front of the
+# CUSTOMER's journey and bind no other actor, so a funder track opened on a
+# funder already at the table and nothing objected. The cost model then copied
+# the journey model faithfully: Calmly costed "sell the layer into a site" and
+# "work an opportunity that does not close", and costed nothing at all for
+# finding a funder. The check asks where a track opens; it forbids no answer.
+# A track may declare `arrival: { not_applicable: "<reason>" }` instead.
+ARRIVAL_RULE_FROM = "2026-09-07"
+# Words that mark a state as pre-engagement. Deliberately broad: the check is a
+# prompt to state a disposition, not a judgement about wording quality.
+_ARRIVAL_WORDS = re.compile(
+    r"\b(unaware|does not know|has not heard|never heard|not yet know|"
+    r"no knowledge|unknown to|has not encountered|does not yet know)\b", re.I)
+
+
+# --- RD-014 (Head of R&D, 8 Sep 2026) -------------------------------------
+# A transition between NON-NEIGHBOURING states is dropped in silence by every
+# CTM renderer. generate_ctm_html.py and generate_ctm_drawio.py walk the state
+# list in order and look up only (previous state -> this state); a transition
+# that skips a state is never looked up, so no hexagon is drawn, no warning is
+# raised, and the only visible symptom is a hexagon count that fails to rise.
+# Reported by a venture architect on 7 Sep 2026: a component added to the model
+# left the roster at 19 and the picture at 13, and the route the model said
+# every customer would take was the one route the picture could not draw.
+#
+# The ruling: the renderer may be imperfect, but it may not be silent. A model
+# that carries a transition no renderer can draw is rejected here, at the check,
+# rather than discovered later in a diagram nobody can reconcile. Two legal
+# answers: reorder the states so the transition is between neighbours, or
+# declare it as a branch, which the renderer draws explicitly.
+def _check_renderable_transitions(ctx, order, transitions, errs):
+    pos = {sid: i for i, sid in enumerate(order)}
+    for t in transitions or []:
+        if t.get("branch"):
+            continue
+        a, b = t.get("from"), t.get("to")
+        if a not in pos or b not in pos:
+            continue          # unknown-endpoint case is already an error elsewhere
+        if pos[b] - pos[a] != 1:
+            errs.append(
+                f"{ctx}: transition {a}->{b} skips {abs(pos[b] - pos[a]) - 1} state(s) in the "
+                f"listed order. Every renderer draws only transitions between neighbouring "
+                f"states, so this one would be dropped without a warning. Either reorder the "
+                f"states so {a} and {b} are adjacent, or declare it with `branch:` so it is "
+                f"drawn explicitly. (RD-014)")
+
+
+def _check_track_arrival(key, uid, tr, errs, warns, hard):
+    """VA-102 clause 1: a track opens at arrival, or says why not.
+
+    The first state of a user or partner track is the actor before the venture
+    acts on them. Where that state shows the actor already engaged, the track
+    carries `arrival:` with either `not_applicable: <reason>` or
+    `deliberate_absence: <reason>` plus `substitute: <the activity that does the
+    work instead>` — clause 2, because an absence removes a product and never
+    removes the work.
+    """
+    out = (errs if hard else warns)
+    ctx = f"{key}.{uid}"
+    states = tr.get("states") or []
+    if not states:
+        return
+    first = str(states[0].get("label", ""))
+    arrival = tr.get("arrival")
+    if _ARRIVAL_WORDS.search(first):
+        if isinstance(arrival, dict) and arrival.get("not_applicable"):
+            warns.append(f"{ctx}.arrival: track opens on an unaware state AND declares "
+                         f"not_applicable — one of the two is wrong")
+        return
+    if not isinstance(arrival, dict):
+        out.append(
+            f"{ctx}: opens on '{first[:70]}' — an actor already engaged with the venture. "
+            f"VA-102: every actor track opens where the actor does not yet know the venture "
+            f"exists, or carries `arrival:` with `not_applicable: <reason>`, or "
+            f"`deliberate_absence: <reason>` + `substitute: <activity doing the work "
+            f"instead>`. An activity named in prose and done by a person is in the "
+            f"operating model or it is not in the venture.")
+        return
+    if arrival.get("not_applicable"):
+        return
+    if arrival.get("deliberate_absence"):
+        sub = str(arrival.get("substitute", "")).strip()
+        if not sub:
+            out.append(f"{ctx}.arrival: deliberate_absence with no `substitute` — "
+                       f"VA-102 clause 2, an absence removes a product, never the work")
+        elif len(sub.split()) < 5:
+            warns.append(f"{ctx}.arrival.substitute: {len(sub.split())} words — "
+                         f"'{sub}' names no activity that a resource model could size")
+        return
+    out.append(f"{ctx}.arrival: present but declares neither `not_applicable` nor "
+               f"`deliberate_absence` + `substitute`")
 _ADVERBS = re.compile(r"\b\w+(?:ly)\b(?<!\bonly)(?<!\bfamily)(?<!\bsupply)", re.I)
 
 
-def _check_actor_economics(aid, a, errs, warns, hard):
-    """Outcome + exactly one KMC per actor. hard=False downgrades to warnings."""
+def _check_partner_economics(aid, a, errs, warns, hard):
+    """Partner (enabler) actors: outcome + a business case. NOT a KMC.
+
+    Tom's ruling, 1 September 2026. A partner is not buying relief from a loss it
+    already carries; it is deciding whether supplying us beats the next-best use of
+    the same capacity. The five fields are the numbers that partner's own committee
+    needs in order to say yes.
+    """
+    out = (errs if hard else warns)
+    ctx = f"actors.{aid}"
+
+    if "kmc" in a:
+        out.append(f"{ctx}: a partner carries a BUSINESS CASE, not a 'kmc'. "
+                   f"A KMC asks what loss they already carry; the question for a partner is "
+                   f"whether supplying us beats their next-best use of the same capacity. "
+                   f"Replace 'kmc' with 'business_case' ({', '.join(BUSINESS_CASE_FIELDS)}).")
+
+    o = a.get("outcome")
+    if not o:
+        out.append(f"{ctx}: missing 'outcome' — every actor needs the outcome it already pursues")
+    elif isinstance(o, str) and not o.strip().startswith("I "):
+        warns.append(f"{ctx}.outcome: state it first person and clinical ('I ...'), got {o[:48]!r}")
+
+    bc = a.get("business_case")
+    if bc is None:
+        out.append(f"{ctx}: missing 'business_case' — declare it, or declare it unstated "
+                   f"with an owner. Fields: {', '.join(BUSINESS_CASE_FIELDS)}")
+        return
+    if not isinstance(bc, dict):
+        errs.append(f"{ctx}.business_case: must be a mapping, got {type(bc).__name__}")
+        return
+
+    if bc.get("status") == "unstated":
+        if not bc.get("owner"):
+            errs.append(f"{ctx}.business_case: unstated needs an 'owner' — who closes it")
+        if not bc.get("reason"):
+            errs.append(f"{ctx}.business_case: unstated needs a 'reason' — why it is not stated")
+        warns.append(f"{ctx}.business_case: UNSTATED, owner {bc.get('owner')} — "
+                     f"{str(bc.get('reason'))[:90]}")
+        return
+
+    _require(bc, BUSINESS_CASE_FIELDS, errs, f"{ctx}.business_case")
+    if isinstance(bc.get("beats_next_best"), str) and len(bc["beats_next_best"].strip()) < 12:
+        warns.append(f"{ctx}.business_case.beats_next_best: state what the capacity would "
+                     f"otherwise earn, in their numbers — a bare assertion is not a comparison.")
+
+
+def _check_actor_economics(aid, a, errs, warns, hard, partner_hard=None):
+    """Outcome + exactly one KMC per actor. hard=False downgrades to warnings.
+
+    Enabler actors route to _check_partner_economics instead — partners need a
+    business case, not a KMC (Tom, 1 September 2026).
+    """
+    if partner_hard is None:
+        partner_hard = hard
     out = (errs if hard else warns)
     ctx = f"actors.{aid}"
     species = a.get("species")
@@ -66,10 +223,13 @@ def _check_actor_economics(aid, a, errs, warns, hard):
         if species and species not in ENABLER_SPECIES:
             errs.append(f"{ctx}: species '{species}' not in {sorted(ENABLER_SPECIES)}")
         if species == "commodity_vendor":
-            if "kmc" in a or "outcome" in a:
+            if "kmc" in a or "outcome" in a or "business_case" in a:
                 warns.append(f"{ctx}: commodity_vendor carries no Partner Product — "
-                             f"outcome/kmc are not required and should be removed")
+                             f"outcome/kmc/business_case are not required and should be removed")
             return
+        # gateway and capability are PARTNERS: business case, not KMC.
+        _check_partner_economics(aid, a, errs, warns, partner_hard)
+        return
 
     # --- outcome ---
     o = a.get("outcome")
@@ -122,6 +282,183 @@ def _check_actor_economics(aid, a, errs, warns, hard):
                      f"It must never anchor willingness to pay.")
     if not k.get("source"):
         warns.append(f"{ctx}.kmc: no source cited")
+
+
+# --- Pool at risk and the side of the book (VA-147, RD-032, 17 Sep 2026) ----
+# A gateway partner sits on one of two sides of the venture's effect. On the
+# loss side the architecture takes a pool the partner earns today; on the gain
+# side the venture pays it a fee. Tom's observation of 17 Sep 2026: the party
+# that stands to LOSE the pool is the one to pitch to carry the product, and
+# its price is the pool it loses, never the status quo (this corrects VA-127's
+# status-quo comparison for that actor). The preference is not a gate: a
+# gain-side selection is admissible on one of five stated reasons, each with
+# its arithmetic.
+#
+# Two objects carry the rule. The market model states the pool per incumbent
+# (a `pool_at_risk:` block, checked by validate_tam_model.py L11 — per
+# incumbent, never only in aggregate). The partner's business case states which
+# side it sits on (`effect_on_book:`), and the amount it carries is bounded by
+# the pool the market model states. The AOM check below reads the sibling market
+# model for that bound; it does not re-check the block's own shape.
+POOL_RULE_FROM = "2026-09-23"
+EFFECT_SIDES = ("loss_side", "gain_side")
+# The admissible reasons for a gain-side selection with a loss-side candidate
+# present (RD-032 §4.2). A reason outside this list is not a reason.
+POOL_REASONS = ("absent_from_routine", "fails_operational_fit", "barred",
+                "pool_below_cost_of_carrying", "lower_surplus_at_scale")
+POOL_TIERS = {"T1", "T2", "T3", "T4"}
+# What this check verified, one line per model (VA-105); check_or_die prints it.
+POOL_REPORT = []
+# The sibling market model, loaded by validate() for the file being checked.
+_MARKET = {"model": None, "name": None}
+
+
+def _load_sibling_market_model(path):
+    """Find and load the market (TAM) model beside an AOM file.
+
+    An explicit `market_model:` filename in the AOM wins. Otherwise the venture
+    stem (the filename before `-aom-model-`) names `<stem>-tam-model.yaml`, or
+    the last of `<stem>-tam-model*.yaml` in sorted order. None when absent.
+    """
+    _MARKET["model"], _MARKET["name"] = None, None
+    POOL_REPORT[:] = []
+    path = pathlib.Path(path)
+    if "-aom-model-" not in path.name:
+        return
+    stem = path.name.split("-aom-model-")[0]
+    candidates = [path.parent / f"{stem}-tam-model.yaml"]
+    candidates += sorted(path.parent.glob(f"{stem}-tam-model*.yaml"))[::-1]
+    try:
+        m = yaml.safe_load(path.read_text())
+        explicit = m.get("market_model") if isinstance(m, dict) else None
+        if explicit:
+            candidates.insert(0, path.parent / str(explicit))
+    except Exception:
+        pass
+    for c in candidates:
+        if c.exists():
+            try:
+                _MARKET["model"] = yaml.safe_load(c.read_text())
+                _MARKET["name"] = c.name
+            except Exception:
+                _MARKET["model"], _MARKET["name"] = None, c.name
+            return
+
+
+def _pool_rows():
+    """Incumbent rows from the sibling market model's pool_at_risk block, by id."""
+    mm = _MARKET["model"]
+    if not isinstance(mm, dict):
+        return None
+    block = mm.get("pool_at_risk")
+    if not isinstance(block, dict) or block.get("status") == "none":
+        return None
+    rows = block.get("incumbents") or []
+    return {str(row.get("id")): row for row in rows if isinstance(row, dict)}
+
+
+def _check_pool_at_risk(m, actors, errs, warns):
+    """VA-147: every partner business case states the side of the book it sits
+    on; a loss-side partner is priced against the pool the market model states;
+    a gain-side gateway chosen over a loss-side candidate states why."""
+    hard = str(m.get("date", "")) >= POOL_RULE_FROM
+    tag = "VA-147" + ("" if hard else " (warning — model dated before the rule)")
+    sink = errs if hard else warns
+    rows = _pool_rows()
+    partners = {}
+    for aid, a in actors.items():
+        if not isinstance(a, dict) or a.get("class") != "enabler":
+            continue
+        if a.get("species") == "commodity_vendor":
+            continue
+        bc = a.get("business_case")
+        if not isinstance(bc, dict) or bc.get("status") == "unstated":
+            continue
+        partners[aid] = a
+    if not partners:
+        POOL_REPORT.append("VA-147: no stated partner business case — nothing to classify")
+        return
+
+    sides = {}
+    for aid, a in partners.items():
+        ctx = f"actors.{aid}.business_case"
+        eob = a["business_case"].get("effect_on_book")
+        if not isinstance(eob, dict):
+            sink.append(f"{tag} {ctx}: missing 'effect_on_book' — state the side of the "
+                        f"partner's own book this venture sits on ({' | '.join(EFFECT_SIDES)}) "
+                        f"and the signed amount a year, with source and tier")
+            continue
+        side = eob.get("side")
+        if side not in EFFECT_SIDES:
+            sink.append(f"{tag} {ctx}.effect_on_book.side: '{side}' — must be one of "
+                        f"{' | '.join(EFFECT_SIDES)}")
+            continue
+        sides[aid] = side
+        amount = eob.get("amount")
+        if isinstance(amount, bool) or not isinstance(amount, (int, float)):
+            sink.append(f"{tag} {ctx}.effect_on_book.amount: must be a signed number a year, "
+                        f"got {amount!r}")
+            amount = None
+        elif side == "loss_side" and amount >= 0:
+            sink.append(f"{tag} {ctx}.effect_on_book.amount: loss_side carries a negative "
+                        f"number (the pool the partner loses), got {amount}")
+        elif side == "gain_side" and amount <= 0:
+            sink.append(f"{tag} {ctx}.effect_on_book.amount: gain_side carries a positive "
+                        f"number (the fee the venture pays), got {amount}")
+        if not str(eob.get("source", "")).strip():
+            sink.append(f"{tag} {ctx}.effect_on_book: no source cited for the amount")
+        if eob.get("tier") not in POOL_TIERS:
+            sink.append(f"{tag} {ctx}.effect_on_book.tier: '{eob.get('tier')}' — "
+                        f"one of {sorted(POOL_TIERS)}")
+
+        if side == "loss_side":
+            # Priced against the pool, never the status quo: the pool row is the bound.
+            ref = eob.get("pool_ref")
+            if rows is None:
+                sink.append(f"{tag} {ctx}: loss_side needs a sized pool_at_risk block in the "
+                            f"sibling market model ({_MARKET['name'] or 'none found'}) — "
+                            f"a loss-side actor is priced against the pool it loses")
+            elif not ref or str(ref) not in rows:
+                sink.append(f"{tag} {ctx}.effect_on_book.pool_ref: '{ref}' does not name an "
+                            f"incumbent in {_MARKET['name']} pool_at_risk "
+                            f"({', '.join(sorted(rows)) or 'no rows'})")
+            elif amount is not None:
+                band = (rows[str(ref)].get("pool_a_year") or {})
+                high = band.get("high")
+                if isinstance(high, (int, float)) and not isinstance(high, bool) \
+                        and abs(amount) > high:
+                    sink.append(f"{tag} {ctx}.effect_on_book.amount: {abs(amount)} exceeds the "
+                                f"pool stated for '{ref}' (high {high}) — the pool figure "
+                                f"is the bound, not the status quo")
+
+    # A gain-side gateway with a loss-side candidate present states why.
+    loss_candidate = bool(rows) or any(s == "loss_side" for s in sides.values())
+    for aid, a in partners.items():
+        if sides.get(aid) != "gain_side" or a.get("species") != "gateway":
+            continue
+        ctx = f"actors.{aid}.business_case"
+        if rows is None and _MARKET["model"] is None:
+            warns.append(f"VA-147 {ctx}: gain_side gateway — no sibling market model found, "
+                         f"so whether a loss-side candidate exists is unchecked")
+            continue
+        if not loss_candidate:
+            continue
+        reason = a["business_case"].get("reason")
+        if not isinstance(reason, dict) or reason.get("code") not in POOL_REASONS:
+            sink.append(f"{tag} {ctx}: gain_side gateway with a loss-side candidate present "
+                        f"needs reason.code from {' | '.join(POOL_REASONS)}, got "
+                        f"{(reason or {}).get('code') if isinstance(reason, dict) else reason!r}")
+        elif not str(reason.get("arithmetic", "")).strip():
+            sink.append(f"{tag} {ctx}.reason: '{reason['code']}' carries no arithmetic — "
+                        f"the reason is the number, not the label")
+
+    n_loss = sum(1 for s in sides.values() if s == "loss_side")
+    n_gain = sum(1 for s in sides.values() if s == "gain_side")
+    POOL_REPORT.append(
+        f"VA-147: {len(partners)} partner case(s) — {n_loss} loss side, {n_gain} gain side, "
+        f"{len(partners) - len(sides)} unclassified; pool rows in "
+        f"{_MARKET['name'] or 'no market model'}: {len(rows) if rows else 0}"
+        + ("" if hard else " (warning only — model dated before the rule)"))
 
 
 # --- Jurisdiction rule (added 3 Sep 2026) ----------------------------------
@@ -197,7 +534,30 @@ def validate_ctm(m):
         if ph.get("undesigned"):
             _require(ph, ["name", "undesigned"], errs, ctx)
             continue
-        _require(ph, ["name", "states", "transitions"], errs, ctx)
+        _require(ph, ["name", "states"], errs, ctx)
+        # RD-013 (Head of R&D, 8 Sep 2026): a phase may be DESIGNED and legitimately hold no
+        # transition — an actor who does nothing in that phase. Calmly's claimant pays nothing:
+        # zero at intake, zero on outcome, zero if they decline. That is an architectural
+        # invariant, not an omission, and the format previously could not say so. The only
+        # workarounds were to invent a self-transition (routing around a working check) or to
+        # move a transition between phases (a design act). Distinct from 'undesigned', which
+        # means not yet designed. Same shape as absent_products, per VA-72: a flag that
+        # requires a reader is not a gate, so the absence must be DECLARED, not left silent.
+        _disp = ph.get("disposition")
+        _has_disp = isinstance(_disp, dict) and (
+            str(_disp.get("not_applicable", "")).strip() or str(_disp.get("not_designed_until", "")).strip())
+        if not (ph.get("transitions") or []):
+            if _has_disp:
+                _na = str(_disp.get("not_applicable", "")).strip()
+                if _na and len(_na) < 40:
+                    warns.append(f"{ctx}.disposition.not_applicable: too short to explain why the "
+                                 f"phase is empty — state the invariant, not a label")
+            else:
+                errs.append(f"{ctx}: missing or empty 'transitions' — or, if the phase is designed "
+                            f"and legitimately empty, declare it: disposition: {{ not_applicable: "
+                            f"<reason> }} or {{ not_designed_until: C<N> }} (RD-013)")
+        elif _has_disp:
+            warns.append(f"{ctx}.disposition: stated but the phase HAS transitions — remove the stale entry")
         states = ph.get("states") or []
         sids = [s.get("id") for s in states]
         if len(sids) != len(set(sids)):
@@ -259,6 +619,8 @@ def validate_ctm(m):
                 if not FR_ID.match(str(c)):
                     errs.append(f"{tctx}: '{c}' is not a Flow-Register-format ID")
                 used_components.add(c)
+        _check_renderable_transitions(ctx, [s.get("id") for s in (ph.get("states") or [])],
+                                      ph.get("transitions"), errs)
         dec = ph.get("decision")
         if dec:
             _require(dec, ["id", "label", "branch_a", "branch_b"], errs, f"{ctx}.decision")
@@ -292,6 +654,11 @@ def validate_ctm(m):
                              f"not a person-state — write it as '[Actor] who ...' (exemplar register)")
         if tr.get("decision"):
             errs.append(f"{ctx}: tracks do not carry decisions — forks belong to the customer phases")
+        # VA-102 (7 Sep 2026) — the track opens at arrival, or says why not.
+        _check_renderable_transitions(ctx, [x.get("id") for x in (tr.get("states") or [])],
+                                      tr.get("transitions"), errs)
+        _check_track_arrival(_key, uid, tr, errs, warns,
+                             str(m.get("date", "")) >= ARRIVAL_RULE_FROM)
         valid = set(sids)
         finals = [s for s in states if s.get("final")]
         if not finals:
@@ -451,13 +818,15 @@ def validate_aom(m):
     # Historical snapshots stay valid as records of their time; work dated on or
     # after the rule's introduction must comply.
     hard = str(m.get("date", "")) >= ACTOR_RULE_FROM
+    partner_hard = str(m.get("date", "")) >= PARTNER_RULE_FROM
     for aid, a in actors.items():
         _require(a, ["name", "class", "doc"], errs, f"actors.{aid}")
         if a.get("class") not in ACTOR_CLASSES:
             errs.append(f"actors.{aid}: class '{a.get('class')}' not in {sorted(ACTOR_CLASSES)}")
         if a.get("class") == "enabler" and not re.match(r"^Part-\d+$", str(a.get("slot", ""))):
             errs.append(f"actors.{aid}: enabler needs slot 'Part-N', got '{a.get('slot')}'")
-        _check_actor_economics(aid, a, errs, warns, hard)
+        _check_actor_economics(aid, a, errs, warns, hard, partner_hard)
+    _check_pool_at_risk(m, actors, errs, warns)
     functions = {}
     for oid, o in (m.get("organisation") or {}).items():
         _require(o, ["name", "op_id", "cost_ref", "functions"], errs, f"organisation.{oid}")
@@ -533,6 +902,7 @@ def validate(path):
         return [f"YAML does not parse: {ex}"], []
     if not isinstance(m, dict):
         return ["model file is not a YAML mapping"], []
+    _load_sibling_market_model(path)
     if "-ctm-model-" in path.name:
         errs, warns, used = validate_ctm(m)
         sibling = path.parent / path.name.replace("-ctm-model-", "-aom-model-")
@@ -555,6 +925,21 @@ def validate(path):
 
 
 def check_or_die(path):
+    # The origin check is a REFUSAL, not a warning (R-CTM8, closed 10 Sep 2026).
+    # This script writes no document, so a forked copy used to announce nothing.
+    try:
+        sys.path.insert(0, str(pathlib.Path(__file__).parent))
+        import toolchain_guard
+        toolchain_guard.require_canonical(path)
+    except ImportError:
+        print("TOOLCHAIN REFUSED: toolchain_guard.py is not beside this script. "
+              "A checker that cannot verify its own origin does not run.")
+        sys.exit(2)
+    except Exception as exc:
+        print("TOOLCHAIN REFUSED: %s" % exc)
+        print("Nothing was validated. There is no verdict to quote.")
+        sys.exit(2)
+
     errs, warns = validate(path)
     for w in warns:
         print(f"  ⚠ {w}")
@@ -562,7 +947,11 @@ def check_or_die(path):
         print(f"MODEL INVALID — {pathlib.Path(path).name} refused to load:")
         for e in errs:
             print(f"  ✗ {e}")
+        for line in POOL_REPORT:
+            print(f"  · {line}")
         sys.exit(1)
+    for line in POOL_REPORT:
+        print(f"  · {line}")
 
 
 if __name__ == "__main__":

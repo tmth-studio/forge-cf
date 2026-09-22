@@ -5,6 +5,8 @@ description: IVE Prime Commercial Opportunity session — the upstream prerequis
 
 # BALM PCO — Prime Commercial Opportunity
 
+> **Rule change — 16 September 2026, Head of R&D (RD-025, from MI-020). Object-after: ratifies 18 September 2026 unless Tom objects.** Two changes. (1) One strike rule: a case leaves the PCO when its loss-to-price ratio is below one at base parameters, or when no workaround is conceivable for its conventional form — the ratio bands the criteria registry already carries are the test; the old "own terms = no loss or no workaround" definition is deleted. (2) Level, then screen: rows the market delivers the same way today are one use case; merge them before the screen and screen the merged case once, at the lowest low-end loss, on the union group. Capacities are never summed. See Step 4. Ruling: `04-Projects/TMTH_Venture_Studio/R_and_D/rd-025-pco-strike-and-levelled-case-2026-09-16.md`.
+
 **Purpose:** Isolate the broadest use case that can most credibly generate the at-scale cash flows needed to pay back all required investment capital at a competitive rate of return — before any segment-specific, product-specific, or requirement-level choices are made.
 
 **When to run:** At the very start of BALM design work — before R1, before R2, before any customer research. The PCO is the scope-setter. Every downstream decision is constrained by the PCO verdict. If the PCO is wrong, the requirements will be solved for the wrong opportunity.
@@ -26,13 +28,13 @@ This skill is a method, not a brief to be filled in by the runner. Execute it as
 - **Every estimated or placeholder number is visibly flagged as unvalidated.** House rule: flag invented stats visibly. Mark any figure that is an estimate, assumption, or placeholder — for example with `⚠ UNVALIDATED` or red — so the user can systematically replace it. Never present an assumed number as if it were established.
 - **If a required input is missing, propose it and stop for confirmation.** Do not proceed on an *unconfirmed* value. The runner drafts a best proposal with its basis, flags it `⚠ ASSUMED`, and waits. A missing investment parameter or penetration rate is a hard stop on *proceeding* — it is not a hard stop on *proposing*.
 
-This discipline sits alongside — and does not replace — the **Path A / Path B routing** (Step 2) and the **Path B contamination guard** (Step 2). Those remain in force at every step. The contamination guard forbids importing a *solution*; this section forbids inventing an *input* or a *decision*. Both apply.
+This discipline sits alongside — and does not replace — the **Path A / B / C routing** (Step 2) and the **Path B contamination guard** (Step 2). Those remain in force at every step. The contamination guard forbids importing a *solution*; this section forbids inventing an *input* or a *decision*. Both apply.
 
 ---
 
 ## IVE framework — where this skill fits
 
-**Integrated Venture Engine (IVE)** is a structured process for building new Core Business Architectures. Source: Simanis, E. et al. (2021), Cornell SC Johnson College of Business.
+**Integrated Venture Engine (IVE)** is a structured process for building new Core Business Architectures. Source: the IVE canon — Simanis, E. et al. (2021), Cornell SC Johnson College of Business, and the co-authored papers 2023–2025 (Simanis, Manuel et al. 2023; Simanis et al. 2024; Simanis 2025). Full list at the foot of this skill or in `architect-custom`.
 
 **Three nested levels of commercial architecture:**
 
@@ -108,11 +110,13 @@ The PCO is a **scope-setter for field research, not a segment commitment.** Its 
 
 So the default is **maximum breadth**: select the broadest credible combination of use cases that survives the directionality screen — not the single highest-scoring one. **Combine compatible cases rather than choosing between them.** When in doubt, include.
 
+**"Compatible" has one definition (RD-023 follow-on, 16 September 2026): two cases are compatible when the market delivers both the same way today.** The test is the levelling stopping rule from Path C, applied to every path: broaden the case until the next-broader case would be delivered a different way today, and stop there. Cases on the same side of that line combine into one PCO; a case on the other side is a second PCO. Record the next-broader case that was excluded and the delivery difference that excluded it. This is what keeps breadth here consistent with challenge one's single-case gate: one conventional form has one critical limiting operation, and a PCO that spans two forms hands challenge one two.
+
 **Why breadth here is not speculative — the KMC backstop.** Breadth at PCO does not commit the venture to serving everyone. R2 (Eliminate Customers' Value Bottleneck) isolates the **Key Monetizable Cost (KMC)** — and in doing so selects only the customers who actually carry a monetizable cost large enough to pay for. The real customer-qualification happens at R2, downstream and on evidence. A broad PCO simply guarantees R2 has the full population to qualify *from*; it pre-commits to none of them.
 
-The directionality screen (Step 4) therefore does **one job only**: exclude the *obviously* unviable — a loss too small to ever carry any price, or no workaround conceivable even in principle. Everything that clears that low bar stays in the PCO. Do not use the screen to rank-and-pick a winner; use it to drop the dead and keep the rest.
+The directionality screen (Step 4) therefore does **one job only**: exclude the *obviously* unviable. Everything that clears that low bar stays in the PCO. Do not use the screen to rank-and-pick a winner; use it to drop the dead and keep the rest. (Canon anchor: mandatory criteria eliminate an option and do not rank it; a bounding estimate is fit for a screen and unfit for a ranking — NASA SE Handbook Rev 1 §6.8.1.2 p.199, §6.4.2.3 p.147.)
 
-A use case is excluded from the PCO **only if it fails on its own terms** (no monetizable loss, or no conceivable workaround) — never because another case looks bigger, cleaner, or better-fitted to the architect's channel. Channel fit and relative attractiveness are R2-and-later judgements, made on evidence; they are not PCO-stage exclusions.
+**The one strike rule (RD-025, 16 September 2026).** A use case is excluded from the PCO **only on its own terms**, and its own terms are the Step 4 test: at base parameters its loss-to-price ratio is below one, or no workaround is conceivable for its conventional form. Nothing else strikes a case — never that another case looks bigger, cleaner, or better-fitted to the architect's channel. Channel fit and relative attractiveness are R2-and-later judgements, made on evidence; they are not PCO-stage exclusions. A case with no monetizable loss has a ratio of zero and is struck by the same rule; do not treat "no loss" as a separate or a narrower definition of failure.
 
 ---
 
@@ -171,6 +175,7 @@ State plainly which of the four most changes the Step 4 verdict, so the user kno
 |------|---------------|----------|
 | **Path A — Technology venture** | A novel technology or capability to commercialise | 2a (core functionality) → 2b (optional) → 2c (architect's lens) → 3 (use cases) → 4 (evaluate) → PCO → R1 |
 | **Path B — Social problem venture** | A societal problem or SDG with no existing commercial solution | 2b (right-size problem) → 2c (architect's lens) → 3 (impact cases) → 4 (evaluate) → PCO → **conventional model mapping → CLO identification → then** 2a (core functionality) |
+| **Path C — Incumbent venture** (RD-023, canon 16 Sep 2026) | One line of one company, named by an insider who knows what it sells, to whom, at what price, and who cannot buy | 2d (level the line) → 2c (the insider's lens) → 4 (two presence lines) → PCO → **conventional model mapping → CLO identification → then** 2a (core functionality) → R1 |
 
 **Why the paths differ:**
 
@@ -183,12 +188,36 @@ For Path B, the core functionality does not yet exist — it will be *derived* f
 > At no point before the CLO is identified should you describe, name, or reference:
 > — what the venture's product will do
 > — how the venture will solve the problem
-> — any analogy to an existing venture (including Calmly, Grameen, Airbnb, or any other known CBA)
+> — any analogy to an existing venture, whether a published case or a venture this studio has already designed
 > — any technology or mechanism you have in mind
 >
-> Analogues are permitted — and encouraged — during workaround design in R1. They are not permitted at PCO stage. A CLO identified by analogy ("it's like Calmly's due diligence problem") rather than by first-principles analysis of the conventional model is a contaminated CLO.
+> Analogues are permitted — and encouraged — during workaround design in R1. They are not permitted at PCO stage. A critical limiting operation identified by analogy — "it is like the one on that other venture" — rather than by first-principles analysis of the conventional model is a contaminated one.
 
 If you notice yourself describing a solution at PCO stage during a Path B session: stop, discard the solution framing, and return to the problem.
+
+**Path C — Incumbent venture (RD-023, ruled 14 Sep 2026, canon 16 Sep 2026).**
+
+**Why Path C differs.** The line is a product in a market. It bounds both sides. The method's response to a bounded arrival is to strip it back to the job it does (Simanis, Manuel et al. 2024, p.12). Path C is that stripping-back with the line as the input. The core functionality is derived after the CLO, as on Path B. The conventional business form factor is how the market delivers the job today, of which the insider's line is the instance.
+
+**Step 2d — Level the line (Path C only).** State the job the line does for the buyer, in the buyer's terms. Broaden it. Stop at the point where the next broader case would be delivered a different way today. Record three things: the job as the insider states it · the levelled case · the next-broader case and the difference in delivery that excludes it. A record with no next-broader case named has not levelled. One conventional form has one CLO; the levelling stops where the form would change.
+
+**Typicality check.** State whether the company delivers the line the way the market does. Where it differs, the market's default is the conventional form and the difference is recorded. A company that is itself an innovator on the line does not supply the conventional form.
+
+**Cost-target mode (RD-024, 16 Sep 2026).** The cost target has three modes: **1 · reach a group** · **2 · cut by a number** · **3 · just show me**. Name the mode at the frame. The excluded population is required in mode 1 only; in modes 2 and 3 it is reported as a by-product of the new floor, flagged `⚠ UNVALIDATED`. In mode 2 the output carries the line "the target is the user's; it is not a market claim". In mode 3 the scale is the incumbent's current volume. In mode 2 the incumbent's volume is the floor of the scale: judge the target there, and report the volume at which it clears at every corner (RD-024 (c), amended 16 Sep 2026). **Mode 3 carries two more fields at the frame (VA-159, RD-039 (Head of R&D, 21 Sep 2026, object-after 23 Sep 12:30)):** *the incumbent's roadmap form* — what the incumbent has announced, piloted or built toward on this line, with source, red until sourced. R1's verdict then prints a *same-shape comparison line*: the new form's negative corner against the conventional form's, in one unit, which is worse and by how much. The binding-gate margin is the headline; the financial margin of safety sits beside it. In mode 3 the margin is reported, not gating; the same-shape line is the finding.
+
+**Population, in two parts.** Current buyers: a fact, with the count and the source. The population the conventional form excludes: researched, flagged `⚠ UNVALIDATED`, with the reason for exclusion stated — price, eligibility, access, or another named reason. In mode 1, R1's question is defined for the excluded population, and a run whose population is current buyers alone has not named its target and returns to the frame.
+
+**Price ceiling, by population.** The incumbent's price is a fact about current buyers and is a lower bound on their ceiling. Where the excluded population is excluded by price, it is an upper bound on theirs. Where they are excluded for another reason, it is not a bound. Label every ceiling figure with the population it belongs to. Never carry the incumbent's price as the ceiling for the excluded population.
+
+**Scale target.** The incumbent's scale is the floor of the scale target, never the target. The target is the levelled population at a confirmed penetration rate.
+
+**Step 4 on Path C.** The required-price screen is answered by existence for current buyers: the line is paid for at scale. Record the price, the volume and the source. For the excluded population the loss-to-price ratio is open until R2 isolates the KMC; write that line, do not estimate it. The six-case shortlist does not apply. Where several lines are researched, each is a separate Path C entry; two lines that level to the same case are one case.
+
+**Research firewall on Path C.** The incumbent's delivery is the diagnosis object and may be described in full. The firewall forbids, before the CLO: any statement of the venture as a variant of the incumbent's line — cheaper, digital, automated, or otherwise. "More efficient than the incumbent" is not a solution to R1. The incumbent is the baseline, never an analogue.
+
+**Entry object.** One line of one company. An industry is a category and R1 refuses it. A company is a set of lines. **Where the user names a company and not a line, default to the company's core business and record that you did (RD-026, ruled by Tom 16 September 2026).** The test, in order: (1) the line that earns the largest share of the company's revenue on its latest public record — record the share and the source; (2) where the split is not public, the line the company names first when it describes itself on its own public record — record the wording and the source; (3) where neither settles it, stop and ask; do not guess. The record carries the line chosen · the rule that chose it with the source · the other lines identified and declined · the sentence "the default is the user's to override; the run has not judged the other lines." The typicality check then runs on the chosen line as RD-023 rules. Ruling: `04-Projects/TMTH_Venture_Studio/R_and_D/rd-026-core-business-default-2026-09-16.md`.
+
+Ruling and reasoning: `04-Projects/TMTH_Venture_Studio/R_and_D/rd-023-incumbent-entry-path-2026-09-14.md`.
 
 ---
 
@@ -202,16 +231,50 @@ Describe what the venture's technology or capability does and how it does it at 
 
 **Format:** What it does (output) + How it does it (mechanism), at the most basic level.
 
-**Examples:**
+**The heuristic — it is the product's core competence.** Source deck, slide 22: *"Core Functionality is what your product does and how it does it at the most abstract level. It's like the 'core competence' of your product."* If the sentence does not read as a competence the venture holds, it is not a core functionality yet.
+
+#### Abstract means customer-free, NOT vague — the most common failure
+
+"Most abstract level" strips the **customer and the application**. It does **not** strip magnitude or physical mechanism. The canonical teaching example keeps both, and the short form below lost them:
+
+| | Kite Mill — as taught (source deck, slide 23) |
+|---|---|
+| **What it does** | Generates **70 kilowatts** of consistent energy — about **70 homes'** worth |
+| **How it does it** | By capturing high-altitude wind currents with a mobile airborne kite **the size of a truck** |
+
+**Concreteness test, apply before the quality gate below:** could a reader draw the thing, and say how much of what it produces? A statement with no unit, no quantity and no physical mechanism has not been abstracted — it has been emptied. Rewrite until both halves carry something a reader could check.
+
+A statement that fails this test will still pass the customer-free gate, which is why the gate alone is not sufficient. Run both.
+
+#### The test the abstraction exists for — the Product Opportunity Map
+
+The core functionality is defined *on* a map (source deck, slide 7), and the map is the reason for abstracting at all.
+
+- **Quantity axis — global social strata:** Global Elite → Global Mainstream → Global Masses
+- **Quality axis — customer alternatives:** High Competing → Poor Substitute → None
+- **Three zones:** Served Markets (value impact) · Underserved Markets (leapfrog impact) · Unimagined Markets (transformative impact)
+
+**Map test:** read the drafted core functionality and ask which zones it could credibly serve. If it can only land in Served Markets against high competing alternatives, it has not been abstracted. It is a description of a product in a market that already exists. Every use case generated from it will then be an application of that constraint. Strip further and re-run.
+
+An abstraction is finished when it reopens the whole map, not when it sounds general.
+
+#### Bound one side of the equation, never both
+
+Source deck, slides 18–19. The venture bounds one side only. **Either** the kind of solution — a core functionality to commercialise. **Or** the kind of problem — a pervasive societal issue. The other side stays free to search. Bounding both leaves no search space, and is the same defect the Path A / Path B routing above exists to prevent.
+
+**Examples — all three are published cases. No studio venture appears here, by rule (`[evidence: VA-BS1]`).**
 
 | Venture | Core Functionality | Path |
 |---------|-------------------|------|
 | Grameen Bank | Growth capital through debt — via peer-group accountability rather than individual credit assessment | B — derived from CLO workaround |
-| Kite Mill | Generates consistent energy — by capturing high-altitude wind currents with an airborne kite | A — technology first |
-| Calmly | Structured resolution of civil disputes — without requiring per-case expert legal facilitation | B — derived from CLO workaround |
+| Kite Mill | Generates 70 kilowatts of consistent energy, about 70 homes' worth — by capturing high-altitude wind currents with a mobile airborne kite the size of a truck | A — technology first |
 | Ford Model T | Personal mechanical transport — via assembly-line manufacture at mass-market cost | A — technology first |
 
 **Quality gate:** The core functionality description must be usable without knowing anything about the customer. If it contains words like "for landlord disputes" or "for SMEs," it has already been constrained. Strip all customer context — the functionality stands alone.
+
+**Three gates, all must pass before Step 3 opens:** customer-free (above) · concrete (unit, quantity, physical mechanism) · map-reopening (not confined to Served Markets). A draft that passes one gate and fails another is not ready. That failure is invisible downstream, because the use cases it generates will look plausible.
+
+**Source for this section:** The Intrapreneur Lab, "From Social Problem to Market Opportunity", Barclays, November 2021 — TIL Ventures. Slides 7 (the map), 18–19 (bound one side), 22 (the analogy), 23 (Kite Mill in full).
 
 ---
 
@@ -283,6 +346,32 @@ Generate use cases from both 2a and 2b:
 
 Generate at least six use cases / impact opportunities. More is better at this stage. Selection comes next.
 
+#### Assess number and importance as you generate
+
+Source deck, slides 16, 17 and 29. The taught sequence is: define the core functionality or the societal issue → brainstorm use cases → **assess number and importance** → choose. The assessment belongs at generation, not after it. A use case recorded without its size and its importance cannot be screened in Step 4 without going back to the field.
+
+Two questions promote a use case toward Prime:
+
+| Question | What "high" looks like |
+|---|---|
+| **How many?** | A big number of people or organisations share this job |
+| **How important?** | The job is mission-critical to them, not a mild inconvenience |
+
+Where both are high, four things rise. These four are what the Step 4 screen is actually measuring:
+
+| Driver | What it means |
+|---|---|
+| Unit sale potential | What one customer will buy |
+| Number of people impacted | The reach available to the venture |
+| Willingness to pay, and the price point available | The ceiling the required price is tested against |
+| Change in the current customer experience | How far the outcome sits from what they live with today |
+
+**Capture both answers against every use case as you generate it.** Mark each `⚠ UNVALIDATED` unless a source is named.
+
+**These size a use case. They never exclude one.** The source deck's fourth step reads "choose the one with the best profile". This method departs from that on purpose — see the breadth default above. Number and importance set how big a case is, and the order in which cases get researched. A case leaves the PCO only under the one strike rule in Step 4.
+
+**Draw each row at the level of a use case, not a segment.** IVE's definition: a use case is the broadest application of the core functionality that shares the same core value; a segment is a subset of people within it. Two rows the market delivers the same way today are segments of one use case. Step 4 merges them before it screens (see "Level, then screen"). Drawing them as separate rows and screening each alone is the beachhead trap arriving through the arithmetic: each segment is asked to carry the whole venture by itself.
+
 ---
 
 ### Step 4 — Estimate and evaluate
@@ -294,7 +383,10 @@ Convert the investment parameters from Step 1 into a financial screen. Test each
 **The conversion:**
 
 1. Required capital → cash flow needed to deliver required IRR at end of investment period
+   *VA-166 (Head of R&D, 21 September 2026, object-after 23 September 17:00 BST): this line is a required annual cash flow. Where an allocator supplies capital, derive it as written. Where the principal has ruled required capital at £0 of external cash, read the objective cash flow the principal set for the venture (`objective-function.md`) instead, with its source. Where both exist, the larger is the one read. State which form was read, once. A run may not set capital to £0 on its own reading, and a zero-cash launch does not move parameter 5 (VA-23).*
+   *VA-168 (Head of R&D, 21 September 2026, object-after 23 September 17:00 BST): where the principal has ruled required capital at £0 of external cash, the base form from C6 onward is the one where the customer funds the operating cost at the point of commitment. The capital-consuming form is kept beside it as a comparison form. Every record from R6 onward, and the VDR, carries one cash table per form: earliest month cash enters the venture, earliest month cash can lawfully reach the principal, required capital at peak, who supplies it. The run chooses neither form. That choice is the principal's.*
 2. Required cash flow → required at-scale annual revenue
+   *VA-167 (Head of R&D, 21 September 2026, object-after 23 September 17:00 BST): enter here, not at line 1, wherever the at-scale cost lines exist. Required revenue is the sum of the operating cost lines (each traced resource → activity → driver → volume) and one pre-tax required-profit line, which is the line 1 figure grossed up for the taxes between the venture's profit and its receipt. No margin default and no terminal discount. Revenue is the venture's own; money passing through it is not revenue. Where the cost lines do not exist yet, enter at line 1 under VA-166, say so once, and re-read here when the operating model exists.*
 3. Required revenue → required price per customer (at a penetration rate that is either **user-supplied** or a clearly-labelled, **user-confirmed method default** — e.g. "method default per IVE: 2.5%". Never apply a penetration rate silently)
 4. Required price → compare against the monetizable size of customer loss in each use case
 
@@ -304,30 +396,52 @@ Convert the investment parameters from Step 1 into a financial screen. Test each
 
 **Value Potential formula (from IVE):**
 
-`Value Potential = Group Size × Penetration Rate × Importance Multiplier`
+`Value Potential = [ Group Size × Penetration Rate ] × Importance Multiplier`
+
+The bracket is in the source (slide 30). Penetration is applied to the group first; importance multiplies the result.
 
 Where Importance Multiplier answers: how mission-critical is this to the customer? A problem that, if unsolved, has severe consequences scores high. A problem that produces mild inconvenience scores low.
 
+**What the multiplier is standing for.** Importance is not a taste judgement. It is the four drivers named in Step 3. Unit sale potential. People impacted. Willingness to pay and the price point available. The change from the customer's current experience. Score the multiplier by asking which of those four move, and by how much. State the reasoning in one line beside the number, or the figure is unauditable.
+
 Penetration Rate here follows the same rule as in the conversion above — user-supplied or a clearly-labelled, user-confirmed method default. Group Size and Importance Multiplier are estimates: flag them `⚠ UNVALIDATED` unless drawn from a cited source.
 
-**Evaluate each use case against three questions:**
+**Level, then screen (RD-025, 16 September 2026).** Before any ratio is computed, merge the rows the market delivers the same way today into one levelled case (the test is the levelling stopping rule above: broaden until the next-broader case would be delivered a different way, and record the case excluded and the delivery difference). Membership is decided on delivery evidence, and it is decided before the arithmetic. Then screen each levelled case once, as one case:
 
-1. **Is the group large enough?** At the required price and penetration rate, can this use case generate the revenue needed to deliver the required IRR?
+- **Group** = the union of the merged rows' groups. A row whose group is a subset of another's adds nothing. Where the overlap between two rows cannot be established, do not add the smaller row; record the omission with a `⚠ UNVALIDATED` flag.
+- **Loss** = the lowest low-end displaced cost among the merged rows. An asserted band has no interior a verdict can rest on; the screen uses the edge that cannot flatter. For a levelled case that edge is the lowest of its rows' low ends.
+- **Required price** = required revenue ÷ (group × penetration rate), on the merged group.
+- **Ratio and verdict** = the strike rule below, applied to the case.
+- **Workaround** = one question for the one conventional form.
+- **Per-row ratios at the levelled price** are reported for diagnosis only. A segment inside a levelled case is not struck on its own ratio.
+- **Spread** = highest ÷ lowest low-end displaced cost among the merged rows, reported beside the case. A wide spread is a signal that the levelling may be wrong: state the delivery evidence that keeps the rows in one form, or partition on a delivery difference.
+
+**What this forbids.** Do not sum revenue or "capacity" across rows: a sum assumes each row is charged its own price, which is a pricing decision this stage may not take, and a quantity that carries its own pass mark cannot be tested against a band. After membership is fixed, no row is added to raise the group, no row is dropped to raise the lowest loss, and no partition is made on the number. A partition is made on a difference in delivery and is recorded with the next-broader case excluded. Cutting a band where it passes and calling the cut a case is the failure this rule exists to stop. (Canon anchor: fix the selection rule before the measurement, to stop the matrix being gamed — NASA SE Handbook Rev 1 §6.8.1.2 p.200, §6.8.2.2 p.206.)
+
+**Evaluate each levelled case against three questions:**
+
+1. **Is the group large enough?** At the required price and penetration rate, can this case generate the revenue needed to deliver the required IRR?
 2. **Is the loss large enough?** Is the customer loss (money, fear, stress) big enough that the required price is rational for them to pay?
 3. **Is a credible workaround possible?** Does a solution exist — in principle — that could eliminate the key cost without reproducing the conventional BFF's cost structure?
 
-**Output per use case:**
+**The one strike rule.** Questions 1 and 2 are tested together by the loss-to-price ratio, because the ratio is their product (loss × penetration × group ÷ required revenue). A case is **struck** when, at base parameters, the ratio is below one, or when the answer to question 3 is no. Between one and two the case stays **in the PCO, marked marginal**, with the input whose measurement would move it across a band edge named. Two and above is a viable direction. For every struck case, state which factor failed — group or loss — and the measurement that would reopen it. Sensitivities report which verdicts move; they do not change the verdict at base. A case is never struck relative to another case.
+
+**Output per levelled case:**
 
 ```
 Use Case: [Name]
+Rows merged: [none | the rows, with the shared conventional delivery form named; overlaps counted once; any unestablished overlap recorded]
+Next-broader case excluded: [the case, and the delivery difference that excludes it]
 Group: [Who]
 Group size estimate: [Number + source — mark ⚠ UNVALIDATED if estimated]
-Customer loss magnitude: [£/time/stress at scale — mark ⚠ UNVALIDATED if estimated]
-Required price (computed from Step 1 parameters): [£ — show the calculation; not an invented figure]
+Customer loss magnitude: [lowest low-end £/time/stress at scale across the merged rows — mark ⚠ UNVALIDATED if estimated]
+Spread of losses across merged rows: [highest ÷ lowest, or n/a]
+Required price (computed from Step 1 parameters, on the merged group): [£ — show the calculation; not an invented figure]
 Penetration rate used: [user-supplied | method default per [source], user-confirmed]
-Loss-to-price ratio: [>2x is viable direction; <1x is not]
-Workaround plausibility: [High / Medium / Low — one sentence]
-Verdict: [In-PCO (default) / Out of scope — directional screen only. Under the breadth default, every case that clears the screen is In-PCO; "Out of scope" applies ONLY to cases that fail on their own terms (no monetizable loss, or no conceivable workaround). A case is never marked Out of scope merely for being smaller or worse-fitted than another. Use the optional priority note to flag which In-PCO case to research first. The user selects the PCO in Step 5.]
+Loss-to-price ratio: [≥2 viable direction · 1–2 marginal · <1 struck]
+Per-row ratios at the levelled price (diagnostic only): [row: ratio, …]
+Workaround plausibility: [High / Medium / Low / none conceivable — one sentence, for the one form]
+Verdict: [In-PCO / In-PCO, marginal / Struck — directional screen only. Struck applies ONLY under the one strike rule: ratio below one at base, or no workaround conceivable. State which factor failed and what measurement reopens it. A case is never struck for being smaller or worse-fitted than another. Use the optional priority note to flag which In-PCO case to research first. The user selects the PCO in Step 5.]
 ```
 
 ---
@@ -396,6 +510,9 @@ Confidence assessment:
 | Loss too small | Required price is £200; average customer loss is £150 | Directionality test fails — no viable price point exists within the customer's loss |
 | Workaround implausible | The conventional BFF cost structure is irreducible | R1 may not be solvable for this PCO — needs redesign before proceeding |
 | Premature narrowing | "We picked the landlord case over the others" | A single case chosen at PCO when several cleared the screen — re-introduces the beachhead trap. Carry all surviving cases into the PCO; let R2's KMC qualify customers on evidence |
+| Segments screened as cases | Three rows the market delivers the same way, each asked to carry the whole revenue alone; two "fail" | Rows drawn at segment level. Merge them into the levelled case first, then screen once (Step 4, "Level, then screen") |
+| Summed capacity | "Rows 2, 3 and 6 add to £18m against £8.9m required" | A pricing structure assumed at PCO and a threshold written into a quantity. Screen the merged case at one required price on the union group, at the lowest low-end loss |
+| Cut where it passes | A row added, dropped, or a band split so that the ratio clears | Membership is fixed on delivery evidence before the arithmetic. A partition is made on a delivery difference, never on the number |
 
 ---
 
@@ -415,7 +532,7 @@ The PCO sets the scope for all requirements. R1's CLO identification and Workaro
 
 ## Generative discipline — keep the PCO open (VA-3 / VA-2)
 
-Reference: `method/context/va-design-discipline.md`
+Reference: `04-Projects/Family_High_Performance/context/va-design-discipline.md`
 
 The PCO sets scope, not design. Specify only what the PCO genuinely requires — the broadest credible use case and the investment parameters. Do **not** pin down product features, segments, pricing, mechanisms, or a Business Form Factor here. Those are earned by the BALM challenges (R1–R10), and a PCO that pre-specifies them anchors every later challenge into justification mode — defending an early design instead of generating a better one. Anything specified here that a later challenge will earn is premature design (VA-2): hold it open as a question, not a decision. The test before recording any detail: "does the PCO itself require this, or am I designing the venture early?"
 
@@ -432,7 +549,7 @@ Write every rendered output document this skill produces — the PCO brief, the 
 - Prefer approved-word constructions: "make sure" not "ensure"; "use" not "utilise"; "start" not "commence".
 - Warnings and open items as commands ("Check X before Y. Do not assume it."), not observations.
 
-This governs the *rendered document*, not the method: step definitions quoted from this skill stay verbatim, and the `⚠ UNVALIDATED` flagging discipline is unchanged. Reference example: `ventures/Education/education-venture-design-record-2026-08-17.html`.
+This governs the *rendered document*, not the method: step definitions quoted from this skill stay verbatim, and the `⚠ UNVALIDATED` flagging discipline is unchanged. Reference example: `04-Projects/TMTH_Venture_Studio/Education/education-venture-design-record-2026-08-17.html`.
 
 ---
 

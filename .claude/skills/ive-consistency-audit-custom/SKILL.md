@@ -137,26 +137,26 @@ Beyond the known dependency pairs, look for any of these structural patterns tha
 
 ---
 
-## Step 3b: Distinguish conditions from component design requirements
+## Step 3b: Distinguish conditions from process design requirements
 
 Before classifying any item as 🟡 Borderline, apply this test:
 
-**Is this a gap in the BFF that cannot be resolved through component design alone?**
+**Is this a gap in the BFF that cannot be resolved by specifying how a process runs?**
 
 - **Yes → genuine condition:** something the architecture depends on that isn't yet specified, requires action outside the venture's direct control, and would cause an architectural failure if omitted at the BFF level. Classify as 🟡 Borderline and surface as a condition.
 
-- **No → component design requirement:** an implementation requirement that follows naturally from the architecture, is within the venture's direct control to specify and build, and gets resolved when that component is designed in Phase 5. Classify as 📋 Phase 5 component note.
+- **No → process design requirement:** an implementation requirement that follows naturally from the architecture, is within the venture's direct control to specify and build, and gets resolved when that process is designed in Phase 5. Classify as 📋 Phase 5 process note.
 
 **The key diagnostic questions:**
-- Can this be resolved through a product feature, a contract, a legal agreement, or an operational process that the venture designs and controls?
-- Does resolving it require changing the BFF, or only specifying how a component is built?
+- Can this be resolved by a process the venture designs and controls, or by an asset that process runs on — a product feature, a contract, a legal agreement?
+- Does resolving it require changing the BFF, or only specifying how a process runs?
 - Is this already implied by the architecture, just not yet written into a spec?
 
-If the answer to any of these is "yes, it's a component" — it is not an audit condition. It is a Phase 5 design note. Include it in the output as a component note, not a condition. It does not affect the PASS / FAIL verdict.
+If the answer to any of these is "yes, it's a process" — it is not an audit condition. It is a Phase 5 design note. Include it in the output as a process note, not a condition. It does not affect the PASS / FAIL verdict.
 
 **Examples:**
-- "The sign-up flow must disclose pool insurance before membership confirmation" → component design requirement for the sign-up flow. Not a condition.
-- "Assessment org engagement agreements must include NDA and non-solicitation provisions" → component design requirement for the supplier engagement agreement. Not a condition.
+- "The sign-up flow must disclose pool insurance before membership confirmation" → process design requirement for the sign-up process. Not a condition.
+- "Assessment org engagement agreements must include NDA and non-solicitation provisions" → process design requirement for the supplier engagement process, which produces that agreement. Not a condition.
 - "R6's payment structure requires the customer to have cash at a time the architecture doesn't guarantee" → genuine condition — changes the BFF or requires a new mechanism.
 
 ---
@@ -182,7 +182,7 @@ If the answer to any of these is "yes, it's a component" — it is not an audit 
 > [For each borderline item:]
 > - **[Dependency pair]:** Compatible only if [specific condition]. This is a critical assumption — test it before committing to this design.
 
-**Before finalising conditions:** apply the Step 3b test to every 🟡 item. Any item that can be resolved through component design is a Phase 5 note, not a condition. Remove it from the conditions list and add it to a "Phase 5 component notes" section in the report. A clean architecture with only component-level implementation requirements should return a PASS verdict, not PASS WITH CONDITIONS.
+**Before finalising conditions:** apply the Step 3b test to every 🟡 item. Any item that can be resolved by specifying how a process runs is a Phase 5 note, not a condition. Remove it from the conditions list and add it to a "Phase 5 process notes" section in the report. A clean architecture with only process-level implementation requirements should return a PASS verdict, not PASS WITH CONDITIONS.
 
 ### FAIL — contradictions present
 
@@ -216,7 +216,7 @@ The only exception: if R[A] is found to rest on a factual error (a wrong assumpt
 
 Produce a consistency audit report as an HTML file.
 
-Save to: `ventures/{venture-slug}/consistency-audit-{date}.html`
+Save to: `04-Projects/{venture-slug}/consistency-audit-{date}.html`
 
 Use the standard design system (DM Sans + Lora, #f5f4f1 background, #0f2744 navy panel).
 
@@ -237,7 +237,7 @@ The document contains:
 
 3. **Contradiction details** — one section per 🔴 item, with the clash named precisely and resolution options
 4. **Borderline conditions** — one section per 🟡 item, with the condition named as a critical assumption
-5. **Phase 5 component notes** — items that are not architectural conditions but are implementation requirements that follow from the architecture. These belong in Phase 5 component specs. Listed here so they are not lost.
+5. **Phase 5 process notes** — items that are not architectural conditions but are implementation requirements that follow from the architecture. These belong in Phase 5 process definitions. Listed here so they are not lost.
 6. **Routing instruction:**
    - PASS: "Architecture is internally consistent. Proceed to implementation sequencing."
    - FAIL: "Resolve contradictions in requirements [list] and re-run `/ive-consistency-audit-custom`."
@@ -254,6 +254,6 @@ Open in browser after saving.
 - **Complements, does not replace:** `verify-balm-custom` checks completeness (fields present); this skill checks consistency (fields don't contradict). Run both.
 - **On FAIL:** the resolution is always a change to one of the requirement solutions. Identify which requirement to return to, make the design change, and re-run the audit.
 - **Known dependency pairs:** R1→R6, R1 cost→R2 ceiling, R3→R8, R5→R8, R7→R9, R4→R7, R6→R2, R8→R10, R9→R10 — always check all of these, plus any additional tensions surfaced in Step 3
-- **Model stack reference:** Before running this audit, read `method/wiki/Methodology/Model_Stack.md`. It documents the full dependency chain (BALM → CTM → AOM → ARM → Fin-Sim → FMOS) and the build sequence. The consistency audit checks BALM-level coherence; the model stack explains how BALM solutions propagate into the downstream models — which is why BALM contradictions matter beyond the design document itself.
+- **Model stack reference:** Before running this audit, read `04-Projects/TMTH_Venture_Studio/TMTH_IVE_Wiki/wiki/Methodology/Model_Stack.md`. It documents the full dependency chain (BALM → CTM → AOM → ARM → Fin-Sim → FMOS) and the build sequence. The consistency audit checks BALM-level coherence; the model stack explains how BALM solutions propagate into the downstream models — which is why BALM contradictions matter beyond the design document itself.
 - **Related skills:** `/verify-balm-custom` (completeness), `/ive-fit-verifier-custom` (financial gate at F1/F2 boundary), `/balm-challenge-1-custom` through all requirement skills
-- **Condition vs component discipline:** Before marking any item as a condition, apply the Step 3b test. Many apparent "borderline" findings are Phase 5 component design requirements — they don't affect the PASS verdict and don't require BFF revision. The discipline is: conditions change the architecture; component notes specify how the architecture is built.
+- **Condition vs process discipline:** Before marking any item as a condition, apply the Step 3b test. Many apparent "borderline" findings are Phase 5 process design requirements — they don't affect the PASS verdict and don't require BFF revision. The discipline is: conditions change the architecture; process notes specify how the architecture runs.
