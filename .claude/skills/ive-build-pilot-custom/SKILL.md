@@ -29,7 +29,7 @@ THIS SKILL: build → integrate → MRP design   → [TRR]   ready to launch
 Real-world MRP run             → [ORR]   (NOT here)
 ```
 
-Source: IVE V-Model (`TMTH_IVE_Wiki/wiki/Methodology/V_Model_Process.md`), Phase II Steps 5–7. Exemplar of a good right-side artifact: `04-Projects/TMTH_Venture_Studio/FinTech_Justice/calmly-validation-plan-2026-05-23.html` (risk-ordered slices, T4 flows, go/no-go gates).
+Source: IVE V-Model (`TMTH_IVE_Wiki/wiki/Methodology/V_Model_Process.md`), Phase II Steps 5–7. Exemplar of a good right-side artifact: a venture validation plan (risk-ordered slices, T4 flows, go/no-go gates).
 
 **Founding principle (load-bearing):** *build and test the smallest runnable process before integrating processes into the workflow.* The smallest runnable unit is a process, not an artefact — test it first, then integrate. This front-loads validation and avoids burning capital testing an architecturally-broken product at the workflow level. 85% of cost is locked at the design stage — so the pilot's job is not to *discover* the model, it is to *verify the architecture survives contact with reality.*
 
@@ -50,7 +50,7 @@ If any is missing → **STOP.** Return to `/ive-conductor-custom`; the venture h
 
 ## Step 1 — Inherit the detailed design & risk-order into slices
 
-Take the detailed-design package as given — process definitions, asset specs, interfaces, org/role map. **Do not redesign.** Then cut the venture into **slices** — coherent bundles of processes + roles — and order them **riskiest-first**: the slice whose failure kills the venture fastest, and is cheapest to test, goes first. (Calmly's validation plan is the exemplar.)
+Take the detailed-design package as given — process definitions, asset specs, interfaces, org/role map. **Do not redesign.** Then cut the venture into **slices** — coherent bundles of processes + roles — and order them **riskiest-first**: the slice whose failure kills the venture fastest, and is cheapest to test, goes first.
 
 For each slice produce:
 - **Slice name + why it's here** (the assumption it kills)
@@ -132,7 +132,7 @@ The venture is "ready to launch" only when this gate clears. Check every item; a
 
 Produce an HTML package (house style: DM Sans + Lora, `#f5f4f1` bg, `#0f2744` navy panel) saved to `04-Projects/{venture-slug}/{venture}-pilot-readiness-{date}.html`, containing:
 1. **Readiness verdict panel** — navy, prominent: TRR verdict + the one watch item
-2. **Risk-ordered slice map** — slices, tiers, min-builds (the Calmly slice-map format)
+2. **Risk-ordered slice map** — slices, tiers, min-builds (the slice-map format in `/ive-build-pilot-custom`)
 3. **Process build+test record** — each process, its acceptance criterion, PASS/FAIL/PARTIAL, and the assets it produced
 4. **Operator run record** — each role's processes run end to end by a real operator, with the first read on the rate vs the ARM
 5. **LMU integration result** — integrated unit economics vs the modelled FMOS
@@ -170,7 +170,7 @@ Then write the build/validation entries into the venture VDR.
 - This is a custom skill, protected from Dex updates
 - Edit `.claude/skills/ive-build-pilot-custom/SKILL.md` to modify
 - **Methodology reference:** `TMTH_IVE_Wiki/wiki/Methodology/V_Model_Process.md` (Phase II, Steps 5–7)
-- **Exemplar (what a good right-side artifact looks like):** `FinTech_Justice/calmly-validation-plan-2026-05-23.html` — risk-ordered slices, T4 flows with FAIL conditions, go/no-go gates
+- **Exemplar (what a good right-side artifact looks like):** a venture validation plan — risk-ordered slices, T4 flows with FAIL conditions, go/no-go gates
 - **Upstream:** `/ive-detailed-design-custom` (CDR) · **Downstream:** real-world MRP run → ORR
 - **Registered in** `/ive-conductor-custom` routing table for the CDR→TRR phase
 - Workstream: Forge build-tooling (a conductor-routed skill) — NOT WS1 (WS1 refines the architecture-*producing* skills, scored by `/verify-venture-custom`; this is the build/verify layer)

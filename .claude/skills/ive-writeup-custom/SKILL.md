@@ -87,7 +87,7 @@ The two standards work together: VA-32 keeps the numbers honest about their prec
 
 ---
 
-## Field-hardened rules (v1.1 — from first runs on Forge + Calmly, 6 Jun 2026)
+## Field-hardened rules (v1.1 — from the first two studio runs, 6 Jun 2026)
 
 Apply these before and during drafting. Each fixed a real stumble on a live venture.
 

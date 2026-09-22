@@ -117,13 +117,13 @@ For each venture, the conductor needs to find:
 - Latest design memo (`04-Projects/{venture}/*.html` — look for "design-memo")
 - Workspace transcription (`04-Projects/{venture}/workspace-transcription.md` or similar)
 - Fin-sim status (`04-Projects/{venture}/` — look for fin-sim or resourcing model files)
-- AOM status (`04-Projects/{venture}/calmly-aom-*.html` or similar)
+- AOM status (`04-Projects/{venture}/{venture}-aom-*.html` or similar)
 - VDR — the running design record (`04-Projects/{venture}/{venture}-VDR*.html` or VDR changelog)
 - Model-stack files (`{venture}-ctm-at-C*.html`, `{venture}-aom-at-C*.html`, `{venture}-fin-sim-at-C*.html`) — note which challenge state (C[N]) each reflects. **Their absence means the model stack has not been built — even if design prose / a brief exists.**
 
-For Calmly's current gate position, read in this order:
-1. Latest conductor report: `04-Projects/TMTH_Venture_Studio/FinTech_Justice/conductor-{latest-date}.html` — the most recent conductor run is the authoritative process position summary
-2. Latest CDR package: `04-Projects/TMTH_Venture_Studio/FinTech_Justice/calmly-cdr-package-2026-05-22.html` — gate entry criteria, FMOS results, open items, and CDR verdict
+For a venture's current gate position, read in this order:
+1. Latest conductor report: `04-Projects/{venture}/conductor-{latest-date}.html` — the most recent conductor run is the authoritative process position summary
+2. Latest CDR package: `04-Projects/{venture}/{venture}-cdr-package-{date}.html` — gate entry criteria, FMOS results, open items, and CDR verdict
 3. V-model methodology reference: `04-Projects/TMTH_Venture_Studio/TMTH_IVE_Wiki/wiki/Methodology/V_Model_Process.md` — canonical IVE V-model phases and gate definitions
 
 Note: `incose-process-2026-05-21.html` was referenced here but was never created. The CDR package and conductor report are the operative evidence sources.
@@ -299,8 +299,8 @@ Open in browser after saving.
 - This is a custom skill, protected from Dex updates
 - Edit `.claude/skills/ive-conductor-custom/SKILL.md` to modify
 - **Process reference (primary):** `04-Projects/TMTH_Venture_Studio/FinTech_Justice/conductor-{latest-date}.html` — most recent conductor report is the authoritative position summary
-- **Process reference (CDR evidence):** `04-Projects/TMTH_Venture_Studio/FinTech_Justice/calmly-cdr-package-2026-05-22.html` — gate criteria, FMOS, open items
-- **Process reference (TRR preparation):** `04-Projects/TMTH_Venture_Studio/FinTech_Justice/calmly-validation-plan-2026-05-23.html` — slice-ordered validation plan; which slices to build and test first, T4 flows per slice, exit gates, and what is explicitly deferred until each gate clears
+- **Process reference (CDR evidence):** the venture's latest CDR package — gate criteria, FMOS, open items
+- **Process reference (TRR preparation):** the venture's validation plan — slice-ordered validation plan; which slices to build and test first, T4 flows per slice, exit gates, and what is explicitly deferred until each gate clears
 - **Process reference (methodology):** `04-Projects/TMTH_Venture_Studio/TMTH_IVE_Wiki/wiki/Methodology/V_Model_Process.md` — canonical V-model phases and gates
 - **Model stack reference:** `04-Projects/TMTH_Venture_Studio/TMTH_IVE_Wiki/wiki/Methodology/Model_Stack.md` — the six IVE models and their dependency chain
 - **Run at the start of every IVE session** to orient before picking up work

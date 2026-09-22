@@ -107,7 +107,7 @@ Same tier system as the architecture-assumption audit and the fin-sim. Every inp
 
 ---
 
-## Field-hardened rules (v1.1 — from first runs on Forge + Calmly, 6 Jun 2026)
+## Field-hardened rules (v1.1 — from the first two studio runs, 6 Jun 2026)
 
 Apply throughout. Each fixed a real stumble on a live venture.
 

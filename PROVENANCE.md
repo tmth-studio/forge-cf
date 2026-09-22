@@ -1,13 +1,13 @@
 # Bundle provenance
 
-built: 2026-09-22T08:45:06Z
+built: 2026-09-22T09:00:03Z
 vault commit: d1404074 (working tree; uncommitted edits included)
 builder: 04-Projects/TMTH_Venture_Studio/Forge/WS1/build-cf-bundle.sh
 
 ## Files
 
-789e149a6cbc0361  .claude/skills/architect-custom/SKILL.md
-62cf3b35c99a83f2  .claude/skills/architecture-assumption-audit-custom/SKILL.md
+d117c0ddf1863516  .claude/skills/architect-custom/SKILL.md
+8edf7e32db038d54  .claude/skills/architecture-assumption-audit-custom/SKILL.md
 3bd64fa399448dba  .claude/skills/balm-challenge-1-custom/SKILL.md
 06a1fc9ed2a493d3  .claude/skills/balm-challenge-10-custom/SKILL.md
 68753feb335fc6dd  .claude/skills/balm-challenge-2-custom/SKILL.md
@@ -24,17 +24,17 @@ d59e25634b75a0af  .claude/skills/balm-challenge-8-custom/SKILL.md
 f04756c1b6aaf91b  .claude/skills/ive-aom-custom/reference/aom-guide-to-operational-modelling.pdf
 5a1c2c84c5953664  .claude/skills/ive-aom-custom/reference/aom-reference-example.pdf
 5dae936fc4041885  .claude/skills/ive-architecture-generator-custom/SKILL.md
-ab6eef4c122bc6ef  .claude/skills/ive-build-pilot-custom/SKILL.md
-c6d9feffe6a0ad2d  .claude/skills/ive-conductor-custom/SKILL.md
+b356905953c072cd  .claude/skills/ive-build-pilot-custom/SKILL.md
+0e4dfc94b58f0cd2  .claude/skills/ive-conductor-custom/SKILL.md
 00c9839ad639ee07  .claude/skills/ive-consistency-audit-custom/SKILL.md
-23c767168b45afa9  .claude/skills/ive-ctm-custom/SKILL.md
+82f904f4fa36d841  .claude/skills/ive-ctm-custom/SKILL.md
 c845ccb5bb57c8fe  .claude/skills/ive-design-loop-custom/SKILL.md
 824a9917e57958f8  .claude/skills/ive-detailed-design-custom/SKILL.md
 90cbaef1678bf8fc  .claude/skills/ive-fin-sim-custom/SKILL.md
 9b224249b2e4e537  .claude/skills/ive-fit-verifier-custom/SKILL.md
 f735289bbc0ad9a3  .claude/skills/ive-research-design-custom/SKILL.md
-a8eb828290fa4eb4  .claude/skills/ive-valuation-custom/SKILL.md
-b9939be7a939a23d  .claude/skills/ive-writeup-custom/SKILL.md
+904c1e70c66d46ad  .claude/skills/ive-valuation-custom/SKILL.md
+68f4455161cc1900  .claude/skills/ive-writeup-custom/SKILL.md
 fce0cb7c87fd42ec  .claude/skills/shared/aom-diagram-spec.md
 9368c23dacc21e2a  .claude/skills/shared/components-map-spec.md
 a89357d75644bb52  .claude/skills/shared/ctm-diagram-spec.md
@@ -64,7 +64,7 @@ bad759e71950ade6  .claude/skills/shared/generators/test_pool_at_risk.py
 b2ff9a06d74b1a4e  .claude/skills/verify-balm-custom/SKILL.md
 788d08116d4b6020  .claude/skills/verify-venture-custom/SKILL.md
 60c9bdd905fcf45a  .gitignore
-f3f7f9795900935a  04-Projects/Family_High_Performance/context/va-design-discipline.md
+d75b03e19f2b31c9  04-Projects/Family_High_Performance/context/va-design-discipline.md
 c4f8e2d2838fd574  04-Projects/TMTH_Venture_Studio/Forge/WS1/architecture-process-flow.html
 51f2441b89e895ab  04-Projects/TMTH_Venture_Studio/Forge/WS1/company-secretary-standard.md
 2462eb554d8a7ef2  04-Projects/TMTH_Venture_Studio/Forge/WS1/component-register-standard.md
@@ -82,12 +82,12 @@ e47de927ee3aac36  04-Projects/TMTH_Venture_Studio/Forge/WS1/landing-page-standar
 4fb803ff1c67288a  04-Projects/TMTH_Venture_Studio/Forge/WS1/position-register-standard.md
 0ab66642acbb82b3  04-Projects/TMTH_Venture_Studio/Forge/WS1/print-operations-standard.md
 ff4603f2c7cf885d  04-Projects/TMTH_Venture_Studio/Forge/WS1/realisation-standard.md
-c38fe14f227948cb  04-Projects/TMTH_Venture_Studio/Forge/WS1/regression-set.md
+6ef0995c4ad69d6b  04-Projects/TMTH_Venture_Studio/Forge/WS1/regression-set.md
 797cbe1f0cb06b35  04-Projects/TMTH_Venture_Studio/Forge/WS1/routine-register-standard.md
 7239b5245bc28b51  04-Projects/TMTH_Venture_Studio/Forge/WS1/run-record-standard.md
 b30de421a91b61f0  04-Projects/TMTH_Venture_Studio/Forge/WS1/runs/runs.py
 2440d7cb4e58daba  04-Projects/TMTH_Venture_Studio/Forge/WS1/sales-marketing-asset-standard.md
-6815b7695b3ff80f  04-Projects/TMTH_Venture_Studio/Forge/WS1/se-canon-sources.md
+cec66d9ddda29809  04-Projects/TMTH_Venture_Studio/Forge/WS1/se-canon-sources.md
 603663857400edfc  04-Projects/TMTH_Venture_Studio/Forge/WS1/toolchain-manifest.txt
 fb81c3105f3fad48  04-Projects/TMTH_Venture_Studio/Forge/WS1/tpm-measurement-standard.md
 f427e95326e57f71  04-Projects/TMTH_Venture_Studio/Forge/WS1/validation-standard.md
@@ -95,5 +95,5 @@ f427e95326e57f71  04-Projects/TMTH_Venture_Studio/Forge/WS1/validation-standard.
 69825776d64ddbbd  04-Projects/TMTH_Venture_Studio/TMTH_IVE_Wiki/wiki/Methodology/Model_Stack.md
 c4b1868b1e3ac202  04-Projects/TMTH_Venture_Studio/TMTH_IVE_Wiki/wiki/Methodology/V_Model_Process.md
 ec442c566e909a0e  FEEDBACK.md
-67a27172985f015c  README.md
+f2a4ba4c7eb2362f  README.md
 a69100d58140c163  ventures/_template/README.md
