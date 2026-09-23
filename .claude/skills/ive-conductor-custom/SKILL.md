@@ -58,6 +58,8 @@ Then for **each** challenge R1…R10 the **same** sub-sequence (C[n]):
 
 Gates/audits in sequence: after R3 → **AR** (FIT verifier on F1, computed) · after R10 → fixed-point pass (VA-161) → verify-balm → consistency audit = **PDR** · after PDR → detailed design (buildable process definitions + asset specs + interfaces, via `/ive-detailed-design-custom`) = **CDR** · then build pilot (`/ive-build-pilot-custom`) = **TRR** · then MRP = **ORR**.
 
+**Search ladder re-entry (VA-177, RD-055 (Head of R&D, 23 Sep 2026, object-after 25 Sep 17:00)).** A gate that fails does not end the run while a rung of the search ladder has an untried candidate (the ladder is in every challenge skill's loop-back section). When a challenge's verdict block records a climb to rung 4 or 5, the ledger re-opens at an earlier row: rung 4 at C2 row a (a different customer) or C1 row a (a different line of a named business); rung 5 at P3 (use cases, widened one level). The authority file states `ladder: rung [n], candidate [name], re-entered at [row], [date]`. From that line on, only artifacts dated on or after it count as complete, so the determination algorithm finds the re-opened row as CURRENT. The earlier candidate's artifacts stay on disk as its ladder-log entry and are not overwritten. The conductor never lowers a gate.
+
 ### C — Determination algorithm (run exactly this, every time)
 1. Walk the ledger top to bottom.
 2. The **first** step whose completion artifact is absent = the **CURRENT step**.

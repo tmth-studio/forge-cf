@@ -12,16 +12,19 @@ free. You pay only for your own model usage.
 **What "venture-scale" means here.** A company whose cost to serve sits below
 what customers will pay, at the volume the opportunity supports, with a way to
 reach that volume without running out of cash. Those three conditions are the
-first three gates. A design that fails one of them is stopped there and told why.
+first three gates. A design that fails one is never waved through. Forge tries a
+wider design instead, and keeps going until one passes.
 
 **Why this and not a pitch deck.** A deck states a plan. A spreadsheet with an
 assumed growth rate states a hope. Forge builds the design requirement by
-requirement, refuses to move on when a requirement fails its gate, and every
-figure in the final document traces to a named cell in the workbook. You finish
-with a design that has been tested, or a clear account of where it broke.
+requirement, refuses to move on when a requirement fails its gate, searches for
+a design that passes instead, and traces every figure in the final document to a
+named cell in the workbook. You finish with a design that has passed every gate.
+If the search runs out, you get the best design found, how far short it falls
+and what would have to be true for it to pass.
 
 **Where it comes from.** This is the studio's own working method, built from its
-files by script on 22 September 2026 (`PROVENANCE.md` lists every file with its
+files by script on 23 September 2026 (`PROVENANCE.md` lists every file with its
 digest). It rests on a body of published work led by Erik Simanis at Cornell,
 written with co-authors 2021–2025. The skills name the sources they draw on.
 
@@ -142,8 +145,13 @@ name a whole company, the run takes its largest line and tells you.
 | Business case | Writes the business case document and builds the evidence workbook from one model data file |
 
 Each of the ten requirements runs the same loop: diagnose, theorise, productise,
-simulate. A requirement is finished only when it passes its gate. The method will
-refuse to move you forward on a fail, and that refusal is the point.
+simulate. A requirement is finished only when it passes its gate, and the method
+never lowers a gate to let a design through. When a requirement fails three
+times, the method moves to a wider design, in a fixed order: a new strategy; the
+same idea in a different business form; a different customer, or a different
+line of the business you named; then a wider opportunity. It stops only when
+every step has been tried. It then gives you the best design it found, the number
+that stops it and by how much.
 
 ### Vocabulary
 

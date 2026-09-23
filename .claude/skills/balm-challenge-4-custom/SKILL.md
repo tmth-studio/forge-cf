@@ -120,8 +120,25 @@ Simulate is the IVE Model Stack carried through to a number. It is **not** a gue
 - **A pivot changes the theorem or the strategy, not the tactics.** If the core mechanism is unchanged, it is optimisation, not a pivot.
   - *Pivot when:* FMOS is negative/below-gate and cannot be fixed within the current design; a key assumption is disconfirmed and the theorem no longer holds.
   - *Do not pivot when:* results are ambiguous, or the strategy wasn't actually tested (flawed execution of the reasoning).
-- **Iteration cap.** If three loop-backs do not converge, stop and flag — do not spin. Write a `FLAG FOR TOM` block stating why the challenge will not clear and what decision is needed.
-- **Loop counter and the third loop (VA-151, RD-036) (Head of R&D, 21 Sep 2026, object-after 23 Sep 12:30).** Print `loop_backs: n` in the gate verdict block. At the third loop-back the run states whether the next turn is a **pivot** (the theorem or the strategy changes) or a **mutation** (same theorem, a different form), and names the FIT line that decides it. A third loop that names neither is the `FLAG FOR TOM` above.
+- **Loop counter and the third loop (VA-151, RD-036) (Head of R&D, 21 Sep 2026, object-after 23 Sep 12:30).** Print `loop_backs: n` in the gate verdict block. At the third loop-back the run states whether the next turn is a **pivot** (the theorem or the strategy changes) or a **mutation** (same theorem, a different form), and names the FIT line that decides it. A third loop that names neither has not climbed: name one, then continue up the search ladder below (VA-177).
+- **Search ladder: a run that fails does not stop at the first strategy, and a gate is never lowered (VA-177, RD-055) (Head of R&D, 23 Sep 2026, object-after 25 Sep 17:00; the principal's ruling of 23 Sep 2026: "method should keep going until a way forward is found").** When three loop-backs on one candidate do not converge, climb one rung. Each rung widens the design move, never the test.
+  1. *Tactics.* The current strategy, re-run with the FIT diagnosis as the brief (the loop-back above).
+  2. *Pivot.* A new theorem or strategy for this requirement. Run `/ive-architecture-generator-custom` on the bottleneck for cross-domain candidates.
+  3. *Mutation.* The same theorem in a different business form.
+  4. *A different customer.* Return to C2 and take the next customer it ranked and did not select. For a named-business entry, take a different line of the named business and return to C1 SR1.
+  5. *A wider opportunity.* Return to the PCO, widen the use case one level, and run the new shortlist from C1.
+  - **Order.** Rungs 2 and 3 run in the order the FIT line decides (VA-151). A theorem the result disproves goes to the pivot first. A sound theorem in the wrong form goes to the mutation first. Both rungs finish before rung 4.
+  - **Finite.** Before a rung starts, write its candidate list. Rung 1 has one candidate. Rung 2 takes every candidate the generator returns. Rung 3 takes every mutation named in the CONSIDERED / NOT CHOSEN block and any new one. Rungs 4 and 5 take every customer, line or use case that passes the PCO screen. Each candidate gets up to three loop-backs. A rung is finished when every candidate on its list has had them. A candidate already tried is not tried again.
+  - **The gate stays where it is.** The band, the stress test and the evidence rule are the registry's at every rung. Climbing changes the design, never the test. A BORDERLINE is accepted only under the close criterion below, as before.
+  - **Where the ladder is climbed.** A FAIL whose lever a later requirement owns routes forward first (VA-153 branches 1 and 2). The ladder is climbed at the requirement that owns the lever.
+  - **Rulings.** A rung that a dated principal ruling closes (for example, a ruled customer of record closes rung 4) is written "closed by ruling [date]" and skipped. With no person present, climb; never stall (VA-153 branch 4).
+  - **The end.** The run ends only when all five rungs are finished and no candidate converged. It then writes a `FLAG FOR THE PRINCIPAL` block. The principal is the person you are working with. The block holds five things:
+    - the best design found: the candidate closest to the gate at the same stress conditions, with its FIT band and margin
+    - the binding constraint with its arithmetic: "the gate needs X, the best design reaches Y, short by X minus Y"; name which constraint binds and by how much, and write "too small", never "impossible"
+    - what would have to be true for it to pass: the value of each binding input at which the gate passes, with its evidence class
+    - the ladder log: rung, candidate, FIT result and loop-backs used, one line each
+    - each rung closed by ruling, and what opening it would allow.
+    The gate verdict stays FAIL.
 - **Four loop-gate branches (VA-153, RD-037) (Head of R&D, 21 Sep 2026, object-after 23 Sep 12:30).**
   1. *Later owner, adjacent:* a FAIL whose lever the next requirement owns routes forward with the FAIL inherited and the owner named in the verdict block.
   2. *Later owner, non-adjacent:* routes in sequence, the FAIL inherited through every requirement between, with a VA-85 lock on the owner; no requirement between may claim the repair.
@@ -741,6 +758,7 @@ GATE VERDICT — on the cumulative architecture C1 to C[N]
   inherited:         [worst verdict of any prior challenge this builds on, and which]
   repairs:           [any upstream failed check this closes — name it, show the arithmetic — or "none"]
   loop_backs:        [n this requirement; at 3 — pivot / mutation, stated, with the FIT line that decides]   VA-151
+  ladder:            [rung 1–5 · candidate k of n on that rung · rungs closed by ruling, or "none"; after rung 5, the FLAG FOR THE PRINCIPAL block]   VA-177
   loop-gate branch:  [for every FAIL — this / adjacent / non-adjacent owner · re-derived cap · autonomous choice, with record]   VA-153
   launch constraints:[none inside SR1–SRn and this block — or the offending line, which fails the logical limb]   VA-23
   spread count:      [the one count used for any fixed-cost spread, why it is the at-scale count; margin at the PCO's other counts]   VA-162
@@ -892,6 +910,7 @@ GATE VERDICT — on the cumulative architecture C1 to C[N]
   inherited:         [worst verdict of any prior challenge this builds on, and which]
   repairs:           [any upstream failed check this closes — name it, show the arithmetic — or "none"]
   loop_backs:        [n this requirement; at 3 — pivot / mutation, stated, with the FIT line that decides]   VA-151
+  ladder:            [rung 1–5 · candidate k of n on that rung · rungs closed by ruling, or "none"; after rung 5, the FLAG FOR THE PRINCIPAL block]   VA-177
   loop-gate branch:  [for every FAIL — this / adjacent / non-adjacent owner · re-derived cap · autonomous choice, with record]   VA-153
   launch constraints:[none inside SR1–SRn and this block — or the offending line, which fails the logical limb]   VA-23
   spread count:      [the one count used for any fixed-cost spread, why it is the at-scale count; margin at the PCO's other counts]   VA-162
