@@ -15,6 +15,42 @@ A name written as `/something-custom` anywhere in this repository refers to
 `.claude/skills/something-custom/SKILL.md`. When a skill routes you to another
 skill by that name, open that file and follow it. Do not guess at what it says.
 
+## First run — do the setup for the person
+
+Many people arrive here by pasting a prompt such as "Set up Forge from
+https://github.com/tmth-studio/forge-cf and help me start my first venture."
+Assume they do not use a terminal. Do every setup step yourself, tell them in
+one plain sentence what you are doing, and ask them for nothing except their
+idea.
+
+1. **Get the files.** If you are not already inside this repository, clone it
+   into a new folder called `forge` and work from there. If `git` is missing,
+   download the ZIP of the `main` branch from the same address and unpack it.
+2. **Check Python.** Run `python3 --version` (on Windows, `py --version`).
+   Version 3.9 or later is needed. If it is missing or too old, tell the
+   person in one sentence and give them the one install link for their
+   system, then continue once they say it is done.
+3. **Install the three packages.** Run `python3 -m pip install --user pyyaml
+   openpyxl formulas`. If the system refuses (an "externally managed
+   environment" error), make a virtual environment in `.venv` inside the
+   repository, install there, and use that Python for every later script.
+4. **Windows only.** If `.agents/skills` is a plain file, not a link, replace
+   it with a copy of `.claude/skills`.
+5. **Make the venture folder.** If the person has already described their
+   idea, derive a short lowercase concept name from it (two to four words,
+   joined by hyphens) and copy `ventures/_template/` to
+   `ventures/<concept-name>/`. If they have not, ask for the idea in one
+   question — a sentence is enough, or the name of a business they want to
+   beat — then make the folder.
+6. **Start the method.** Open the front door below with that concept name and
+   the person's own words as the opening description. Do not summarise the
+   setup at length; one line saying it is done is enough.
+
+If the person pasted the prompt into a chat that cannot run commands or write
+files, say so plainly: Forge needs an agent that works on files, such as
+Claude Code, Codex, Cursor or GitHub Copilot in agent mode. Do not try to run
+the method inside the chat.
+
 ## How to start
 
 Always begin with the front door:

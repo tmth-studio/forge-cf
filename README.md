@@ -27,6 +27,27 @@ written with co-authors 2021–2025. The skills name the sources they draw on.
 
 ---
 
+## Start here — no terminal needed
+
+Open Claude Code (the desktop app is fine), Codex, Cursor or GitHub Copilot in
+agent mode. Paste this, with your idea in place of the brackets:
+
+```
+Set up Forge from https://github.com/tmth-studio/forge-cf and help me start my
+first venture. Read AGENTS.md and follow its first-run section. My idea: [one or
+two sentences, or "I want to beat <company>"].
+```
+
+The agent downloads the method, installs what it needs, makes your venture
+folder and starts the run. It will ask you questions as it goes.
+
+This does not work in a plain chat window (claude.ai, ChatGPT). Forge writes
+files and runs checks, so it needs an agent that can do both.
+
+If you prefer to set it up yourself, the manual steps are below.
+
+---
+
 ## What you get
 
 At the end of a run, two files:
@@ -49,7 +70,7 @@ A worked example is in `.claude/skills/ive-business-case-custom/reference/`.
 
 ---
 
-## Setup — about two minutes
+## Manual setup — about two minutes
 
 1. Install the three Python packages the model tools need. Python 3.9 or later
    is required; check with `python3 --version`.
