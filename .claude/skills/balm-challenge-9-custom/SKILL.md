@@ -249,7 +249,7 @@ Work through these two questions before finalising the Lock-Out Strategy:
 
 **3. At-scale test.** Is this mechanism designed for the venture operating at capital-payback scale — the volume at which all required investment is paid back at the required IRR — or is it designed for the first cohort? A BFF that requires founding-team bandwidth, managed-by-exception operations, or pilot-only concessions is a launch-phase design, not an architecture. Name the at-scale volume explicitly. If the mechanism breaks before reaching it, return to Diagnose.
 
-F3 requirements do not produce cumulative BFF statements. The productizing step is complete when the scarcity mechanism is confirmed as structural.
+F3 requirements publish no form-factor sub-requirement; the working form, C1–C9, travels in the mutation gate's `evolvedBFF` line (VA-175, Head of R&D, RD-054, 23 Sep 2026, object-after 25 Sep 17:00). The productizing step is complete when the scarcity mechanism is confirmed as structural.
 
 ⛔ **MANDATORY HANDOFF — LOCK-OUT STRATEGY CONFIRMED. DO NOT EDIT THE VDR. DO NOT PROCEED TO R10.** The next and only permitted action is Section 5 (CTM Update). Announce explicitly: "Lock-Out Strategy confirmed. Running Sections 5–8 now before any VDR editing." Then proceed directly to Section 5.
 
@@ -311,6 +311,7 @@ ACTOR BUSINESS CASES (VA-127) — mandatory; one row per behaviour the architect
     Arithmetic (VA-157 — two literal lines; a row without both is blank and FAILS):
       central:      gain £[x] − cost £[y] − alternative's surplus £[z] = surplus £[s]
       pessimistic:  gain £[x] − cost £[y] − alternative's surplus £[z] = surplus £[s]
+      pessimistic reads at the combined band, never at every input's harmful end at once (VA-171 (Head of R&D, RD-053, 23 Sep 2026, object-after 25 Sep 17:00)): name the groups of inputs that share a cause; state independence or the correlation used (0.3 unless evidence sets another); spread one-off lines over the VA-162 count; print the all-at-once corner as a stress line.
     Surplus vs alternative: [PASS if pessimistic surplus > 0 · PROVISIONAL if > 0 at central only · FAIL if ≤ 0 at central]
     If FAIL or unpriced: the other force that supplies the behaviour: [a named party's request · a contract · a regulation · a relationship the architect holds — and what it costs that party]
   A behaviour the architecture needs with no positive surplus and no named force is a design defect (VA-89), not a constraint.

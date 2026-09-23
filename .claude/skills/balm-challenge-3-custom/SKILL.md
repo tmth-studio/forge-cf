@@ -360,6 +360,7 @@ ACTOR BUSINESS CASES (VA-127) — mandatory; one row per behaviour the architect
     Arithmetic (VA-157 — two literal lines; a row without both is blank and FAILS):
       central:      gain £[x] − cost £[y] − alternative's surplus £[z] = surplus £[s]
       pessimistic:  gain £[x] − cost £[y] − alternative's surplus £[z] = surplus £[s]
+      pessimistic reads at the combined band, never at every input's harmful end at once (VA-171 (Head of R&D, RD-053, 23 Sep 2026, object-after 25 Sep 17:00)): name the groups of inputs that share a cause; state independence or the correlation used (0.3 unless evidence sets another); spread one-off lines over the VA-162 count; print the all-at-once corner as a stress line.
     Surplus vs alternative: [PASS if pessimistic surplus > 0 · PROVISIONAL if > 0 at central only · FAIL if ≤ 0 at central]
     If FAIL or unpriced: the other force that supplies the behaviour: [a named party's request · a contract · a regulation · a relationship the architect holds — and what it costs that party]
   A behaviour the architecture needs with no positive surplus and no named force is a design defect (VA-89), not a constraint.

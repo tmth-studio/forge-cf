@@ -1,7 +1,7 @@
 # Business Case Standard — the two files a run hands to someone else's company
 
 **Owner:** Head of Product · **Capability:** Forge WS1 — CF development
-**Version:** v0.2 (forecast statements added, same day) · **Added:** 22 September 2026, on Tom's instruction of the same day: *"Want the output to be a business case document, with an excel file for supporting evidence, organised in the way the IFC document advises … That's a format someone can use in their own company"* and *"Use this standard for the business case / plan: https://www.gov.uk/write-business-plan"*.
+**Version:** v0.3 (a lending venture's book on tabs 7 and 15 to 18, same day; v0.2 forecast statements added) · **Added:** 22 September 2026, on Tom's instruction of the same day: *"Want the output to be a business case document, with an excel file for supporting evidence, organised in the way the IFC document advises … That's a format someone can use in their own company"* and *"Use this standard for the business case / plan: https://www.gov.uk/write-business-plan"*.
 **Parent:** `derivation-standard.md` · **Siblings:** `finance-standard.md` · `tpm-measurement-standard.md` (how every figure is written) · `run-record-standard.md`
 **Applies to:** the final output of every run — what the architect hands over once Verify has closed.
 **Used at:** the front door's Verify step (`architect-custom`, output line) · `ive-fin-sim-custom` Stage 2 · `ive-business-case-custom`.
@@ -41,10 +41,10 @@ Tabs 1 to 12 are the IFC model in the IFC order. Tabs 13 and 14 are the Start Up
 | 12 Venture P&L | units × unit lines plus the head-office block; venture surplus per month and year | 5 |
 | 13 Sales | the template's sales assumptions: up to four products, twelve months of volume, sales and cost of sales for the units open in year one | template |
 | 14 Cash flow | the template's twelve-month forecast: inflows, outflows by line, net, opening and closing; loan repayment; lowest balance; the stress test with revenue reduced by 10%; cash needed | template |
-| 15 Roll-out | operating units open by year, new units, unit-months at steady-state volume; head-office share and equity raised by year; the loan split into principal and interest by year; capital spend on new units, replacement of assets at the end of their life, depreciation and net book value | forecast |
+| 15 Roll-out | operating units open by year, new units, unit-months at steady-state volume; head-office share and equity raised by year; the loan split into principal and interest by year; capital spend on new units, replacement of assets at the end of their life, depreciation and net book value; for a lending venture, the loan book, its increase, the deposits and the capital held against it by year | forecast |
 | 16 Forecast P&L | revenue to profit after tax by year, with a total: cost of sales, staff, running costs, start-up costs of new units, head-office development, depreciation, interest, tax after losses brought forward | forecast |
-| 17 Forecast cash flow | cash from operations, investing and financing by year; opening and closing cash; the lowest year-end balance and the extra funding needed | forecast |
-| 18 Forecast balance sheet | fixed assets, cash, loan, tax payable, net assets; share capital and retained profit; a row that must read zero | forecast |
+| 17 Forecast cash flow | cash from operations, investing and financing by year; opening and closing cash; the lowest year-end balance and the extra funding needed; for a lending venture, the increase in loans to customers under investing and the deposits and capital that fund it under financing | forecast |
+| 18 Forecast balance sheet | fixed assets, cash, loan, tax payable, net assets; share capital and retained profit; a row that must read zero; for a lending venture, loans to customers, the deposits funding them and the capital held against them | forecast |
 | 19 Check | eleven recomputations (the margin two ways; required price returns the target; venture = units × unit; cash chain; year-one volume; whole cost; the builder's own margin; forecast year one opens the same units and closes at the same cash as tab 14; the balance sheet balances in every year). Every row PASS or the workbook is broken | — |
 
 Rules the workbook keeps:

@@ -99,7 +99,7 @@ A gate that cannot fail is theatre. Even with placeholder figures, the Simulate 
    Do **not** use `(Price − Cost) / Price` (gross-margin / price denominator) — it is a different, incompatible metric and understates the figure. WTP_low = the R2 Key Monetizable Cost / price ceiling; Cost_high = the AOM high-point unit cost.
    **Bands — single source of truth is `Forge/WS1/criteria-registry.md`; do not redefine locally.** Two gate levels, do not conflate: *This challenge's Simulate gate (per-requirement early warning):* **PASS ≥ 25% · BORDERLINE 15–24% · FAIL < 15%** — the band this skill's FIT section uses. *The whole-architecture / Phase II gate (not this skill — runs once, after all ten):* **PASS ≥ 60% · BORDERLINE 25–59% · FAIL < 25%** (60% survives the 62% average engineering cost overrun, Flyvbjerg & Gardner 2023). Use the per-requirement band here; the 60% bar is the final convergence criterion checked by the whole-architecture pass. If these ever disagree with the registry, the registry wins.
 2. **Name the load-bearing assumptions.** Which 2–3 inputs does the FMOS most depend on? `[evidence: CS-7]`
-3. **Run the stress test.** "What is FMOS if the three biggest cost/value assumptions all resolve badly at once?" (Flyvbjerg: complex projects average a 62% cost overrun — a passing design survives it.)
+3. **Run the stress test.** "What is FMOS if the three biggest cost/value assumptions all resolve badly at once?" (Flyvbjerg: complex projects average a 62% cost overrun — a passing design survives it.) **This all-at-once corner is the stress line. Print it beside the gate reading; it is never WTP_low or Cost_high. WTP_low and Cost_high are each read at the combined band of their inputs, grouped by shared cause (VA-171 (Head of R&D, RD-053, 23 Sep 2026, object-after 25 Sep 17:00)). The 62% overrun enters the stress line only — the 60% Phase II bar already allows for it.**
 4. **State the pivot trigger explicitly.** Write the threshold at which the gate flips to FAIL: *"Would FAIL if [assumption] crosses [value] — that is the pivot trigger."* A sound design is exactly this sentence existing.
 5. **Illustrative pass ≠ convergence.** If figures are placeholders (red), the verdict is **"⚠ Provisional pass — pending [the data that would settle it]; would FAIL if [trigger]."** Never a clean PASS on unvalidated inputs. The loop converges only when Simulate clears on inputs that *could have failed it*.
 
@@ -335,6 +335,7 @@ ACTOR BUSINESS CASES (VA-127) — mandatory; one row per behaviour the architect
     Arithmetic (VA-157 — two literal lines; a row without both is blank and FAILS):
       central:      gain £[x] − cost £[y] − alternative's surplus £[z] = surplus £[s]
       pessimistic:  gain £[x] − cost £[y] − alternative's surplus £[z] = surplus £[s]
+      pessimistic reads at the combined band, never at every input's harmful end at once (VA-171 (Head of R&D, RD-053, 23 Sep 2026, object-after 25 Sep 17:00)): name the groups of inputs that share a cause; state independence or the correlation used (0.3 unless evidence sets another); spread one-off lines over the VA-162 count; print the all-at-once corner as a stress line.
     Surplus vs alternative: [PASS if pessimistic surplus > 0 · PROVISIONAL if > 0 at central only · FAIL if ≤ 0 at central]
     If FAIL or unpriced: the other force that supplies the behaviour: [a named party's request · a contract · a regulation · a relationship the architect holds — and what it costs that party]
   A behaviour the architecture needs with no positive surplus and no named force is a design defect (VA-89), not a constraint.
@@ -700,7 +701,7 @@ GATE VERDICT — on the cumulative architecture C1 to C[N]
   VERDICT:           [PASS / PROVISIONAL / FAIL]  — may not exceed `inherited` unless a repair is shown
 ```
 
-⚠ **FMOS uses the cost denominator: `FMOS = (ceiling − floor) ÷ floor` = `(WTP_low − Cost_high) / Cost_high`** (Simanis, *Built to Hold*, p.7). Do **not** divide by the ceiling/price — `(ceiling − floor) ÷ ceiling` is the gross-margin metric, a different and incompatible figure that understates FMOS. WTP_low = R2 KMC / price ceiling; Cost_high = AOM high-point unit cost.
+⚠ **FMOS uses the cost denominator: `FMOS = (ceiling − floor) ÷ floor` = `(WTP_low − Cost_high) / Cost_high`** (Simanis, *Built to Hold*, p.7). Do **not** divide by the ceiling/price — `(ceiling − floor) ÷ ceiling` is the gross-margin metric, a different and incompatible figure that understates FMOS. WTP_low = R2 KMC / price ceiling; Cost_high = AOM high-point unit cost. Each is read at the combined band of its inputs, not at every input's end at once; the corner is the stress line (VA-171 (Head of R&D, RD-053, 23 Sep 2026, object-after 25 Sep 17:00)).
 
 **For R10:** Use the R2 KMC as the price ceiling. The cost floor updates with all new AOM additions from R10 across all streams. Note whether the Leverage Strategy increases or decreases the cost floor (substitute development may temporarily increase costs; structural bypass may ultimately reduce them).
 

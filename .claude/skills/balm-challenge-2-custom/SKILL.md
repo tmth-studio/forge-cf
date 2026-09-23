@@ -96,7 +96,7 @@ Simulate is the IVE Model Stack carried through to a number. It is **not** a gue
 
 1. **Use the correct FMOS formula — cost denominator.** `FMOS = (WTP_low − Cost_high) / Cost_high` (Simanis, *Built to Hold*, p.7). Do **not** use `(Price − Cost) / Price` (gross-margin / price-denominator) — it is a different, incompatible metric and understates the figure. WTP_low = the R2 Key Monetizable Cost / price ceiling; Cost_high = the AOM high-point unit cost. **Bands — single source of truth is `Forge/WS1/criteria-registry.md`; do not redefine locally.** Two gate levels, do not conflate: *This challenge's Simulate gate (per-requirement early warning):* **PASS ≥ 25% · BORDERLINE 15–24% · FAIL < 15%** — the band this skill's FIT section uses. *The whole-architecture / Phase II gate (not this skill — runs once, after all ten):* **PASS ≥ 60% · BORDERLINE 25–59% · FAIL < 25%** (60% survives the 62% average engineering cost overrun, Flyvbjerg & Gardner 2023). Use the per-requirement band here; the 60% bar is the final convergence criterion checked by the whole-architecture pass. If these ever disagree with the registry, the registry wins.
 2. **Name the load-bearing assumptions.** Which 2–3 inputs does the FMOS most depend on?
-3. **Run the stress test.** "What is FMOS if the three biggest cost/value assumptions all resolve badly at once?" (Flyvbjerg: complex projects average a 62% cost overrun — a passing design survives it.)
+3. **Run the stress test.** "What is FMOS if the three biggest cost/value assumptions all resolve badly at once?" (Flyvbjerg: complex projects average a 62% cost overrun — a passing design survives it.) **This all-at-once corner is the stress line. Print it beside the gate reading; it is never WTP_low or Cost_high. WTP_low and Cost_high are each read at the combined band of their inputs, grouped by shared cause (VA-171 (Head of R&D, RD-053, 23 Sep 2026, object-after 25 Sep 17:00)). The 62% overrun enters the stress line only — the 60% Phase II bar already allows for it.**
 4. **State the pivot trigger explicitly.** Write the threshold at which the gate flips to FAIL and the specific result that would force a pivot: *"Would FAIL if [assumption] crosses [value] — that is the pivot trigger."* The bar for a sound design is exactly this sentence existing.
 5. **Illustrative pass ≠ convergence.** If figures are placeholders (red), the verdict is **"⚠ Provisional pass — pending [the data that would settle it]; would FAIL if [trigger]."** Never a clean PASS on unvalidated inputs. The loop converges only when Simulate clears on inputs that *could have failed it*.
 
@@ -182,6 +182,8 @@ Run the four steps, in order:
 ⛔ **If you are naming the target customer without having sized the alternatives' KMCs, stop — you have skipped the rubric.** (Logged 21 June 2026: R2 asserted "customer = X" by intuition, never enumerating or sizing candidates. The customer must fall out of the sizing, not precede it.)
 
 The selected (highest-value) customer becomes the **focus cluster** that anchors the Attendant Routines map; other clusters are compared against it for systematic variation.
+
+**More than one customer of record, ruled by the principal (VA-173, Head of R&D, RD-052, 23 Sep 2026, object-after 25 Sep 17:00).** Has the principal ruled, in a dated instruction, more than one customer of record? If so, step 4 orders them and selects none out. SR3 to SR5, the KMC admissibility block (VA-150) and the efficacy strategy run once for each customer of record, each with its own focus cluster and routines map, in rubric order. Who can pay is never a key at step 4. Each price line is read against the key cost of the customer of record who pays it. Without such a ruling, step 4 selects one customer as written above. Canon: stakeholder needs per stakeholder class (15288 §6.4.2); the ranking key has no SE analogue — venture-specific. `[evidence: VA-173]`
 
 Define clusters before fieldwork begins. Ensure research covers each cluster — gaps become silent biases in the Attendant Routines map.
 
@@ -371,6 +373,8 @@ What customers report when asked about their routines is usually the visible, co
 The single greatest monetizable cost — in money, fear, or stress — that the solution eliminates for the target customer. There should be a single key cost, not a basket. At the architectural level, one focal cost per customer type. Targeting multiple costs increases uncertainty, creates fuzzy KPIs, and diffuses the value proposition before the market exists.
 
 **Single source, not a basket of problems.** Ventures that attempt to solve multiple costs for the same customer create ambiguity about what the product is for, make it impossible to build a clean Efficacy Theory of Change, and produce KPIs that cannot be read clearly. Platform businesses are not an exception: they have one key cost per side (e.g. Airbnb: hosts have one cost — sunk-asset foregone income; guests have one cost — accommodation price risk), not a combined basket. Identify one focal cost per customer type and design the Efficacy Strategy to eliminate that cost completely before considering secondary costs.
+
+**Several customers of record on one transaction — one cost or several? (VA-172, Head of R&D, RD-052, 23 Sep 2026, object-after 25 Sep 17:00).** Where one transaction serves more than one customer of record, SR3 asks for each pair: is each position's key cost the same cost, seen from a different seat, or a different cost? State the share of each position's cost that the one cost explains. Where the costs differ, name what joins them, if anything: a common cause, a common moment in the routine, or nothing. Each cost then passes the VA-150 admissibility block on its own. Several costs named with no such statement is a basket, and FAILS SR3. Canon: stakeholder needs per stakeholder (15288 §6.4.2); the join by cause has no SE analogue — venture-specific. `[evidence: VA-172]`
 
 ### Three cost types
 
@@ -695,6 +699,7 @@ TARGET-CUSTOMER SELECTION (rubric — sized, NOT asserted)
     [candidate B] → [£ pain value × N actors = value potential]
     [candidate C] → ...
   SELECTED target customer: [the candidate that MAXIMISES £ value × population]
+  — or, where the principal has ruled more than one (VA-173): CUSTOMERS OF RECORD (ruled [date]): [one line per customer, in rubric order, each with its £ value × population]; no single selection
   Why it won: [highest value potential · loss-to-price >2× · passes adoption threshold]
   Legibility: [secondary tiebreaker only — confirm it did NOT drive the choice]
   Focus cluster: [= the selected target; anchors the Attendant Routines map]
@@ -771,6 +776,7 @@ ACTOR BUSINESS CASES (VA-127) — mandatory; one row per behaviour the architect
     Arithmetic (VA-157 — two literal lines; a row without both is blank and FAILS):
       central:      gain £[x] − cost £[y] − alternative's surplus £[z] = surplus £[s]
       pessimistic:  gain £[x] − cost £[y] − alternative's surplus £[z] = surplus £[s]
+      pessimistic reads at the combined band, never at every input's harmful end at once (VA-171 (Head of R&D, RD-053, 23 Sep 2026, object-after 25 Sep 17:00)): name the groups of inputs that share a cause; state independence or the correlation used (0.3 unless evidence sets another); spread one-off lines over the VA-162 count; print the all-at-once corner as a stress line.
     Surplus vs alternative: [PASS if pessimistic surplus > 0 · PROVISIONAL if > 0 at central only · FAIL if ≤ 0 at central]
     If FAIL or unpriced: the other force that supplies the behaviour: [a named party's request · a contract · a regulation · a relationship the architect holds — and what it costs that party]
   A behaviour the architecture needs with no positive surplus and no named force is a design defect (VA-89), not a constraint.

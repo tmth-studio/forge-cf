@@ -40,6 +40,17 @@ def line_name(prefix, text):
     import re as _re
     return prefix + "_" + _re.sub(r"[^a-z0-9]+", "_", str(text).lower()).strip("_")
 
+def line_cell(I, prefix, item, name_field, value_field):
+    """What a line item's blue cell holds: a formula to its Master row when banded, the bare number otherwise."""
+    k = f"{prefix}.{slug(item[name_field])}.{value_field}"
+    return f"={I[k]}" if k in I else item[value_field]
+
+
+def sum_rows(col, r1, r2):
+    """A SUM over the rows a list wrote; a list with no rows sums to zero rather than to a reversed range."""
+    return f"=SUM({col}{r1}:{col}{r2})" if r2 >= r1 else "=0"
+
+
 FMOS_PASS, FMOS_BORDER = 0.25, 0.15
 
 INPUT = Font(color="1F4FA8")            # inputs in blue, the modelling convention
@@ -68,6 +79,42 @@ def band(x):
     return {"value": v, "low": v, "high": v, "unit": "", "tier": "", "source": "", "adverse": ""}
 
 
+def slug(text):
+    """A key fragment for a line item: letters, digits and underscores only."""
+    import re as _re
+    return _re.sub(r"[^a-z0-9]+", "_", str(text).lower()).strip("_")
+
+
+LINE_LABELS = {}   # key -> Master label for banded line items (filled by collect_inputs)
+
+# Banded line items (spec v1.1, 22 September 2026). A head-office role's monthly cost, a running
+# amount, a unit one-time cost or a head-office development cost may be written as a band. A band
+# is registered on the Master tab like any other input, so the scenario switch, the sensitivity
+# and the worst corner move it; a bare number stays a constant on its own tab, as in v1.
+LINE_ITEM_FIELDS = (
+    ("ho_role", ("hr", "head_office_roles"), "role", "monthly_cost", "Head office — {} — monthly cost per person"),
+    ("running", ("running", "unit"), "name", "amount", "Running cost, operating unit — {}"),
+    ("ho_running", ("running", "head_office"), "name", "amount", "Running cost, head office, per month — {}"),
+    ("startup_line", ("startup", "unit_one_time"), "name", "cost", "Start-up cost, operating unit, one-time — {}"),
+    ("ho_dev", ("startup", "head_office_development"), "name", "cost", "Development cost, head office, one-time — {}"),
+)
+
+
+def line_key(prefix, item, name_field, value_field):
+    return f"{prefix}.{slug(item[name_field])}.{value_field}"
+
+
+def register_line_items(m, inp, prefixes):
+    for prefix, path, name_field, value_field, label in LINE_ITEM_FIELDS:
+        if prefix not in prefixes:
+            continue
+        for x in m[path[0]][path[1]]:
+            if isinstance(x[value_field], dict):
+                k = line_key(prefix, x, name_field, value_field)
+                inp[k] = band(x[value_field])
+                LINE_LABELS[k] = label.format(x[name_field])
+
+
 def collect_inputs(m):
     """Every banded scalar in the model, keyed by path, in Master Control order."""
     inp = {}
@@ -80,6 +127,7 @@ def collect_inputs(m):
     inp["hr.available_hours"] = band(m["hr"]["available_hours_per_person_month"])
     for r, d in m["hr"]["unit_roles"].items():
         inp[f"role.{r}.monthly_cost"] = band(d["monthly_cost"])
+    register_line_items(m, inp, ("ho_role", "running", "ho_running", "startup_line", "ho_dev"))
     inp["startup.working_capital_months"] = band(m["startup"]["working_capital_months"])
     inp["startup.investment_period_months"] = band(m["startup"]["investment_period_months"])
     f = m["finance"]
@@ -87,13 +135,17 @@ def collect_inputs(m):
     inp["finance.tax_rate"] = band(f["tax_rate"])
     inp["finance.ho_target_ebit"] = band(f["head_office_target_ebit_margin"])
     inp["finance.target_margin"] = band(f["target_margin"])
+    if m.get("book"):   # a lending venture (spec v1.2): the book one transaction carries and the capital held against it
+        inp["book.balance_per_transaction"] = band(m["book"]["balance_per_transaction"])
+        inp["book.capital_share_of_balance"] = band(m["book"]["capital_share_of_balance"])
     c = m["cashflow"]
     for k in ("year1_units", "year1_head_office_share", "opening_balance", "loan_amount", "loan_rate_annual",
               "loan_term_months", "other_equity", "stress_revenue_reduction"):
         inp[f"cashflow.{k}"] = band(c.get(k, 1.0 if k == "year1_head_office_share" else c[k]))
     for k in ("finance.tax_rate", "finance.ho_target_ebit", "finance.target_margin", "cashflow.year1_head_office_share",
-              "cashflow.loan_rate_annual", "cashflow.stress_revenue_reduction"):
-        inp[k]["unit"] = inp[k]["unit"] or "share"
+              "cashflow.loan_rate_annual", "cashflow.stress_revenue_reduction", "book.capital_share_of_balance"):
+        if k in inp:
+            inp[k]["unit"] = inp[k]["unit"] or "share"
     return inp
 
 
@@ -118,6 +170,8 @@ LABELS = {
     "cashflow.loan_term_months": "Loan term (months)",
     "cashflow.other_equity": "Other equity or grants in month one",
     "cashflow.stress_revenue_reduction": "Stress test: reduction in revenue",
+    "book.balance_per_transaction": "Balance lent per transaction (the book one transaction carries)",
+    "book.capital_share_of_balance": "Share of the book the venture funds with its own capital",
 }
 
 
@@ -131,12 +185,19 @@ def label_for(key, m):
                 "cogs": f"{name} — cost of goods per transaction"}[parts[2]]
     if parts[0] == "role":
         return f"{parts[1]} — monthly cost per person"
+    if key in LINE_LABELS:
+        return LINE_LABELS[key]
     return key
 
 
 def compute(m, values):
     """Steady-state monthly model for one operating unit and the venture, from a value map."""
     g = lambda k: values[k]  # noqa: E731
+
+    def lv(prefix, item, name_field, value_field):
+        """A line item's value: the Master band when the item is banded, the bare number otherwise."""
+        k = line_key(prefix, item, name_field, value_field)
+        return values[k] if k in values else float(item[value_field])
     r = {}
     r["tam"] = g("market.total_reachable_population") * (1 - g("market.non_viable_share"))
     r["units"] = math.ceil(g("market.total_reachable_population") / g("market.unit_population") - 1e-9)
@@ -165,7 +226,7 @@ def compute(m, values):
         r["roles"][role] = {"hours": h, "headcount": n, "cost": cost}
         r["hr_unit"] += cost
         r["headcount"] += n
-    r["ho_hr"] = sum(x["count"] * x["monthly_cost"] for x in m["hr"]["head_office_roles"])
+    r["ho_hr"] = sum(x["count"] * lv("ho_role", x, "role", "monthly_cost") for x in m["hr"]["head_office_roles"])
     r["dep_unit"] = r["capital_unit"] = 0.0
     for a in m["assets"]["unit"]:
         q = r["headcount"] if a.get("quantity_driver") == "per_head" else a.get("quantity", 1)
@@ -175,18 +236,24 @@ def compute(m, values):
     r["capital_ho"] = sum(a["cost"] * a.get("quantity", 1) for a in m["assets"]["head_office"])
     rq = {"per_unit_month": 1.0, "per_transaction": r["trans"], "per_customer_month": r["customers"],
           "per_head": float(r["headcount"])}
-    r["running_unit"] = sum(x["amount"] * rq[x["driver"]] for x in m["running"]["unit"])
-    r["running_unit_fixed"] = sum(x["amount"] * rq[x["driver"]] for x in m["running"]["unit"]
+    r["running_unit"] = sum(lv("running", x, "name", "amount") * rq[x["driver"]] for x in m["running"]["unit"])
+    r["running_unit_fixed"] = sum(lv("running", x, "name", "amount") * rq[x["driver"]] for x in m["running"]["unit"]
                                   if x["driver"] in ("per_unit_month", "per_head"))
     r["running_unit_variable"] = r["running_unit"] - r["running_unit_fixed"]
-    r["running_ho"] = sum(x["amount"] for x in m["running"]["head_office"])
-    r["one_time_unit"] = sum(x["cost"] for x in m["startup"]["unit_one_time"])
+    r["running_ho"] = sum(lv("ho_running", x, "name", "amount") for x in m["running"]["head_office"])
+    r["one_time_unit"] = sum(lv("startup_line", x, "name", "cost") for x in m["startup"]["unit_one_time"])
     r["wc_unit"] = g("startup.working_capital_months") * (r["cogs"] + r["hr_unit"] + r["running_unit"])
     r["startup_unit"] = r["one_time_unit"] + r["wc_unit"]
     r["startup_unit_monthly"] = r["startup_unit"] / g("startup.investment_period_months")
-    r["dev_ho"] = sum(x["cost"] for x in m["startup"]["head_office_development"])
+    r["dev_ho"] = sum(lv("ho_dev", x, "name", "cost") for x in m["startup"]["head_office_development"])
     r["dev_ho_monthly"] = r["dev_ho"] / g("startup.investment_period_months")
-    r["returns_unit"] = (r["startup_unit"] + r["capital_unit"]) * g("finance.cost_of_capital") / 12
+    # a lending venture: the book one unit carries and the capital held against it (the rest is deposit-funded)
+    if m.get("book"):
+        r["book_unit"] = r["trans"] * g("book.balance_per_transaction")
+        r["book_capital_unit"] = r["book_unit"] * g("book.capital_share_of_balance")
+    else:
+        r["book_unit"] = r["book_capital_unit"] = 0.0
+    r["returns_unit"] = (r["startup_unit"] + r["capital_unit"] + r["book_capital_unit"]) * g("finance.cost_of_capital") / 12
     r["returns_ho"] = (r["dev_ho"] + r["capital_ho"]) * g("finance.cost_of_capital") / 12
     r["tax_unit"] = r["returns_unit"] * g("finance.tax_rate")
     r["tax_ho"] = r["returns_ho"] * g("finance.tax_rate")
@@ -277,8 +344,11 @@ def forecast_years(m, r, g, ramp, L, rate, n):
             return max(0.0, L - P * k)
         return max(0.0, L * (1 + rate) ** k - P * ((1 + rate) ** k - 1) / rate)
 
+    bk = bool(m.get("book"))
+    bpt = g("book.balance_per_transaction") if bk else 0.0
+    cs = g("book.capital_share_of_balance") if bk else 0.0
     out, new_by_year = [], []
-    prev_units = nbv = losses = prev_tax = cum_equity = retained = 0.0
+    prev_units = nbv = losses = prev_tax = cum_equity = retained = prev_book = 0.0
     cash = g("cashflow.opening_balance")
     for y in range(1, years + 1):
         U = units[y - 1]
@@ -321,7 +391,14 @@ def forecast_years(m, r, g, ramp, L, rate, n):
         cash_ops = op + dep - interest - tax_paid
         loan_in = L if y == 1 else 0.0
         eq = equity[y - 1]
-        net = cash_ops - capex_new - rep_unit - rep_ho + loan_in - principal + eq
+        # the book at the year end: units open last year at steady state plus the new cohort at its month-twelve share;
+        # its growth is funded by deposits and allocated capital in the capital share, so it is cash-neutral
+        units_run = prev_units + N * ramp[-1]
+        book = bpt * r["trans"] * units_run
+        book_inc = book - prev_book
+        deposits, bookcap = book * (1 - cs), book * cs
+        dep_inc, cap_inc = book_inc * (1 - cs), book_inc * cs
+        net = cash_ops - capex_new - rep_unit - rep_ho - book_inc + loan_in - principal + eq + dep_inc + cap_inc
         cash_open = cash
         cash += net
         cum_equity += eq
@@ -332,9 +409,11 @@ def forecast_years(m, r, g, ramp, L, rate, n):
                         losses_cf=losses, pat=pat, tax_paid=tax_paid, cash_ops=cash_ops, capex_new=capex_new,
                         rep_unit=rep_unit, rep_ho=rep_ho, loan_in=loan_in, bal_open=bal_open, bal_close=bal_close,
                         payments=payments, principal=principal, net=net, cash_open=cash_open, cash=cash, nbv_open=nbv_open,
-                        nbv=nbv, tax_payable=tax, net_assets=nbv + cash - bal_close - tax, share_capital=cum_equity,
+                        nbv=nbv, tax_payable=tax, units_run=units_run, book=book, book_inc=book_inc, deposits=deposits,
+                        bookcap=bookcap, dep_inc=dep_inc, cap_inc=cap_inc,
+                        net_assets=nbv + cash + book - bal_close - tax - deposits, share_capital=cum_equity,
                         retained=retained))
-        prev_units, prev_tax = U, tax
+        prev_units, prev_tax, prev_book = U, tax, book
     return out
 
 
@@ -545,14 +624,14 @@ def build(m, out_dir):
         r_ = hr_ + 2 + i
         ws.cell(row=r_, column=1, value=x["role"])
         ws.cell(row=r_, column=2, value=x["count"]).font = INPUT
-        c = ws.cell(row=r_, column=3, value=x["monthly_cost"])
+        c = ws.cell(row=r_, column=3, value=line_cell(I, "ho_role", x, "role", "monthly_cost"))
         c.font, c.number_format = INPUT, MONEY
         b.name(line_name("line_ho_role", x["role"]), ws, f"D{r_}", f"Staff cost per month, head office — {x['role']} × {x['count']}")
-        LINE_VALUES[line_name("line_ho_role", x["role"])] = x["count"] * x["monthly_cost"]
+        LINE_VALUES[line_name("line_ho_role", x["role"])] = x["count"] * band(x["monthly_cost"])["value"]
         ws.cell(row=r_, column=4, value=f"=B{r_}*C{r_}").number_format = MONEY
     he = hr_ + 1 + len(m["hr"]["head_office_roles"])
     ws.cell(row=he + 1, column=1, value="Head office staff total").font = BOLD
-    ws.cell(row=he + 1, column=4, value=f"=SUM(D{hr_+2}:D{he})").number_format = MONEY
+    ws.cell(row=he + 1, column=4, value=sum_rows("D", hr_ + 2, he)).number_format = MONEY
     ws[f"D{he+1}"].font = BOLD
     HO_HR = b.name("ho_staff_cost", ws, f"D{he+1}", "Head-office staff cost per month")
 
@@ -579,8 +658,8 @@ def build(m, out_dir):
     ue = 4 + len(ua)
     UNIT_ASSET_ROWS = list(range(5, ue + 1))
     ws.cell(row=ue + 1, column=1, value="Unit total").font = BOLD
-    ws.cell(row=ue + 1, column=6, value=f"=SUM(F5:F{ue})").number_format = MONEY
-    ws.cell(row=ue + 1, column=7, value=f"=SUM(G5:G{ue})").number_format = MONEY
+    ws.cell(row=ue + 1, column=6, value=sum_rows("F", 5, ue)).number_format = MONEY
+    ws.cell(row=ue + 1, column=7, value=sum_rows("G", 5, ue)).number_format = MONEY
     CAP_UNIT = b.name("capital_per_unit", ws, f"F{ue+1}", "Capital assets per operating unit")
     DEP_UNIT = b.name("depreciation_per_unit", ws, f"G{ue+1}", "Depreciation per operating unit per month")
     hs = ue + 3
@@ -599,8 +678,8 @@ def build(m, out_dir):
     hend = hs + len(ha)
     HO_ASSET_ROWS = list(range(hs + 1, hend + 1))
     ws.cell(row=hend + 1, column=1, value="Head office total").font = BOLD
-    ws.cell(row=hend + 1, column=6, value=f"=SUM(F{hs+1}:F{hend})").number_format = MONEY
-    ws.cell(row=hend + 1, column=7, value=f"=SUM(G{hs+1}:G{hend})").number_format = MONEY
+    ws.cell(row=hend + 1, column=6, value=sum_rows("F", hs + 1, hend)).number_format = MONEY
+    ws.cell(row=hend + 1, column=7, value=sum_rows("G", hs + 1, hend)).number_format = MONEY
     CAP_HO = b.name("capital_head_office", ws, f"F{hend+1}", "Head-office capital assets")
     DEP_HO = b.name("depreciation_head_office", ws, f"G{hend+1}", "Head-office depreciation per month")
 
@@ -614,16 +693,16 @@ def build(m, out_dir):
         r_ = 5 + i
         ws.cell(row=r_, column=1, value=x["name"])
         ws.cell(row=r_, column=2, value=x["driver"])
-        c = ws.cell(row=r_, column=3, value=x["amount"]); c.font, c.number_format = INPUT, MONEY2
+        c = ws.cell(row=r_, column=3, value=line_cell(I, "running", x, "name", "amount")); c.font, c.number_format = INPUT, MONEY2
         b.name(line_name("line_running", x["name"]), ws, f"C{r_}", f"Running cost amount, operating unit ({x['driver']}) — {x['name']}")
-        LINE_VALUES[line_name("line_running", x["name"])] = x["amount"]
+        LINE_VALUES[line_name("line_running", x["name"])] = band(x["amount"])["value"]
         ws.cell(row=r_, column=4, value=f"={rq_ref[x['driver']]}").number_format = NUM
         ws.cell(row=r_, column=5, value=f"=C{r_}*D{r_}").number_format = MONEY
     re_ = 4 + len(ru)
     ws.cell(row=re_ + 1, column=1, value="Unit total").font = BOLD
-    ws.cell(row=re_ + 1, column=5, value=f"=SUM(E5:E{re_})").number_format = MONEY
+    ws.cell(row=re_ + 1, column=5, value=sum_rows("E", 5, re_)).number_format = MONEY
     ws.cell(row=re_ + 2, column=1, value="of which fixed per month (per unit and per head drivers)")
-    ws.cell(row=re_ + 2, column=5, value=f'=SUMIF(B5:B{re_},"per_unit_month",E5:E{re_})+SUMIF(B5:B{re_},"per_head",E5:E{re_})').number_format = MONEY
+    ws.cell(row=re_ + 2, column=5, value=(f'=SUMIF(B5:B{re_},"per_unit_month",E5:E{re_})+SUMIF(B5:B{re_},"per_head",E5:E{re_})' if re_ >= 5 else "=0")).number_format = MONEY
     ws.cell(row=re_ + 3, column=1, value="of which varies with volume")
     ws.cell(row=re_ + 3, column=5, value=f"=E{re_+1}-E{re_+2}").number_format = MONEY
     RUN_UNIT = b.name("running_per_unit", ws, f"E{re_+1}", "General running cost per operating unit per month")
@@ -635,13 +714,13 @@ def build(m, out_dir):
     for i, x in enumerate(rh):
         r_ = hs + 1 + i
         ws.cell(row=r_, column=1, value=x["name"])
-        c = ws.cell(row=r_, column=3, value=x["amount"]); c.font, c.number_format = INPUT, MONEY
+        c = ws.cell(row=r_, column=3, value=line_cell(I, "ho_running", x, "name", "amount")); c.font, c.number_format = INPUT, MONEY
         b.name(line_name("line_ho_running", x["name"]), ws, f"C{r_}", f"Running cost per month, head office — {x['name']}")
-        LINE_VALUES[line_name("line_ho_running", x["name"])] = x["amount"]
+        LINE_VALUES[line_name("line_ho_running", x["name"])] = band(x["amount"])["value"]
         ws.cell(row=r_, column=5, value=f"=C{r_}").number_format = MONEY
     hend = hs + len(rh)
     ws.cell(row=hend + 1, column=1, value="Head office total").font = BOLD
-    ws.cell(row=hend + 1, column=5, value=f"=SUM(E{hs+1}:E{hend})").number_format = MONEY
+    ws.cell(row=hend + 1, column=5, value=sum_rows("E", hs + 1, hend)).number_format = MONEY
     RUN_HO = b.name("running_head_office", ws, f"E{hend+1}", "Head-office running cost per month")
 
     # ---- 6 Start-up ------------------------------------------------------------------------
@@ -652,12 +731,12 @@ def build(m, out_dir):
     for i, x in enumerate(so):
         r_ = 5 + i
         ws.cell(row=r_, column=1, value=x["name"])
-        c = ws.cell(row=r_, column=2, value=x["cost"]); c.font, c.number_format = INPUT, MONEY
+        c = ws.cell(row=r_, column=2, value=line_cell(I, "startup_line", x, "name", "cost")); c.font, c.number_format = INPUT, MONEY
         b.name(line_name("line_startup", x["name"]), ws, f"B{r_}", f"Start-up cost, operating unit, one-time — {x['name']}")
-        LINE_VALUES[line_name("line_startup", x["name"])] = x["cost"]
+        LINE_VALUES[line_name("line_startup", x["name"])] = band(x["cost"])["value"]
     se = 4 + len(so)
     rows6 = [
-        ("One-time start-up costs per unit", f"=SUM(B5:B{se})", ""),
+        ("One-time start-up costs per unit", sum_rows("B", 5, se), ""),
         ("Working capital = months × (cost of goods + staff + running) per month", f"={I['startup.working_capital_months']}*({COGS}+{HR_UNIT}+{RUN_UNIT})", "cash the unit needs before revenue covers running cost"),
         ("Start-up total per unit", f"=B{se+1}+B{se+2}", ""),
         ("Investment recovery period (months)", f"={I['startup.investment_period_months']}", ""),
@@ -677,12 +756,12 @@ def build(m, out_dir):
     for i, x in enumerate(sd):
         r_ = hs + 1 + i
         ws.cell(row=r_, column=1, value=x["name"])
-        c = ws.cell(row=r_, column=2, value=x["cost"]); c.font, c.number_format = INPUT, MONEY
+        c = ws.cell(row=r_, column=2, value=line_cell(I, "ho_dev", x, "name", "cost")); c.font, c.number_format = INPUT, MONEY
         b.name(line_name("line_development", x["name"]), ws, f"B{r_}", f"Development cost, head office, one-time — {x['name']}")
-        LINE_VALUES[line_name("line_development", x["name"])] = x["cost"]
+        LINE_VALUES[line_name("line_development", x["name"])] = band(x["cost"])["value"]
     de = hs + len(sd)
     ws.cell(row=de + 1, column=1, value="Development total")
-    ws.cell(row=de + 1, column=2, value=f"=SUM(B{hs+1}:B{de})").number_format = MONEY
+    ws.cell(row=de + 1, column=2, value=sum_rows("B", hs + 1, de)).number_format = MONEY
     ws.cell(row=de + 2, column=1, value="Development charge per month = total ÷ period")
     ws.cell(row=de + 2, column=2, value=f"=B{de+1}/{I['startup.investment_period_months']}").number_format = MONEY
     DEV_HO = b.name("development_head_office", ws, f"B{de+1}", "Head-office development cost, one-time")
@@ -690,19 +769,42 @@ def build(m, out_dir):
 
     # ---- 7 Returns / 8 Tax -----------------------------------------------------------------
     ws = b.sheet("7 Returns", [56, 16, 40])
-    b.title(ws, "Investment returns", "Return per month = (start-up + capital assets) × cost of capital ÷ 12. IFC step 3.")
-    rows7 = [
-        ("Operating unit: capital invested = start-up + capital assets", f"={STARTUP_UNIT}+{CAP_UNIT}"),
-        ("Cost of capital (annual)", f"={I['finance.cost_of_capital']}"),
-        ("Return required per unit per month", "=B4*B5/12"),
-        ("Head office: capital invested = development + capital assets", f"={DEV_HO}+{CAP_HO}"),
-        ("Return required at head office per month", "=B7*B5/12"),
-    ]
-    for i, (lab, f) in enumerate(rows7):
+    HAS_BOOK = bool(m.get("book"))
+    b.title(ws, "Investment returns", "Return per month = (start-up + capital assets"
+            + (" + capital held against the book" if HAS_BOOK else "") + ") × cost of capital ÷ 12. IFC step 3.")
+    if HAS_BOOK:
+        rows7 = [
+            ("Loan book one unit carries = transactions × balance lent per transaction", f"={TRANS}*{I['book.balance_per_transaction']}", MONEY),
+            ("Capital held against the book = book × capital share (the rest is deposit-funded)", f"=B4*{I['book.capital_share_of_balance']}", MONEY),
+            ("Operating unit: capital invested = start-up + capital assets + capital held against the book", f"={STARTUP_UNIT}+{CAP_UNIT}+B5", MONEY),
+            ("Cost of capital (annual)", f"={I['finance.cost_of_capital']}", PCT),
+            ("Return required per unit per month", "=B6*B7/12", MONEY),
+            ("Head office: capital invested = development + capital assets", f"={DEV_HO}+{CAP_HO}", MONEY),
+            ("Return required at head office per month", "=B9*B7/12", MONEY),
+            ("Loan book at scale = units × book per unit", f"={UNITS}*B4", MONEY),
+            ("Capital held against the book at scale = units × capital per unit", f"={UNITS}*B5", MONEY),
+        ]
+    else:
+        rows7 = [
+            ("Operating unit: capital invested = start-up + capital assets", f"={STARTUP_UNIT}+{CAP_UNIT}", MONEY),
+            ("Cost of capital (annual)", f"={I['finance.cost_of_capital']}", PCT),
+            ("Return required per unit per month", "=B4*B5/12", MONEY),
+            ("Head office: capital invested = development + capital assets", f"={DEV_HO}+{CAP_HO}", MONEY),
+            ("Return required at head office per month", "=B7*B5/12", MONEY),
+        ]
+    for i, (lab, f, fmt) in enumerate(rows7):
         ws.cell(row=4 + i, column=1, value=lab)
-        ws.cell(row=4 + i, column=2, value=f).number_format = PCT if i == 1 else MONEY
-    RET_UNIT = b.name("returns_per_unit", ws, "B6", "Investment return required per operating unit per month")
-    RET_HO = b.name("returns_head_office", ws, "B8", "Investment return required at head office per month")
+        ws.cell(row=4 + i, column=2, value=f).number_format = fmt
+    if HAS_BOOK:
+        b.name("book_per_unit", ws, "B4", "Loan book one operating unit carries (balance outstanding)")
+        b.name("book_capital_per_unit", ws, "B5", "Capital the venture holds against one unit's book")
+        RET_UNIT = b.name("returns_per_unit", ws, "B8", "Investment return required per operating unit per month")
+        RET_HO = b.name("returns_head_office", ws, "B10", "Investment return required at head office per month")
+        b.name("book_at_scale", ws, "B11", "Loan book at scale — balance outstanding across every unit")
+        b.name("book_capital_at_scale", ws, "B12", "Capital held against the book at scale")
+    else:
+        RET_UNIT = b.name("returns_per_unit", ws, "B6", "Investment return required per operating unit per month")
+        RET_HO = b.name("returns_head_office", ws, "B8", "Investment return required at head office per month")
     ws = b.sheet("8 Tax", [56, 16])
     b.title(ws, "Tax on investment returns", "Tax per month = return per month × tax rate. IFC step 3.")
     ws["A4"], ws["B4"] = "Tax rate", f"={I['finance.tax_rate']}"
@@ -1039,6 +1141,13 @@ def build(m, out_dir):
         ("Unit-months at steady-state volume = 12 × units open last year + new units × sum of the ramp", "um"),
         ("Head-office share staffed and run", "share"),
         ("Equity raised in the year", "equity"),
+    ] + ([
+        ("Operating units running at the year end = open last year + new units × the month-twelve share", "units_run"),
+        ("Loans to customers at the year end = balance lent per transaction × transactions per unit × units running", "book"),
+        ("Increase in loans to customers in the year", "book_inc"),
+        ("Deposits funding the book = book × (1 − capital share)", "deposits"),
+        ("Capital held against the book = book × capital share", "bookcap"),
+    ] if HAS_BOOK else []) + [
         ("", None),
         ("Loan drawn", "loan_in"),
         ("Loan balance at the start of the year", "bal_open"),
@@ -1065,7 +1174,7 @@ def build(m, out_dir):
         y = f"{col}$4"
         prev = ycols[j - 1] if j else None
         fy = FC[j]
-        c = ws.cell(row=ro["units"], column=2 + j, value=fy["units"]); c.font, c.number_format = INPUT, NUM
+        c = ws.cell(row=ro["units"], column=2 + j, value=fy["units"]); c.font, c.number_format = INPUT, '#,##0.##'
         nm = f"in_forecast_units_open_year_{j+1}"
         b.name(nm, ws, f"{col}{ro['units']}", f"Operating units open at the end of year {j+1}")
         LINE_VALUES[nm] = fy["units"]
@@ -1080,6 +1189,15 @@ def build(m, out_dir):
         nm = f"in_forecast_equity_raised_year_{j+1}"
         b.name(nm, ws, f"{col}{ro['equity']}", f"Equity raised in year {j+1}")
         LINE_VALUES[nm] = fy["equity"]
+        if HAS_BOOK:
+            ws.cell(row=ro["units_run"], column=2 + j, value=(f"={col}{ro['new']}*'13 Sales'!$M$5" if j == 0 else
+                                                              f"={prev}{ro['units']}+{col}{ro['new']}*'13 Sales'!$M$5")).number_format = '#,##0.00'
+            ws.cell(row=ro["book"], column=2 + j,
+                    value=f"={I['book.balance_per_transaction']}*{TRANS}*{col}{ro['units_run']}").number_format = MONEY
+            ws.cell(row=ro["book_inc"], column=2 + j, value=f"={col}{ro['book']}" if j == 0 else f"={col}{ro['book']}-{prev}{ro['book']}").number_format = MONEY
+            ws.cell(row=ro["deposits"], column=2 + j, value=f"={col}{ro['book']}*(1-{I['book.capital_share_of_balance']})").number_format = MONEY
+            ws.cell(row=ro["bookcap"], column=2 + j, value=f"={col}{ro['book']}*{I['book.capital_share_of_balance']}").number_format = MONEY
+            b.name(f"forecast_loan_book_year_{j+1}", ws, f"{col}{ro['book']}", f"Loans to customers at the end of year {j+1}")
         ws.cell(row=ro["loan_in"], column=2 + j, value=f"={L_}" if j == 0 else "=0").number_format = MONEY
         ws.cell(row=ro["bal_open"], column=2 + j, value=f"={L_}" if j == 0 else f"={prev}{ro['bal_close']}").number_format = MONEY
         k1 = f"(12*{y})"
@@ -1189,11 +1307,18 @@ def build(m, out_dir):
         ("Cash from operations", "ops", lambda col, j: f"=SUM({col}{cfr['op']}:{col}{cfr['tax_paid']})"),
         ("Capital spend on new units and head office", "capex_new", lambda col, j: f"=-{RO}!{col}{ro['capex_new']}"),
         ("Replacement of assets", "rep", lambda col, j: f"=-({RO}!{col}{ro['rep_unit']}+{RO}!{col}{ro['rep_ho']})"),
-        ("Cash used in investing", "inv", lambda col, j: f"={col}{cfr['capex_new']}+{col}{cfr['rep']}"),
+    ] + ([
+        ("Increase in loans to customers", "book_inc", lambda col, j: f"=-{RO}!{col}{ro['book_inc']}"),
+    ] if HAS_BOOK else []) + [
+        ("Cash used in investing", "inv", lambda col, j: f"=SUM({col}{cfr['capex_new']}:{col}{cfr['book_inc' if HAS_BOOK else 'rep']})"),
         ("Loan drawn", "loan_in", lambda col, j: f"={RO}!{col}{ro['loan_in']}"),
         ("Loan principal repaid", "principal", lambda col, j: f"=-{RO}!{col}{ro['principal']}"),
         ("Equity raised", "equity", lambda col, j: f"={RO}!{col}{ro['equity']}"),
-        ("Cash from financing", "fin", lambda col, j: f"=SUM({col}{cfr['loan_in']}:{col}{cfr['equity']})"),
+    ] + ([
+        ("Deposits taken to fund the book", "dep_inc", lambda col, j: f"={RO}!{col}{ro['book_inc']}*(1-{I['book.capital_share_of_balance']})"),
+        ("Capital allocated to the book", "cap_inc", lambda col, j: f"={RO}!{col}{ro['book_inc']}*{I['book.capital_share_of_balance']}"),
+    ] if HAS_BOOK else []) + [
+        ("Cash from financing", "fin", lambda col, j: f"=SUM({col}{cfr['loan_in']}:{col}{cfr['cap_inc' if HAS_BOOK else 'equity']})"),
         ("Net cash flow", "net", lambda col, j: f"={col}{cfr['ops']}+{col}{cfr['inv']}+{col}{cfr['fin']}"),
         ("Opening cash", "open", lambda col, j: f"={I['cashflow.opening_balance']}" if j == 0 else f"={ycols[j-1]}{cfr['close']}"),
         ("Closing cash", "close", lambda col, j: f"={col}{cfr['open']}+{col}{cfr['net']}"),
@@ -1224,21 +1349,32 @@ def build(m, out_dir):
     # ---- 18 Forecast balance sheet ------------------------------------------------------------
     ws = b.sheet("18 Forecast balance sheet", [58] + [14] * NY)
     b.title(ws, f"Forecast balance sheet — at the end of years one to {NY}",
-            "A cash business: no debtors, creditors or stock. Net assets must equal total equity in every year (last row reads zero).")
+            ("No debtors, creditors or stock; the loan book is carried at its balance outstanding, funded by deposits and the capital held against it. "
+             if HAS_BOOK else "A cash business: no debtors, creditors or stock. ")
+            + "Net assets must equal total equity in every year (last row reads zero).")
     b.header(ws, 4, ["Line"] + [f"Year {j+1}" for j in range(NY)])
     bs = {}
     lines18 = [
         ("Fixed assets, net book value", "nbv", lambda col, j: f"={RO}!{col}{ro['nbv']}"),
         ("Cash", "cash", lambda col, j: f"={CFT}!{col}{cfr['close']}"),
-        ("Total assets", "assets", lambda col, j: f"={col}{bs['nbv']}+{col}{bs['cash']}"),
+    ] + ([
+        ("Loans to customers", "book", lambda col, j: f"={RO}!{col}{ro['book']}"),
+    ] if HAS_BOOK else []) + [
+        ("Total assets", "assets", lambda col, j: f"=SUM({col}{bs['nbv']}:{col}{bs['book' if HAS_BOOK else 'cash']})"),
         ("Loan outstanding", "loan", lambda col, j: f"={RO}!{col}{ro['bal_close']}"),
         ("Tax payable", "tax", lambda col, j: f"=-{PL}!{col}{pl['tax']}"),
-        ("Total liabilities", "liab", lambda col, j: f"={col}{bs['loan']}+{col}{bs['tax']}"),
+    ] + ([
+        ("Deposits funding the book", "deposits", lambda col, j: f"={RO}!{col}{ro['deposits']}"),
+    ] if HAS_BOOK else []) + [
+        ("Total liabilities", "liab", lambda col, j: f"=SUM({col}{bs['loan']}:{col}{bs['deposits' if HAS_BOOK else 'tax']})"),
         ("Net assets", "net", lambda col, j: f"={col}{bs['assets']}-{col}{bs['liab']}"),
         ("", None, None),
         ("Share capital — equity raised to date", "capital", lambda col, j: f"=SUM({RO}!$B${ro['equity']}:{col}{ro['equity']})"),
         ("Retained profit — profit after tax to date", "retained", lambda col, j: f"=SUM({PL}!$B${pl['pat']}:{col}{pl['pat']})"),
-        ("Total equity", "equity", lambda col, j: f"={col}{bs['capital']}+{col}{bs['retained']}"),
+    ] + ([
+        ("Capital held against the book", "bookcap", lambda col, j: f"={RO}!{col}{ro['bookcap']}"),
+    ] if HAS_BOOK else []) + [
+        ("Total equity", "equity", lambda col, j: f"=SUM({col}{bs['capital']}:{col}{bs['bookcap' if HAS_BOOK else 'retained']})"),
         ("Net assets less total equity (must be zero)", "diff", lambda col, j: f"={col}{bs['net']}-{col}{bs['equity']}"),
     ]
     for i, (lab, key, fn) in enumerate(lines18):
@@ -1255,6 +1391,9 @@ def build(m, out_dir):
     for j, col in enumerate(ycols):
         b.name(f"forecast_net_assets_year_{j+1}", ws, f"{col}{bs['net']}", f"Forecast net assets, end of year {j+1}")
         b.name(f"forecast_loan_outstanding_year_{j+1}", ws, f"{col}{bs['loan']}", f"Loan outstanding, end of year {j+1}")
+        if HAS_BOOK:
+            b.name(f"forecast_deposits_year_{j+1}", ws, f"{col}{bs['deposits']}", f"Deposits funding the book, end of year {j+1}")
+            b.name(f"forecast_book_capital_year_{j+1}", ws, f"{col}{bs['bookcap']}", f"Capital held against the book, end of year {j+1}")
     ws.freeze_panes = "B5"
     BS_DIFF = (f"'18 Forecast balance sheet'!B{bs['diff']}", f"'18 Forecast balance sheet'!{ycols[-1]}{bs['diff']}")
     FC_Y1_CLOSE = f"{CFT}!B{cfr['close']}"
@@ -1355,6 +1494,8 @@ def write_cell_index(b, m, R, xlsx, path):
         "forecast_profit_after_tax_total": sum(y["pat"] for y in R["forecast"]),
         "forecast_lowest_closing_cash": min(y["cash"] for y in R["forecast"]),
         "forecast_funding_needed": max(0.0, -min(y["cash"] for y in R["forecast"])),
+        "book_per_unit": R["book_unit"], "book_capital_per_unit": R["book_capital_unit"],
+        "book_at_scale": R["book_unit"] * R["units"], "book_capital_at_scale": R["book_capital_unit"] * R["units"],
     }
     for y in R["forecast"]:
         n_ = y["year"]
@@ -1364,6 +1505,9 @@ def write_cell_index(b, m, R, xlsx, path):
         val_by_name[f"forecast_closing_cash_year_{n_}"] = y["cash"]
         val_by_name[f"forecast_net_assets_year_{n_}"] = y["net_assets"]
         val_by_name[f"forecast_loan_outstanding_year_{n_}"] = y["bal_close"]
+        val_by_name[f"forecast_loan_book_year_{n_}"] = y["book"]
+        val_by_name[f"forecast_deposits_year_{n_}"] = y["deposits"]
+        val_by_name[f"forecast_book_capital_year_{n_}"] = y["bookcap"]
     for i, p in enumerate(m["products"]):
         val_by_name[f"required_price_product_{i+1}"] = inputs_value(m, f"product.{i}.price") * R["uplift"]
     inputs = collect_inputs(m)
