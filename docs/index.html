@@ -39,8 +39,6 @@
     .num { flex: none; width: 30px; height: 30px; border-radius: 50%; background: var(--accent); color: #fff; font-weight: 600; display: grid; place-items: center; font-size: 15px; }
     .step-body { flex: 1; min-width: 0; }
     .step-body h3 { font-size: 18px; font-weight: 600; margin-bottom: 6px; }
-    textarea { width: 100%; font: 16px/1.5 var(--font-ui); padding: 12px; border: 2px solid var(--border-strong); border-radius: 3px; resize: vertical; min-height: 84px; }
-    textarea:focus { outline: 3px solid var(--accent-light); border-color: var(--accent); }
     .panel { background: var(--panel-bg); color: var(--panel-text); padding: 20px 24px; margin-top: 10px; }
     .panel pre { white-space: pre-wrap; word-break: break-word; font: 15px/1.6 ui-monospace, Menlo, monospace; }
     button { margin-top: 14px; font: 600 16px var(--font-ui); background: #fff; color: var(--panel-bg); border: 0; padding: 10px 18px; border-radius: 3px; cursor: pointer; }
@@ -78,22 +76,12 @@
     <div class="step">
       <div class="num">2</div>
       <div class="step-body">
-        <h3>Describe your idea</h3>
-        <p>A sentence is enough. Or write “I want to beat” and a company.</p>
-        <label class="label" for="idea" style="display:block;margin:12px 0 6px">Your idea</label>
-        <textarea id="idea" placeholder="For example: a subscription that repairs, rather than replaces, family appliances"></textarea>
-      </div>
-    </div>
-
-    <div class="step">
-      <div class="num">3</div>
-      <div class="step-body">
         <h3>Copy this and paste it into the agent</h3>
         <div class="panel">
-          <pre id="prompt"></pre>
+          <pre id="prompt">Set up Forge by following https://github.com/tmth-studio/forge-cf/blob/main/AGENTS.md and help me start my first venture.</pre>
           <button id="copy" type="button">Copy prompt</button>
         </div>
-        <p style="margin-top:12px">The agent puts Forge in your Documents folder, installs what it needs, checks the setup worked and starts. It asks before it installs anything on the computer, and asks you questions as the design goes.</p>
+        <p style="margin-top:12px">The agent puts Forge in your Documents folder, installs what it needs, checks the setup worked and starts. Then it asks for your idea — a sentence is enough, or the name of a business you want to beat. It asks before it installs anything on the computer.</p>
       </div>
     </div>
 
@@ -114,20 +102,13 @@
     </footer>
   </div>
   <script>
-    const idea = document.getElementById('idea');
     const out = document.getElementById('prompt');
     const btn = document.getElementById('copy');
-    function build() {
-      const text = idea.value.trim() || '[one or two sentences, or "I want to beat <company>"]';
-      out.textContent = 'Set up Forge by following https://github.com/tmth-studio/forge-cf/blob/main/AGENTS.md and help me start my first venture. My idea: ' + text;
-    }
-    idea.addEventListener('input', build);
     btn.addEventListener('click', async () => {
       try { await navigator.clipboard.writeText(out.textContent); btn.textContent = 'Copied'; }
       catch (e) { const r = document.createRange(); r.selectNodeContents(out); const s = getSelection(); s.removeAllRanges(); s.addRange(r); btn.textContent = 'Selected — press copy'; }
       setTimeout(() => btn.textContent = 'Copy prompt', 2000);
     });
-    build();
   </script>
 </body>
 </html>

@@ -54,7 +54,7 @@ except their idea.
 6. **Make the venture folder.** If the person has already described their
    idea, derive a short lowercase concept name from it (two to four words,
    joined by hyphens) and copy `ventures/_template/` to
-   `ventures/<concept-name>/`. If they have not — they said "hi", or nothing
+   `ventures/<concept-name>/`. If they have not — the standard prompt carries no idea, or they said "hi" or nothing
    about an idea — introduce Forge in two sentences and ask for the idea in one
    question. A sentence is enough, or the name of a business they want to
    beat.
