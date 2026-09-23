@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Forge — start a venture</title>
+  <meta name="description" content="Design a venture-scale company, free. Paste one prompt into your agent and start.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Lora:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f5f4f1;
+      --surface: #ffffff;
+      --text: #0f1923;
+      --text-secondary: #4a5568;
+      --text-muted: #718096;
+      --border: #dde1e7;
+      --border-strong: #b0b8c4;
+      --accent: #1f4fa8;
+      --accent-light: #e8eef8;
+      --panel-bg: #0f2744;
+      --panel-text: #ffffff;
+      --warning-bg: #fff8e6;
+      --warning-border: #d4820a;
+      --font-ui: 'DM Sans', system-ui, sans-serif;
+      --font-body: 'Lora', Georgia, serif;
+      --width: 760px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: var(--bg); color: var(--text); font-family: var(--font-ui); font-size: 17px; line-height: 1.6; }
+    .container { max-width: var(--width); margin: 0 auto; padding: 48px 24px 80px; background: var(--surface); min-height: 100vh; }
+    .label { font-size: 13px; letter-spacing: 0.04em; color: var(--text-muted); }
+    h1 { font-size: 32px; font-weight: 600; line-height: 1.25; margin: 8px 0 16px; }
+    h2 { font-size: 22px; font-weight: 600; margin: 40px 0 12px; }
+    p, li { font-family: var(--font-body); }
+    p + p { margin-top: 12px; }
+    .lede { font-size: 19px; color: var(--text-secondary); }
+    .step { display: flex; gap: 14px; margin-top: 28px; }
+    .num { flex: none; width: 30px; height: 30px; border-radius: 50%; background: var(--accent); color: #fff; font-weight: 600; display: grid; place-items: center; font-size: 15px; }
+    .step-body { flex: 1; min-width: 0; }
+    .step-body h3 { font-size: 18px; font-weight: 600; margin-bottom: 6px; }
+    textarea { width: 100%; font: 16px/1.5 var(--font-ui); padding: 12px; border: 2px solid var(--border-strong); border-radius: 3px; resize: vertical; min-height: 84px; }
+    textarea:focus { outline: 3px solid var(--accent-light); border-color: var(--accent); }
+    .panel { background: var(--panel-bg); color: var(--panel-text); padding: 20px 24px; margin-top: 10px; }
+    .panel pre { white-space: pre-wrap; word-break: break-word; font: 15px/1.6 ui-monospace, Menlo, monospace; }
+    button { margin-top: 14px; font: 600 16px var(--font-ui); background: #fff; color: var(--panel-bg); border: 0; padding: 10px 18px; border-radius: 3px; cursor: pointer; }
+    button:hover { background: var(--accent-light); }
+    .tools { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+    .tag { font-size: 13px; font-weight: 500; padding: 3px 9px; border-radius: 3px; background: var(--accent-light); color: var(--accent); border: 1px solid #b8c8e8; }
+    .warning { border-left: 4px solid var(--warning-border); background: var(--warning-bg); padding: 14px 18px; margin-top: 16px; font-family: var(--font-body); }
+    ul { padding-left: 1.5rem; display: grid; gap: 8px; }
+    a { color: var(--accent); }
+    footer { margin-top: 56px; padding-top: 16px; border-top: 1px solid var(--border); font-size: 14px; color: var(--text-muted); }
+    footer p { font-family: var(--font-ui); }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="label">FORGE · FREE</div>
+    <h1>Design a venture-scale company from one prompt</h1>
+    <p class="lede">Describe an idea, or name a business you want to beat. Forge designs the company that could reach scale, tests it at ten gates and gives you a business case and a live financial workbook.</p>
+
+    <div class="step">
+      <div class="num">1</div>
+      <div class="step-body">
+        <h3>Open an agent that can work on files</h3>
+        <p>Any one of these. You do not need to use a terminal.</p>
+        <div class="tools">
+          <span class="tag">Claude Code (desktop app)</span>
+          <span class="tag">Codex</span>
+          <span class="tag">Cursor</span>
+          <span class="tag">GitHub Copilot, agent mode</span>
+        </div>
+        <div class="warning">⚠ A plain chat window such as claude.ai or ChatGPT will not work. Forge writes files and runs checks, so it needs an agent that can do both.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="num">2</div>
+      <div class="step-body">
+        <h3>Describe your idea</h3>
+        <p>A sentence is enough. Or write “I want to beat” and a company.</p>
+        <label class="label" for="idea" style="display:block;margin:12px 0 6px">Your idea</label>
+        <textarea id="idea" placeholder="For example: a subscription that repairs, rather than replaces, family appliances"></textarea>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="num">3</div>
+      <div class="step-body">
+        <h3>Copy this and paste it into the agent</h3>
+        <div class="panel">
+          <pre id="prompt"></pre>
+          <button id="copy" type="button">Copy prompt</button>
+        </div>
+        <p style="margin-top:12px">The agent downloads the method, installs what it needs, makes your venture folder and starts. It asks you questions as it goes.</p>
+      </div>
+    </div>
+
+    <h2>What you get at the end</h2>
+    <ul>
+      <li>a business case document in the seven sections of the GOV.UK business plan template</li>
+      <li>an Excel workbook with live formulas: sales, 12-month cash flow and five years of forecast statements</li>
+      <li>the design behind them: ten requirements, each with a pass or fail, and a score for the whole</li>
+    </ul>
+    <p style="margin-top:16px">A design that fails a gate stops there and tells you why. That is a result, not an error.</p>
+
+    <h2>What it costs</h2>
+    <p>The method is free. You pay only for your own agent’s usage.</p>
+
+    <footer>
+      <p>Source and manual setup: <a href="https://github.com/tmth-studio/forge-cf">github.com/tmth-studio/forge-cf</a></p>
+      <p>The work of Tough Minds, Tender Hearts. It rests on published work led by Erik Simanis at Cornell, written with co-authors 2021–2025.</p>
+    </footer>
+  </div>
+  <script>
+    const idea = document.getElementById('idea');
+    const out = document.getElementById('prompt');
+    const btn = document.getElementById('copy');
+    function build() {
+      const text = idea.value.trim() || '[one or two sentences, or "I want to beat <company>"]';
+      out.textContent = 'Set up Forge from https://github.com/tmth-studio/forge-cf and help me start my first venture. Read AGENTS.md and follow its first-run section. My idea: ' + text;
+    }
+    idea.addEventListener('input', build);
+    btn.addEventListener('click', async () => {
+      try { await navigator.clipboard.writeText(out.textContent); btn.textContent = 'Copied'; }
+      catch (e) { const r = document.createRange(); r.selectNodeContents(out); const s = getSelection(); s.removeAllRanges(); s.addRange(r); btn.textContent = 'Selected — press copy'; }
+      setTimeout(() => btn.textContent = 'Copy prompt', 2000);
+    });
+    build();
+  </script>
+</body>
+</html>
