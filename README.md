@@ -30,17 +30,17 @@ written with co-authors 2021–2025. The skills name the sources they draw on.
 ## Start here — no terminal needed
 
 Open Claude Code (the desktop app is fine), Codex, Cursor or GitHub Copilot in
-agent mode. Paste this, with your idea in place of the brackets:
+agent mode. Paste this:
 
 ```
 Set up Forge by following https://github.com/tmth-studio/forge-cf/blob/main/AGENTS.md
-and help me start my first venture. My idea: [one or two sentences, or
-"I want to beat <company>"].
+and help me start my first venture.
 ```
 
 The agent puts Forge in your Documents folder, installs what it needs, checks
-the setup worked, makes your venture folder and starts the run. It asks before
-installing anything on the computer itself. It will ask you questions as it goes.
+the setup worked and makes your venture folder. Then it asks for your idea — a
+sentence is enough, or the name of a business you want to beat. It asks before
+installing anything on the computer itself.
 
 This does not work in a plain chat window (claude.ai, ChatGPT). Forge writes
 files and runs checks, so it needs an agent that can do both.
