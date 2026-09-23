@@ -33,13 +33,14 @@ Open Claude Code (the desktop app is fine), Codex, Cursor or GitHub Copilot in
 agent mode. Paste this, with your idea in place of the brackets:
 
 ```
-Set up Forge from https://github.com/tmth-studio/forge-cf and help me start my
-first venture. Read AGENTS.md and follow its first-run section. My idea: [one or
-two sentences, or "I want to beat <company>"].
+Set up Forge by following https://github.com/tmth-studio/forge-cf/blob/main/AGENTS.md
+and help me start my first venture. My idea: [one or two sentences, or
+"I want to beat <company>"].
 ```
 
-The agent downloads the method, installs what it needs, makes your venture
-folder and starts the run. It will ask you questions as it goes.
+The agent puts Forge in your Documents folder, installs what it needs, checks
+the setup worked, makes your venture folder and starts the run. It asks before
+installing anything on the computer itself. It will ask you questions as it goes.
 
 This does not work in a plain chat window (claude.ai, ChatGPT). Forge writes
 files and runs checks, so it needs an agent that can do both.

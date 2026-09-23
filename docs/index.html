@@ -93,7 +93,7 @@
           <pre id="prompt"></pre>
           <button id="copy" type="button">Copy prompt</button>
         </div>
-        <p style="margin-top:12px">The agent downloads the method, installs what it needs, makes your venture folder and starts. It asks you questions as it goes.</p>
+        <p style="margin-top:12px">The agent puts Forge in your Documents folder, installs what it needs, checks the setup worked and starts. It asks before it installs anything on the computer, and asks you questions as the design goes.</p>
       </div>
     </div>
 
@@ -119,7 +119,7 @@
     const btn = document.getElementById('copy');
     function build() {
       const text = idea.value.trim() || '[one or two sentences, or "I want to beat <company>"]';
-      out.textContent = 'Set up Forge from https://github.com/tmth-studio/forge-cf and help me start my first venture. Read AGENTS.md and follow its first-run section. My idea: ' + text;
+      out.textContent = 'Set up Forge by following https://github.com/tmth-studio/forge-cf/blob/main/AGENTS.md and help me start my first venture. My idea: ' + text;
     }
     idea.addEventListener('input', build);
     btn.addEventListener('click', async () => {

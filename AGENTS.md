@@ -17,34 +17,53 @@ skill by that name, open that file and follow it. Do not guess at what it says.
 
 ## First run — do the setup for the person
 
-Many people arrive here by pasting a prompt such as "Set up Forge from
-https://github.com/tmth-studio/forge-cf and help me start my first venture."
-Assume they do not use a terminal. Do every setup step yourself, tell them in
-one plain sentence what you are doing, and ask them for nothing except their
-idea.
+Many people arrive here by pasting a prompt such as "Set up Forge by following
+https://github.com/tmth-studio/forge-cf/blob/main/AGENTS.md and help me start
+my first venture." Assume they do not use a terminal. Do every routine step
+yourself and say in one plain sentence what you are doing. Ask before anything
+that installs software on the computer itself. Ask the person for nothing else
+except their idea.
 
-1. **Get the files.** If you are not already inside this repository, clone it
-   into a new folder called `forge` and work from there. If `git` is missing,
-   download the ZIP of the `main` branch from the same address and unpack it.
+1. **Get the files.** If you are already inside this repository, stay here.
+   Otherwise put Forge in the person's Documents folder as `Forge`. If
+   `Documents/Forge` is already this repository, update it with
+   `git pull --ff-only` rather than making a second copy. If it exists and is
+   something else, stop and ask where to put Forge. If `git` is missing,
+   download the ZIP of the `main` branch and unpack it there.
 2. **Check Python.** Run `python3 --version` (on Windows, `py --version`).
-   Version 3.9 or later is needed. If it is missing or too old, tell the
-   person in one sentence and give them the one install link for their
-   system, then continue once they say it is done.
-3. **Install the three packages.** Run `python3 -m pip install --user pyyaml
-   openpyxl formulas`. If the system refuses (an "externally managed
-   environment" error), make a virtual environment in `.venv` inside the
-   repository, install there, and use that Python for every later script.
+   Version 3.9 or later is needed. If it is missing or too old, ask before
+   installing it: on a Mac, the installer from python.org, or `brew install
+   python@3.12` if Homebrew is already there; on Windows,
+   `winget install --id Python.Python.3.12 --exact`. Reopen the terminal
+   afterwards so the new Python is found.
+3. **Install the three packages into Forge's own environment.** Make a virtual
+   environment in `.venv` inside the Forge folder, install `pyyaml openpyxl
+   formulas` into it, and use that Python for every script in the run. This
+   leaves the rest of the computer untouched and avoids the "externally
+   managed environment" refusal.
 4. **Windows only.** If `.agents/skills` is a plain file, not a link, replace
    it with a copy of `.claude/skills`.
-5. **Make the venture folder.** If the person has already described their
+5. **Check the setup worked.** Do not report success because a command ended
+   without an error. All three of these must hold:
+   - `.venv` Python can import `yaml`, `openpyxl` and `formulas`
+   - `.venv` Python running `.claude/skills/shared/generators/toolchain_guard.py verify`
+     prints `VERDICT: PASS`
+   - the venture folder from step 6 exists
+   If one fails, read the error, fix that one thing and check again. Do not
+   work around it.
+6. **Make the venture folder.** If the person has already described their
    idea, derive a short lowercase concept name from it (two to four words,
    joined by hyphens) and copy `ventures/_template/` to
-   `ventures/<concept-name>/`. If they have not, ask for the idea in one
-   question — a sentence is enough, or the name of a business they want to
-   beat — then make the folder.
-6. **Start the method.** Open the front door below with that concept name and
-   the person's own words as the opening description. Do not summarise the
-   setup at length; one line saying it is done is enough.
+   `ventures/<concept-name>/`. If they have not — they said "hi", or nothing
+   about an idea — introduce Forge in two sentences and ask for the idea in one
+   question. A sentence is enough, or the name of a business they want to
+   beat.
+7. **Start the method.** Open the front door below with that concept name and
+   the person's own words as the opening description. One line saying setup is
+   done is enough; do not summarise it.
+
+Running these steps a second time must be safe. It should repair or resume an
+existing setup, never make a second one.
 
 If the person pasted the prompt into a chat that cannot run commands or write
 files, say so plainly: Forge needs an agent that works on files, such as
