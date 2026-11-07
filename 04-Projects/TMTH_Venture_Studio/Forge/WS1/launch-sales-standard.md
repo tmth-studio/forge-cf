@@ -6,6 +6,10 @@
 **Parent:** `derivation-standard.md` · **Content standard:** `sales-marketing-asset-standard.md` · **Sibling:** `landing-page-standard.md`
 **Source:** Pete Kazanjy, *Founding Sales* — https://www.foundingsales.com (Part 1, chapters 2 to 5, 7 and 8, read 15 September 2026). Where this document goes beyond the source it says so.
 
+**Order (Tom, 5 November 2026).** Design that passes verification, then engineer, then sell. This standard applies at the third step. Process: `../../Sales/how-we-sell.md`.
+
+**Default and calls (Tom, 5 November 2026).** Every launch plan defaults to this founding sales process. Tom is happy to spend time on calls, so a message may offer a call with him. Each company hires a head of sales over time, as needed.
+
 **What this is, and is not.** This is a **craft standard for an output the CF produces** — the launch sales process of an architected venture — not a change to the CF method. It does not touch Simanis, the BALM disciplines or the criteria system. It sits beside `landing-page-standard.md`: that one covers the page a prospect lands on, this one covers the conversation that gets them there and the conversation after.
 
 **Review date:** 15 December 2026 (90-day cycle; owner re-reads against the regression set and the canon mapping, bumps the date)
@@ -17,6 +21,8 @@
 Kazanjy's book has two parts. Part 1 is "doing the basics correctly, yourself. Going from 0 to ~30 customers." Part 2 is getting other people to do it. **Every venture in this studio is in Part 1 until it has 30 paying customers.** Nobody is hired to sell, no agency is engaged and no tool is bought before that line is crossed. This is Kazanjy's rule and it also follows from the no-cash rule (Tom, 2 September 2026).
 
 One adaptation, and it is structural. In the book the founder sends the emails. In this studio the founder does not (Tom, 2 September 2026: *"really, really don't have to do cold sales outreach"*). The venture's operating identity — Finrad, from the venture's own mailbox, under its one-line disclosure — sends every first contact and every follow-up. Tom appears at the first reply that needs a person, at terms outside the envelope, at signature and at spend. So "founding sales" here means: **the founder's credibility, executed by the venture's operator.** Section 5 says how the founder's credibility is used without spending the founder's time or social capital.
+
+**Sender, updated 5 November 2026.** Later rulings narrow the paragraph above. Each message goes with Tom's yes for that send (2 October 2026). Mail from Tom's Gmail goes as Tom, in his voice, signed Tom (2 November 2026). Finrad's mailbox writes as Finrad (28 October 2026). Tom takes the calls inside 10:00 to 16:00 (5 November 2026). So a warm route goes from Tom's Gmail as Tom. A cold approach on LinkedIn may go from Tom's account, written and sent by Finrad in his signed-in Chrome, with one wording and one list of names approved that day (4 November 2026, replacing the ruling of 2 September 2026 for this purpose; applies from step 3). A cold email goes from Finrad's mailbox as Finrad. Each venture's launch plan names the sender for each message before step 3 starts, and Tom rules on that plan.
 
 ---
 
@@ -60,7 +66,7 @@ Kazanjy gives no rigid template. He gives an order and a set of rules. Both are 
 4. **The proof line** — one line, from the six levels in section 5. One only.
 5. **The ask** — see below.
 
-**The ask — two asks, both in the first message.** Kazanjy: at this stage "you're simply selling a conversation" — 15 to 20 minutes, two or three offered slots. The Calmly outreach rule (26 August 2026): every first message states the **ultimate** ask. These are not in conflict once separated. The first email states in one sentence what the venture ultimately wants from this account (the ultimate ask, so the reader knows what the conversation is for), then asks for the conversation (the immediate ask, with slots). The ultimate ask is never softened into "explore" or "learn more"; the immediate ask is never inflated into a decision.
+**The ask — two asks, both in the first message.** Kazanjy: at this stage "you're simply selling a conversation" — 15 to 20 minutes, two or three offered slots. The the reference venture outreach rule (26 August 2026): every first message states the **ultimate** ask. These are not in conflict once separated. The first email states in one sentence what the venture ultimately wants from this account (the ultimate ask, so the reader knows what the conversation is for), then asks for the conversation (the immediate ask, with slots). The ultimate ask is never softened into "explore" or "learn more"; the immediate ask is never inflated into a decision.
 
 **Rules that apply to every email in the sequence:**
 
@@ -116,15 +122,15 @@ The line has four fields and a length limit.
 
 ### 5.3 · Worked lines
 
-**Calmly Resolve, to a marketplace platform.** The site is the buyer. The problem is disputes that cost them the customer.
+**the reference venture Resolve, to a marketplace platform.** The site is the buyer. The problem is disputes that cost them the customer.
 
-> Calmly was founded by Tom Manuel, who co-founded a consumer legal-tech venture and built the Built to Hold Corporate Innovation Lab at Cornell University.
+> the reference venture was founded by Tom Manuel, who co-founded a consumer legal-tech venture and built the Built to Hold Corporate Innovation Lab at Cornell University.
 
 Level 5. Relevant fact: the consumer legal-tech venture, because the reader's problem is a consumer dispute. Verifiable institution: Cornell. 24 words.
 
-**Calmly Resolve, to a litigation funder.** The reader's question is whether the founder can model risk.
+**the reference venture Resolve, to a litigation funder.** The reader's question is whether the founder can model risk.
 
-> Calmly was founded by Tom Manuel, a former bank Vice President responsible for £100m of income and a financial modeller for the IFC (World Bank Group).
+> the reference venture was founded by Tom Manuel, a former bank Vice President responsible for £100m of income and a financial modeller for the IFC (World Bank Group).
 
 Level 5. Relevant fact: the portfolio and the IFC modelling, because the reader prices risk. 25 words. Prior role, so the confidentiality rule does not apply.
 
@@ -134,7 +140,7 @@ Level 5. Relevant fact: the portfolio and the IFC modelling, because the reader 
 
 Level 5, 25 words. The second email carries level 6: the method's provenance (Simanis, Cornell SC Johnson), cited.
 
-**A level-4 second-email line for Calmly:**
+**A level-4 second-email line for the reference venture:**
 
 > The mechanism is not ours: [author, year, journal] measured [the effect] in [population]. Independent review status: [state]. We are pre-launch and have no customer logos.
 
@@ -150,7 +156,7 @@ The last sentence is the landing-page rule (§7.3) applied to email: say the sta
 - A citation the writer has not opened (source-of-what rule, 9 September 2026).
 - The founder's time or a relationship offered as the proof.
 
-Every proof line is checked against the venture's claims register where one exists (Calmly's does) before the sequence is approved.
+Every proof line is checked against the venture's claims register where one exists (the reference venture's does) before the sequence is approved.
 
 ---
 
@@ -202,7 +208,7 @@ Kazanjy's chapters 7 (pitching) and 8 (closing) apply once a conversation is boo
 - [ ] Email 1 is five parts, one screen, 180 words or fewer, one link that resolves
 - [ ] Both asks are present: the ultimate ask in one sentence, the conversation ask with slots
 - [ ] The proof line is the highest true level on the send date; if levels 1 to 3 are empty it is the founder line
-- [ ] The founder line has all four fields, 25 words or fewer, drawn from a sent CV, no current-employer fact, no relationship, no offer of Tom's time
+- [ ] The founder line has all four fields, 25 words or fewer, drawn from a sent CV, no current-employer fact, no relationship
 - [ ] Every citation in the sequence has been opened and says what the line says
 - [ ] The full five-email sequence is written before email 1 sends; no email says "following up"
 - [ ] The signature is the disclosure line and nothing else
@@ -216,5 +222,5 @@ Kazanjy's chapters 7 (pitching) and 8 (closing) apply once a conversation is boo
 - `landing-page-standard.md` — the page the email's one link points to; §7.3 is the same pre-launch proof rule for the page
 - `sales-marketing-asset-standard.md` — which claims a sales asset may make and how they trace to the routine
 - `derivation-standard.md` — why the narrative is derived, not written
-- Calmly outreach rules and the disclosure line — `context/ceo-calmly-resolve-memory.md`, 26 August and 2 September 2026 blocks
+- the reference venture outreach rules and the disclosure line — `context/ceo-reference-resolve-memory.md`, 26 August and 2 September 2026 blocks
 - Sent CVs — `05-Areas/Career/CVs/`

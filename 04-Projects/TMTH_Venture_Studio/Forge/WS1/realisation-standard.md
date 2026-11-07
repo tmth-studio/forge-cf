@@ -44,7 +44,7 @@ Ratified architecture is not automatically realisable. Before the pipeline runs 
 
 **If any of the three is missing, stale, or under revision: realisation for that actor holds at demonstration state, and the gap routes to the owning challenge as work — not to the realisation queue as a blocker note.** The bridge check is cheap (three lookups); skipping it is not.
 
-*Origin: Calmly, 1 Sep 2026. Site-facing products were in realisation while the site's outcome had not been re-examined since payment was de-scoped from C7, its KMC was under revision on two findings, and its journey awaited reconciliation with a C6 re-run. The products had nothing current to derive from, and only a manual hold caught it.*
+*Origin: The reference venture, 1 Sep 2026. Site-facing products were in realisation while the site's outcome had not been re-examined since payment was de-scoped from C7, its KMC was under revision on two findings, and its journey awaited reconciliation with a C6 re-run. The products had nothing current to derive from, and only a manual hold caught it.*
 
 ---
 

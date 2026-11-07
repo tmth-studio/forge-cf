@@ -1,6 +1,6 @@
 ---
 name: ive-fin-sim-custom
-description: Build bottom-up IVE financial simulations as interactive single-file HTML documents. Interviews the user to gather venture inputs, then generates a live model that calculates required price, FMOS, working capital, and cost drivers — following the IVE/IFC methodology by Erik Simanis (Cornell MCL).
+description: Build bottom-up IVE financial simulations as interactive single-file HTML documents. Interviews the user to gather venture inputs, then generates a live model that calculates the price clearing the target margin, FMOS, working capital, and cost drivers — following the IVE/IFC methodology by Erik Simanis (Cornell MCL).
 ---
 
 # IVE Financial Simulation
@@ -19,7 +19,7 @@ Do not include costs for roles or operations that serve mechanisms not yet estab
 
 ---
 
-Builds a bottom-up interactive financial simulation for any IVE venture. Follows the methodology set out in the IFC paper by Erik Simanis (Cornell MCL): start from at-scale activities, build costs upward, derive required price at target FMOS.
+Builds a bottom-up interactive financial simulation for any IVE venture. Follows the methodology set out in the IFC paper by Erik Simanis (Cornell MCL): start from at-scale activities, build costs upward, derive the price clearing the target FMOS.
 
 The output is a single-file HTML simulation where every assumption is editable and every calculated line is expandable to show the formula driving it.
 
@@ -257,8 +257,8 @@ Source validation is a separate audit step, run after the simulation is built. T
 ### Group 7: Scale and targets
 
 12. **At-scale volume.** How many units per year at scale? (Can be a range — bear/central/bull)
-13. **Target FMOS.** What financial margin of safety are you designing for? Default: 30%.
-    - Explain: FMOS = net contribution / revenue per unit. At 30% FMOS, required price = total costs / 0.70.
+13. **Target FMOS.** What financial margin of safety are you designing for? Default: 25% on cost, with 60% printed beside it as the objective (Head of Verification, 6 Nov 2026).
+    - Explain: FMOS = net contribution / total costs per unit. At 25% FMOS, the price clearing that margin = total costs × 1.25.
 
 ---
 
@@ -375,12 +375,28 @@ Each panel is a breakdown table:
 | − Working capital cost | | "Financing cost on cost-of-goods held on balance sheet from commitment to resolution: cost_of_goods × (cost_of_capital/12) × months, weighted across waterfall cohorts" |
 | − Mechanism cost | | "[description from interview]" |
 | **Net contribution** | bold | |
-| **FMOS** | coloured tag | "Net contribution ÷ revenue. Target: ≥[target_fmos]%" |
-| **Required price** | | "Total costs ÷ (1 − [target_fmos]) — the revenue per unit needed to hit the FMOS target" |
+| **FMOS** | coloured tag | "Net contribution ÷ total costs. Target: ≥[target_fmos]%. Objective: 60%" |
+| **Price clearing [target_fmos]% margin** | | "Total costs × (1 + [target_fmos]) — the revenue per unit needed to hit the FMOS target" |
 
-FMOS tag: red if < 20%, yellow if 20–29%, green if ≥ 30%.
+FMOS tag: red below 15%, yellow from 15% to below 25%, green at 25% and above (registry bands). Label it the central reading, not the verdict on checklist item 30. Mark it indicative only unless all four cost layers are populated.
 
 Below table: annual cases at scale, annual revenue, annual net contribution.
+
+**Price at zero net present value (information only).** Under the results table, in its own block, print the text this script produces from the run's model file. Do not recalculate it in page code.
+
+```bash
+python3 -B .claude/skills/ive-fin-sim-custom/scripts/zero_npv_price.py <model.yaml> [--funding <file>] [--unit-word <word>]
+```
+
+- No model file means no block. Run the script again whenever the model changes.
+- The block has no pass mark. It sets no price test unless Tom and the Head of Verification rule a bar.
+- A run may open a question from this block. It may not change a price, a margin test or a verdict because of it, and it may not print a gap to it. No "clears", "passes", "fails", "below" or "above" beside it. The label is never "required", "FIT Startup's price", "FIT's price" or "FIT gate".
+- Keep it out of tab 10, the evidence workbook, the cells index, the `readings` block, the Check tab, the business case and anything leaving the studio.
+- It is a result. Withhold it from scorer inputs (checklist item 28). No scorer scores it.
+- Debt or an allocator's rate goes only in the separate `--funding` file, never in the model file. The script refuses debt without a share, a rate and a dated source for each, and refuses an allocator's rate without who set it and a dated source. A confidential rate prints one sentence and no figure.
+- Where the run's record names debt or refinancing with no sourced rate, the funding file must carry `named_no_rate` with that name, so the block prints the note. A bare "No debt." on such a run is a finding. The script cannot read the record, so the run checks this.
+- `--unit-word` is what one price buys. Pass the record's name for one transaction where one exists. Do not pass the operating unit's name or the market block's unit: the first names a different thing and the second often names a period.
+- Source: `04-Projects/TMTH_Venture_Studio/R_and_D/rd-063-fit-price-test-2026-11-06.md`. Checks: `scripts/test_zero_npv_price.py`.
 
 ### Section D — Working capital model
 
@@ -402,7 +418,7 @@ Vary the key lever from its baseline value down to near zero in 6–8 steps. For
 - WC cost per unit
 - Mechanism cost per unit
 - FMOS (coloured tag)
-- Required price at target FMOS
+- Price clearing the target FMOS
 - Saving vs baseline
 
 Highlight the row matching the current mechanism input value.
@@ -413,7 +429,7 @@ Navy panel (`background: var(--panel-bg)`), white text, Lora body.
 
 Dynamic paragraph, recalculates on every input change:
 
-> "At [X]% [lever description], the [mechanism name] reduces FMOS from [A]% to [B]% — moving required price from £[C] to £[D]. The mechanism costs £[E]/unit in [cost description] against a working capital saving of £[F]/unit — a net improvement of £[G] per unit ([H]% of gross margin)."
+> "At [X]% [lever description], the [mechanism name] reduces FMOS from [A]% to [B]% — moving the price clearing the target margin from £[C] to £[D]. The mechanism costs £[E]/unit in [cost description] against a working capital saving of £[F]/unit — a net improvement of £[G] per unit ([H]% of gross margin)."
 
 ---
 
@@ -430,9 +446,9 @@ function wc_cost_per_unit(cohorts, cost_of_goods, annual_rate) {
   // e.g. month 0 cohort = 0.5 months, month 1 = 1.5 months, court (13mo) = 13 months
 }
 
-// Required price at target FMOS
+// Price clearing the target FMOS
 function required_price(total_costs, target_fmos) {
-  return total_costs / (1 - target_fmos);
+  return total_costs * (1 + target_fmos);
 }
 
 // Peak working capital at scale
@@ -476,7 +492,7 @@ All displayed numbers:
 
 ### The core insight
 
-Top-down models fail at the base of the pyramid because they start from a market share assumption ("if we capture 5% of 10M customers…"). This embeds a penetration fantasy. Simanis's approach starts from the venture at steady-state operating scale and builds costs from the ground up. Required price is the output, not the input.
+Top-down models fail at the base of the pyramid because they start from a market share assumption ("if we capture 5% of 10M customers…"). This embeds a penetration fantasy. Simanis's approach starts from the venture at steady-state operating scale and builds costs from the ground up. The price that clears the target margin is the output, not the input.
 
 ### 5-step bottom-up model (Simanis Part II)
 
@@ -502,9 +518,9 @@ Top-down models fail at the base of the pyramid because they start from a market
 
 **Step 5: Whole Cost P&L — finalize via Goal Seek**
 - Build a full P&L at the scale defined in Step 1
-- Use Goal Seek (or equivalent) to find the price at which net margin hits the target FMOS (≥30%)
-- Key formula: `Required price = Total whole costs per unit ÷ (1 − target_FMOS)`
-- `FMOS = Net contribution ÷ Revenue per unit`
+- Use Goal Seek (or equivalent) to find the price at which net contribution ÷ total costs hits the target FMOS (≥25%, with 60% as the objective)
+- Key formula: `Price clearing the target margin = Total whole costs per unit × (1 + target_FMOS)`
+- `FMOS = Net contribution ÷ Total whole costs per unit`
 
 ### Activity driver logic (most-misunderstood element)
 
@@ -538,11 +554,11 @@ Every human activity must have a **volume driver** — the scale parameter that 
 // months = midpoint of the month (month 0 = 0.5, month 1 = 1.5, court = actual months)
 wc_cost = cohorts.reduce((sum, c) => sum + c.pct * cost_of_goods * (annual_rate/12) * c.months, 0)
 
-// Required price at target FMOS
-required_price = total_costs / (1 - target_fmos)
+// Price clearing the target FMOS
+required_price = total_costs * (1 + target_fmos)
 
 // FMOS
-fmos = net_contribution / revenue_per_unit
+fmos = net_contribution / total_costs
 
 // Peak working capital at scale
 peak_wc = (units_per_year / 12) * cost_of_goods * weighted_avg_months
@@ -602,7 +618,7 @@ const annualIRR  = Math.pow(1 + monthlyIRR, 12) - 1;
 ```
 
 **Always show two IRR figures:**
-- IRR including terminal value (the correct P2P number — use for FIT gate)
+- IRR including terminal value (the correct P2P number; information only, the FIT gate in this skill is the margin test)
 - IRR without terminal value (investment period only — diagnostic, shows how dependent the return is on the perpetuity)
 
 **At-scale vs equilibrium penetration:**
@@ -675,6 +691,16 @@ Rules:
 **GIGO warning:** The P2P tools tell you *what* a company is doing, not *why*. A deeply-flawed business model can unwittingly be made to look good in the financial model. The AOM/CTM activities must be grounded in the confirmed operational structure — not constructed to justify a number.
 
 ---
+
+## Range reading (VA-180, RD-062)
+
+At each challenge, print the information reading:
+
+```bash
+python3 .claude/skills/ive-fin-sim-custom/scripts/range_reading.py {venture-folder}/{venture-slug}-model.yaml
+```
+
+It reports the chance of nil margin, the chance of 25 per cent, the difference volume makes, and each band against its VA-169 class. Nil reads "investors earn the cost of capital" only where all four cost layers are populated. On a fit model it takes the mid point of each band as central and has no volume input. On a file it cannot read it prints `range reading: n/a` with the reason. It is not a test, moves no item and does not stand in for a VA-171 pessimistic value. The item 28 scorer does not see it.
 
 ## Notes
 

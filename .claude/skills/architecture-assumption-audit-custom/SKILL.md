@@ -200,7 +200,7 @@ Before finalising the register, run these checks:
 This skill fits between the ARM and the financial simulation in the model stack:
 
 ```
-CTM → AOM → ARM → [Assumption Audit] → Financial Simulation → required price → FMOS
+CTM → AOM → ARM → [Assumption Audit] → Financial Simulation → price clearing the target margin → FMOS
 ```
 
 The audit is not a gate — it does not block the financial simulation. It produces the ranked validation agenda that runs in parallel with (and informs) the financial simulation. A P1 assumption that fails validation triggers a loop back to the ARM (same loop-back discipline as the design loop).

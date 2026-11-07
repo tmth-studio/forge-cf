@@ -16,7 +16,7 @@ Read the reference before generating and match its layout.
 
 ## Mesh view design rules (IFC-derived — Simanis, "Running the Right Numbers: An Introduction to Operational Model Mapping", TIL Ventures)
 
-The draw.io mesh view is generated to these rules. Structure comes from the IFC guide; shape/colour semantics come from the house style (the 2023 Calmly Lucid op model).
+The draw.io mesh view is generated to these rules. Structure comes from the IFC guide; shape/colour semantics come from the house style (the 2023 the reference venture Lucid op model).
 
 1. **Book-end the map** (guide, Step 3): the venture head office sits far LEFT; the end user / customer-side People (Customers · Users · Enablers-of-the-customer) adhere far RIGHT. Supply-side partners stack in a column between the venture and the flow items.
 2. **Three vertical thirds** (guide, p.12): upper third = Marketing Information flows; middle third = Core Product components; lower third = Support product components and Production Information (which moves between middle and lower); Money flows cross all three but are drawn along the base. Generator strip rule: information-class flow carried by a CP → upper; product-class flow → middle; other information-class flow → lower; money-class flow → base.
@@ -36,7 +36,7 @@ The Operational Model Map is a single spatial diagram built on a **central spine
 numbered 4-D product component nodes**. This spine is the mandatory core. A map of big
 boxes joined by summary arrows carrying two-line captions is **wrong** and will be
 rejected — that is the failure mode of every rejected draft. Reference standard: the
-Calmly "Op Model after C[n]" (Calmly Master File → Model, Simulate & Test).
+The reference venture "Op Model after C[n]" (the reference venture Master File → Model, Simulate & Test).
 
 **The components ARE flows, not static nodes.** Each traces the movement of the 4-D
 product along the **HQ↔customer axis** — outbound (HQ → customer), inbound (customer →
@@ -134,11 +134,11 @@ single spine is the failure mode.
 5. **Actor-first swimlane view (PRIMARY)** — LMU | Territory | HQ lanes; activities as cards within each lane; stream (Making/Selling/Marketing/Using) as a colour-coded label on the card, not a row header
 6. **AOM matrix (SECONDARY — reference view)** — stream × level grid, labelled as reference only. Note: stream labels indicate activity type, not actor
 7. **Activity detail table** — all activities with: Role · Activity · Level · Stream · Time per unit · Volume driver · Challenge tag (C1–C10) · Cost layer (PVC/RC/SC/IC)
-8. **Cost stack summary** — four-layer table: PVC · RC · SC · IC → Required price · Target price · FMOS
+8. **Cost stack summary** — four-layer table: PVC · RC · SC · IC → Price clearing the target margin · Target price · FMOS
 9. **Working capital note** — WC to fill losses + WC for customer financing (separate)
 10. **Routing panel** (navy) — handoff to fin-sim with Group 4 feed
 
-**File naming:** `[venture]-aom-at-C[n].html` (Calmly example: `calmly-aom-at-C10.html`) — label by challenge, not version number.
+**File naming:** `[venture]-aom-at-C[n].html` (the reference venture example: `reference-aom-at-C10.html`) — label by challenge, not version number.
 
 ---
 

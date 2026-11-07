@@ -20,18 +20,20 @@ This is not a design skill itself. It does not generate architecture. It knows t
 This skill is the front door. The user invokes it; it conducts. **Load these two specs before routing, and enforce them throughout:**
 
 - **The flow:** `04-Projects/TMTH_Venture_Studio/Forge/WS1/architecture-process-flow.html` — the five phases and what each does, and *why* (CLO-as-spine, synergy-as-objective, the conformity guard).
-- **The criteria registry:** `04-Projects/TMTH_Venture_Studio/Forge/WS1/criteria-registry.md` — the objectively-verifiable test (Tier-1 mechanical or Tier-2 anchored-rubric) for **every** mini-output. **This is the referee.**
+- **The criteria registry:** `04-Projects/TMTH_Venture_Studio/Forge/WS1/criteria-registry.md` — the objectively-verifiable test (Tier-1 mechanical or Tier-2 anchored-rubric) for **every** mini-output. **This is the referee.** No challenge closes until `python3 .scripts/check-registry-close.py <run>/outputs/cN.md` exits 0: every row the challenge owes is marked applied or not applicable in the record (27 October 2026).
 
-**The session experience:** the user names a venture. Orient (new → Phase 0; existing → resume at the current phase), then drive phase by phase, routing to the sub-skill for each step. At every mini-output, check its registry criterion. **Do not pass a gate that fails its criterion — return to the step.** The run ends at Phase 4 with `/verify-venture-custom` and an integrity score. **What the run hands over** once Verify has closed: the business case document and its evidence workbook — `/ive-business-case-custom`, built to `04-Projects/TMTH_Venture_Studio/Forge/WS1/business-case-standard.md` from the model data file the fin-sim wrote. A run that ends with a score and no business case has not finished.
+**The session experience:** the user names a venture. Orient (new → Phase 0; existing → resume at the current phase), then drive phase by phase, routing to the sub-skill for each step. At every mini-output, check its registry criterion. **Do not pass a gate that fails its criterion — return to the step.** Phase 4 closes with `/verify-venture-custom` and an integrity score. The run itself ends on the Head of Verification's word "verified" or a dated stop from the person you are working with; a no pass sends it back, by `/ive-conductor-custom` (VA-184). **What the run hands over** once Verify has closed: the business case document and its evidence workbook — `/ive-business-case-custom`, built to `04-Projects/TMTH_Venture_Studio/Forge/WS1/business-case-standard.md` from the model data file the fin-sim wrote. A run that ends with a score and no business case has not finished.
 
 **Enforce the three v2 criteria the older pipeline lacked:**
 1. **Synergy** — in every requirement, seek the move that also solves an *earlier* requirement; the finished architecture must contain ≥1 move solving ≥2 requirements (the moat test). A requirement that generates zero synergy candidates has defaulted to local optimisation — flag it.
 2. **Conformity guard** — reject only "wrong because incoherent." Never penalise "wrong because it breaks the conventional CBA" — that is the signal the architecture is working (Simanis: the right form factor looks wrong by conventional standards).
 3. **Convergence routing** — if Phase 3 finds no real-business analogue or any hard contradiction, route back to generation; do not patch.
 
-**FMOS gates:** the canonical two-gate scheme lives in the criteria registry — per-requirement PASS ≥ 25%, Phase II gate PASS ≥ 60%. Do not use any other bands.
+**FMOS gates:** the canonical two-gate scheme lives in the criteria registry — per-requirement PASS ≥ 25%, Phase II gate PASS ≥ 60%. Do not use any other bands. The 25% decides whether design continues. The 60% decides Phase II capital. Neither is the test for moving to engineering. All-worst margins print at each challenge and do not decide there.
 
-**Two modes:** *interactive* (the user in the loop, confirming each gate — this skill) and *autonomous* (the CF runner fires the same flow, stopping only at the irreducible human points: PCO confirm, objective/gate change, final sign-off).
+**Moving a design to engineering: an IVE pass (Tom, 6 November 2026: "lets stick to ours", "Yes, IVE pass").** The test is item 30 of the run verification standard, v0.5 (`04-Projects/TMTH_Venture_Studio/Forge/WS1/run-verification-standard.md`). Read two margins at the all-worst case, volume included: the fit margin at each challenge (price ceiling ÷ cost floor − 1) and the business margin of the whole design (price ÷ whole cost − 1). Both must be 25 per cent or more. A borderline is a fail. The Head of Verification gives the verdict. FIT Startup's figures stay a reference under that name and are not used for verdicts.
+
+**Two modes:** *interactive* (the user in the loop, confirming each gate — this skill) and *autonomous* (the CF runner fires the same flow, stopping only at the irreducible human points: PCO confirm, objective/gate change, final sign-off). A failed form is not one of these (VA-184).
 
 ---
 
@@ -147,7 +149,7 @@ PCO — Prime Commercial Opportunity
 - `/ive-ctm-custom` — Customer Transformation Model (create at R1, update after each requirement)
 - `/ive-aom-custom` — At-Scale Operational Model (create at R1, update after each requirement)
 - `/ive-fin-sim-custom` — Financial simulation (updated continuously via AOM feed; full rebuild after all 10)
-- `/ive-fit-verifier-custom` — FIT gate after every requirement (25% FMOS each time; 60% final gate)
+- `/ive-fit-verifier-custom` — FIT gate after every requirement (25% FMOS each time; 60% at the Phase II capital gate). Also prints the all-worst margins, which item 30 reads for the move to engineering
 - `/ive-research-design-custom` — unified fieldwork protocol (run after R1, before R2 fieldwork)
 - `/ive-consistency-audit-custom` — cross-requirement dependency check (run after R10)
 - `/verify-balm-custom` — BALM completeness audit (checks fields present, not consistency)
@@ -280,6 +282,10 @@ The best architectural moves serve several requirements at once — Grameen's jo
 ### The operating module is not the unit of transaction
 
 The unit of transaction is one sale or one case; the operating module is the structure that gets replicated at scale. Every simulation anchors to the module. The module has a capacity ceiling, fixed costs are module costs spread across transactions, and the primary intrinsic performance curve for module ventures is fixed cost per unit falling as utilisation rises. F2 acquisition design is sized to fill modules, not only to grow volume.
+
+### Answer your own questions (Tom, 5 November 2026)
+
+A question about method, an estimate or how to read a rule does not stop the run and does not go to Tom. Follow `04-Projects/TMTH_Venture_Studio/Forge/WS1/answer-it-yourself-protocol.md`.
 
 ### Source discipline — assume and note, audit later
 

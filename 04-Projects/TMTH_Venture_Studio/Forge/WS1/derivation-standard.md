@@ -43,7 +43,7 @@ Which makes every projection a **verification instrument on the architecture**. 
 
 ## The product projection
 
-Already practised, not newly invented: the Calmly build spec gives every one of its 29 components a *requirement it serves* and a *rules* field. This codifies what that discipline is doing.
+Already practised, not newly invented: the the reference venture build spec gives every one of its 29 components a *requirement it serves* and a *rules* field. This codifies what that discipline is doing.
 
 | Product element | Derives from | Rule |
 |---|---|---|
@@ -58,13 +58,13 @@ Already practised, not newly invented: the Calmly build spec gives every one of 
 
 Most product thinking derives features. The architecture also specifies **absences**, and they are harder to hold because nothing reminds you of them.
 
-Calmly's C9 two-layer rule says publish the aggregate, keep the granular. The correct product expression is that **no per-claim view exists anywhere in the site-facing application** — not hidden behind a permission, not admin-only. Absent. A permission can be granted by a support engineer at 5pm on a Friday; an absence cannot.
+The reference venture's C9 two-layer rule says publish the aggregate, keep the granular. The correct product expression is that **no per-claim view exists anywhere in the site-facing application** — not hidden behind a permission, not admin-only. Absent. A permission can be granted by a support engineer at 5pm on a Friday; an absence cannot.
 
 **Rule: where the architecture forbids something, build the absence, not the permission.** Then the constraint survives contact with a hurried human, which is the only test that matters.
 
 ### Runtime gates — rules that must be able to refuse
 
-Calmly's OR-08 says no claim intake without committed capacity. Expressed as a document, it is a rule someone must remember. Expressed as a product element, it is a conformance check that **fails and blocks go-live** — including in the demo, where it would have been easy and dishonest to let it pass.
+The reference venture's OR-08 says no claim intake without committed capacity. Expressed as a document, it is a rule someone must remember. Expressed as a product element, it is a conformance check that **fails and blocks go-live** — including in the demo, where it would have been easy and dishonest to let it pass.
 
 **Rule: an operating rule that can be breached during operation becomes an interlock. If it only exists in prose, it will be breached.**
 
@@ -78,7 +78,7 @@ Three consequences, in ascending order of value.
 
 **It makes drift detectable.** If the product and the assets are both projections of the same source, a divergence between them is a defect with a location — one of them stopped tracking the record. Today's evidence: the studio home page still described a DBA-funded no-win-no-fee platform four months after that architecture was replaced. Nobody noticed, because nothing checked the projection against the source.
 
-**It turns downstream work into upstream verification.** Building the Calmly product surfaced an inconsistency between Appendix B's cost build-up and the venture's own dispute rate. Writing the page surfaced that the value case was being led from the non-exclusive component. Neither was found by reading the architecture — both were found by trying to project it.
+**It turns downstream work into upstream verification.** Building the the reference venture product surfaced an inconsistency between Appendix B's cost build-up and the venture's own dispute rate. Writing the page surfaced that the value case was being led from the non-exclusive component. Neither was found by reading the architecture — both were found by trying to project it.
 
 **That is the real argument for the discipline: the projection is a test of the source, and it is the cheapest test available.**
 

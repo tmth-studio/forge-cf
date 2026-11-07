@@ -2,7 +2,7 @@
 
 The **primary operational-model deliverable** is the Components Map: a numbered
 component register, not a spatial box picture. Reference implementation:
-Calmly "Component / Activity / Owner / Journey Map".
+The reference venture "Component / Activity / Owner / Journey Map".
 
 Generate this format whenever a venture needs its operational model shown. A spatial
 ops-map (boxes + flows) may accompany it as a secondary exhibit, but it does not

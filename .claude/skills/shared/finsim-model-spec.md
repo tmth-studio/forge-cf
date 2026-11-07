@@ -1,4 +1,6 @@
-# Fin-sim model data file — specification (v1.2, 22 September 2026)
+# Fin-sim model data file — specification (v1.3, 23 September 2026)
+
+**v1.3 (23 September 2026, Venture Architect, the reference venture; object-after 25 September 2026 17:00 BST):** two optional blocks, `readings` and `price_cases`. With `readings.verdict_reading` set, the verdict cell on tab 10 (B8) reads that reading, not the central margin in B6; the central verdict moves to tab 20 as `verdict_central`. Reason: under VA-171 the verdict is taken on the pessimistic value, which the workbook's central model does not compute, and the the reference venture run-2 audit (NCR-194) found B8 reading the central value while the record ruled on another. New tabs are appended as 20 and 21, so no existing cell address moves. A file without either block builds exactly as before; the test proves it, and a second test proves both new blocks in both directions.
 
 **v1.2 (22 September 2026, object-after 24 September 2026 17:00 BST):** an optional `book` block for a lending venture. `balance_per_transaction` is the balance one transaction carries (for a line priced per £1,000 of drawn balance a month, £1,000 by definition) and `capital_share_of_balance` is the share of that balance the venture funds with its own capital; the rest is deposit-funded. With the block present, tab 7 adds the book one unit carries and the capital held against it to the capital that earns the cost of capital (so the investment return per transaction is the capital charge on the balance lent); tab 15 carries the units running, the loan book, its yearly increase, the deposits and the capital by year; tab 17 shows the book's growth as investing cash and its deposit and capital funding as financing cash (cash-neutral by construction); tab 18 carries loans to customers as an asset, deposits as a liability and the capital held against the book as equity. Names added: `book_per_unit`, `book_capital_per_unit`, `book_at_scale`, `book_capital_at_scale`, `forecast_loan_book_year_N`, `forecast_deposits_year_N`, `forecast_book_capital_year_N`. Reason: the credit facility run (22 September 2026) prices per £1,000 drawn, and its largest cost is the return on the capital held against the balance — a v1.1 file had nowhere to carry it. A file without the block builds exactly as before; the test proves it.
 
@@ -30,7 +32,7 @@ Test: `.claude/skills/ive-fin-sim-custom/scripts/test_generate_business_case_xls
 | `transactions_per_customer_per_month` | frequency |
 
 ### `products` — list, up to four (the Start Up Loans sales sheet holds four)
-`name` · `share_of_transactions` (shares sum to 1) · `price` (the interim price — the credible price from the value ceiling work, not the required price) · `cost_of_goods` per transaction.
+`name` · `share_of_transactions` (shares sum to 1) · `price` (the interim price — the credible price from the value ceiling work, not the price clearing the target margin) · `cost_of_goods` per transaction.
 
 ### `hr` — IFC step 2, activities to headcount
 - `available_hours_per_person_month` — productive hours, not contracted hours.
@@ -63,9 +65,20 @@ Year-one unit staff are costed in full from month one (a unit opens with its tea
 
 Rules the forecast keeps, stated on the tabs: a cohort of units opens at the start of its year and follows the year-one ramp; units already open run at steady state; start-up costs and head-office development are charged to profit when paid; an asset is replaced in the year that holds the month after its life ends, and depreciation is capped at what remains to be written off; the loan is the level monthly instalment on tab 14, split into principal and interest by year; tax is charged on profit after losses brought forward and paid the year after it is charged; a cash business — no debtors, creditors or stock; later funding is equity. Year one of the forecast closes at the same cash balance as month twelve on tab 14, and the Check tab proves it.
 
+### `readings` — optional, figures read outside the central model (v1.3)
+`source_files` (a map from a short key to a file path, relative to the model file) · `verdict_reading` (optional: the name of the reading tab 10's verdict reads) · `note` · `items`, a list of `{name, label, unit, tier, owner, source}` with exactly one of:
+- `from: {file, path}` — a value copied at build from a named file by dotted path (for example a margins file). Re-run the builder when the file changes.
+- `value` — a literal number or text.
+- `formula` — a live formula over other readings, written `{rd:name}`, and Master inputs, written `{in:key}` (for example `{in:product.0.cogs}`). Only `+ - * /` and brackets are allowed.
+
+An item may carry `check_against` (`rd:name` or `in:key`) and `check_tolerance`; column G then reads PASS or FAIL, and `readings_checks` reads ALL PASS when every check passes. `owner` names a role, never a person. Tier 4 readings print red. Each item is named `rd_<name>` and listed in the cell index.
+
+### `price_cases` — optional, the forecast at other fees (v1.3)
+A list of `{price, label, status}`. For each case the builder scales every product price so revenue per transaction equals `price`, holds every other input at its base value, and writes the forecast statements by year (revenue, operating profit, profit after tax, closing cash, net assets), the central margin of safety and the lowest closing cash on tab 21. They are values computed by the builder, labelled as not live; the prices on tab 1 drive every other tab. The first block on tab 21 is the tab 1 price, linked live. Names: `pc<N>_revenue_year_<Y>`, `pc<N>_operating_profit_year_<Y>`, `pc<N>_profit_after_tax_year_<Y>`, `pc<N>_closing_cash_year_<Y>`, `pc<N>_net_assets_year_<Y>`, `pc<N>_<measure>_total`, `pc<N>_margin_of_safety`, `pc<N>_lowest_closing_cash`, with N counting from 1.
+
 ## What the builder computes (so the file need not)
 
-Number of units · customer base · transactions · revenue and cost of goods by product · hours, headcount and cost by role · depreciation · running cost · working capital · start-up charge · investment return · tax · head-office total and its allocation per unit · whole cost per unit and per transaction · interim price · margin of safety = (price − cost) ÷ cost · verdict against the registry gates (25% pass, 15% borderline) · required price = cost × (1 + target) · required price by product (same uplift) · one-at-a-time sensitivity and the binding input · worst-corner margin · unit and venture profit and loss · year-one sales, cash flow and the stress test · the roll-out, the loan schedule and asset replacement by year · the forecast profit and loss, cash flow and balance sheet by year · the Check tab.
+Number of units · customer base · transactions · revenue and cost of goods by product · hours, headcount and cost by role · depreciation · running cost · working capital · start-up charge · investment return · tax · head-office total and its allocation per unit · whole cost per unit and per transaction · interim price · margin of safety = (price − cost) ÷ cost · verdict against the registry gates (25% pass, 15% borderline) · price clearing the target margin = cost × (1 + target) · that price by product (same uplift) · one-at-a-time sensitivity and the binding input · worst-corner margin · unit and venture profit and loss · year-one sales, cash flow and the stress test · the roll-out, the loan schedule and asset replacement by year · the forecast profit and loss, cash flow and balance sheet by year · the Check tab.
 
 ## Where the numbers come from
 
@@ -78,3 +91,5 @@ Number of units · customer base · transactions · revenue and cost of goods by
 | `finance` | the finance standard; cost of capital from the funding route |
 | `cashflow` | the launch plan's ramp; the funding route |
 | `forecast` | the scaling architecture (R3) for units by year; the funding route for equity by year |
+
+Two optional top-level keys name the first block, which is always the tab 1 price and is live: `price_cases_base_label` (default "At the tab 1 price (live)") and `price_cases_base_status` (a line printed in red under the label). A `from` reading may resolve to text when its `unit` is `text`; it is copied as text and cannot enter a formula. Both added 23 September 2026 so a model can label its own price, for example as a delegated fee of record.

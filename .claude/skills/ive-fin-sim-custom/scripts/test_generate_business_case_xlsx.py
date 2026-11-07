@@ -123,5 +123,68 @@ def main():
     print(f"PASS — {len(expect)+2} named cells agree with the model; Check tab reads ALL CHECKS PASS; forecast balances over {len(R['forecast'])} years; FMOS {R['fmos']:.1%} {R['verdict']}")
 
 
+
+def test_v13_blocks():
+    """Spec v1.3: readings (file, literal, live formula with a check) and price cases. Both directions: the ruled
+    verdict in B8 follows the reading, not the central margin, and a price case equals the model at that fee."""
+    import json
+    with open(os.path.join(HERE, "example-model.yaml")) as f:
+        m = yaml.safe_load(f)
+    tmp = tempfile.mkdtemp()
+    with open(os.path.join(tmp, "side.yaml"), "w") as f:
+        yaml.safe_dump({"a": {"b": [0.10, -0.40]}}, f)
+    cogs = float(m["products"][0]["cost_of_goods"]["value"]) if isinstance(m["products"][0]["cost_of_goods"], dict) else float(m["products"][0]["cost_of_goods"])
+    m["_model_dir"] = tmp
+    m["readings"] = {"source_files": {"side": "side.yaml"}, "verdict_reading": "ruled",
+                     "items": [{"name": "ruled", "from": {"file": "side", "path": "a.b.1"}, "unit": "share", "tier": 4},
+                               {"name": "half", "value": 0.5, "unit": "share", "tier": 4},
+                               {"name": "cogs_rebuilt", "formula": "{rd:half} * 2 * {in:product.0.cogs}", "unit": "GBP",
+                                "check_against": "in:product.0.cogs"}]}
+    p2 = round(float(gen.compute(m, {k: v["value"] for k, v in gen.collect_inputs(m).items()})["interim_price"]) * 1.2, 4)
+    m["price_cases"] = [{"price": p2, "label": "case at 1.2 times", "status": "red"}]
+    xlsx, cells_md, R = gen.build(m, tmp)
+    from openpyxl import load_workbook
+    names = {n: dn.attr_text for n, dn in load_workbook(xlsx).defined_names.items()}
+    vals = evaluate(xlsx)
+    fails = []
+    g = lambda nm: vals.get(cell_key(names[nm]))  # noqa: E731
+    if g("verdict") != "FAIL":
+        fails.append(f"B8 should read FAIL on the ruled reading -0.40, got {g('verdict')!r}")
+    if g("verdict_central") != R["verdict"]:
+        fails.append(f"verdict_central {g('verdict_central')!r} vs {R['verdict']!r}")
+    if abs(float(g("rd_cogs_rebuilt")) - cogs) > 1e-9:
+        fails.append(f"live formula reading {g('rd_cogs_rebuilt')!r} vs {cogs!r}")
+    if g("readings_checks") != "ALL PASS":
+        fails.append(f"reading checks {g('readings_checks')!r}")
+    vals0 = {k: v["value"] for k, v in gen.collect_inputs(m).items()}
+    Rc = gen.price_case_values(m, vals0, p2)
+    if abs(Rc["interim_price"] - p2) > 1e-9:
+        fails.append("price case does not land on its fee")
+    if abs(float(g("pc1_revenue_year_1")) - Rc["forecast"][0]["revenue"]) > 1e-6 * max(1, abs(Rc["forecast"][0]["revenue"])):
+        fails.append("price case revenue year 1 differs from the model at that fee")
+    if abs(float(g("pc1_margin_of_safety")) - Rc["fmos"]) > 1e-9:
+        fails.append("price case margin differs")
+    if g("all_checks") != "ALL CHECKS PASS":
+        fails.append("Check tab broke with the v1.3 blocks")
+    # the other direction: a file whose ruled reading passes reads PASS in B8
+    m["readings"]["items"][0]["from"]["path"] = "a.b.0"
+    m["readings"]["items"][0].pop("from"); m["readings"]["items"][0]["value"] = 0.30
+    xlsx2, _, _ = gen.build(m, tempfile.mkdtemp())
+    names2 = {n: dn.attr_text for n, dn in load_workbook(xlsx2).defined_names.items()}
+    if evaluate(xlsx2).get(cell_key(names2["verdict"])) != "PASS":
+        fails.append("B8 should read PASS on a ruled reading of 0.30")
+    try:
+        m["readings"]["items"].append({"name": "bad", "formula": "__import__('os')"})
+        gen.build(m, tempfile.mkdtemp())
+        fails.append("a formula with names other than readings and inputs was accepted")
+    except ValueError:
+        pass
+    if fails:
+        print("FAIL — v1.3 blocks: " + "; ".join(fails))
+        sys.exit(1)
+    print("PASS — v1.3 blocks: ruled verdict both directions, live reading with check, price case equals the model at its fee")
+
+
 if __name__ == "__main__":
     main()
+    test_v13_blocks()

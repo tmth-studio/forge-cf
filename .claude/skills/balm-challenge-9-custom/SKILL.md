@@ -59,6 +59,8 @@ PCO — Prime Commercial Opportunity (scope-setter; runs before all requirements
 
 ## R9 definition
 
+**Numbering (RD-063).** This is IVE R9, which is FIT Startup R8. Name the system whenever a FIT Startup number is used. Table: `.claude/skills/shared/fit-and-ive-numbering.md`.
+
 > Manufacture a state of scarcity or inimitability for a resource or asset needed for delivering on the customer value proposition.
 
 C9 builds a resource moat that makes it hard for competitors to enter.
@@ -96,8 +98,8 @@ A gate that cannot fail is theatre. Even with placeholder figures, the Simulate 
 
 1. **Use the correct FMOS formula — cost denominator.**
    `FMOS = (WTP_low − Cost_high) / Cost_high` (Simanis, *Built to Hold*, p.7).
-   Do **not** use `(Price − Cost) / Price` (gross-margin / price denominator) — it is a different, incompatible metric and understates the figure. WTP_low = the R2 Key Monetizable Cost / price ceiling; Cost_high = the AOM high-point unit cost.
-   **Bands — single source of truth is `Forge/WS1/criteria-registry.md`; do not redefine locally.** Two gate levels, do not conflate: *This challenge's Simulate gate (per-requirement early warning):* **PASS ≥ 25% · BORDERLINE 15–24% · FAIL < 15%** — the band this skill's FIT section uses. *The whole-architecture / Phase II gate (not this skill — runs once, after all ten):* **PASS ≥ 60% · BORDERLINE 25–59% · FAIL < 25%** (60% survives the 62% average engineering cost overrun, Flyvbjerg & Gardner 2023). Use the per-requirement band here; the 60% bar is the final convergence criterion checked by the whole-architecture pass. If these ever disagree with the registry, the registry wins.
+   Do **not** use `(Price − Cost) / Price` (gross-margin / price denominator) — it is a different, incompatible metric and understates the figure. WTP_low = the low end of the price the customer would pay, from research or a sourced comparison, and never above value. Value is the R2 Key Monetizable Cost. Where no research or comparison exists, the ceiling is that value, marked "upper limit: no customer return taken off". Customer return prints as information (VA-181) and decides nothing. The Key Monetizable Cost sets value. It is not the price. Cost_high = the AOM high-point unit cost.
+   **Bands — single source of truth is `Forge/WS1/criteria-registry.md`; do not redefine locally.** Two gate levels, do not conflate: *This challenge's Simulate gate (per-requirement early warning):* **PASS ≥ 25% · BORDERLINE 15–24% · FAIL < 15%** — the band this skill's FIT section uses. *The whole-architecture / Phase II gate (not this skill — runs once, after all ten):* **PASS ≥ 60% · BORDERLINE 25–59% · FAIL < 25%** (60% survives the 62% average engineering cost overrun, Flyvbjerg & Gardner 2023). Use the per-requirement band here; the 60% bar is the Phase II capital gate, read by the whole-architecture pass. If these ever disagree with the registry, the registry wins. PASS and BORDERLINE stay labels on the gate reading, and the gate reading decides whether design continues. All-worst margins print beside it and do not decide (VA-179, amended 6 Nov 2026). Item 30's test decides the move to engineering.
 2. **Name the load-bearing assumptions.** Which 2–3 inputs does the FMOS most depend on? `[evidence: CS-7]`
 3. **Run the stress test.** "What is FMOS if the three biggest cost/value assumptions all resolve badly at once?" (Flyvbjerg: complex projects average a 62% cost overrun — a passing design survives it.)
 4. **State the pivot trigger explicitly.** Write the threshold at which the gate flips to FAIL: *"Would FAIL if [assumption] crosses [value] — that is the pivot trigger."* A sound design is exactly this sentence existing.
@@ -117,22 +119,34 @@ A gate that cannot fail is theatre. Even with placeholder figures, the Simulate 
   4. *A different customer.* Return to C2 and take the next customer it ranked and did not select. For a named-business entry, take a different line of the named business and return to C1 SR1.
   5. *A wider opportunity.* Return to the PCO, widen the use case one level, and run the new shortlist from C1.
   - **Order.** Rungs 2 and 3 run in the order the FIT line decides (VA-151). A theorem the result disproves goes to the pivot first. A sound theorem in the wrong form goes to the mutation first. Both rungs finish before rung 4.
-  - **Finite.** Before a rung starts, write its candidate list. Rung 1 has one candidate. Rung 2 takes every candidate the generator returns. Rung 3 takes every mutation named in the CONSIDERED / NOT CHOSEN block and any new one. Rungs 4 and 5 take every customer, line or use case that passes the PCO screen. Each candidate gets up to three loop-backs. A rung is finished when every candidate on its list has had them. A candidate already tried is not tried again.
+  - **Written list.** Before a rung starts, write its candidate list. Rung 1 has one candidate. Rung 2 takes every candidate the generator returns. Rung 3 takes every mutation named in the CONSIDERED / NOT CHOSEN block and any new one. Rungs 4 and 5 take every customer, line or use case that passes the PCO screen. Each candidate gets up to three loop-backs. A rung is finished when every candidate on its list has had them. A candidate already tried is not tried again. When every list is finished, the search does not end: see the end below (VA-184).
   - **The gate stays where it is.** The band, the stress test and the evidence rule are the registry's at every rung. Climbing changes the design, never the test. A BORDERLINE is accepted only under the close criterion below, as before.
-  - **Where the ladder is climbed.** A FAIL whose lever a later requirement owns routes forward first (VA-153 branches 1 and 2). The ladder is climbed at the requirement that owns the lever.
+  - **Where the ladder is climbed.** A FAIL whose lever a later requirement owns routes forward first (VA-153 branches 1 and 2). The ladder is climbed at the requirement that owns the lever. An all-worst reading under 25 per cent does not climb the ladder; a FAIL on the gate reading does (VA-179, amended 6 Nov 2026). A no pass from the Head of Verification sends the run back, by the rule in `/ive-conductor-custom` (VA-184).
   - **Rulings.** A rung that a dated principal ruling closes (for example, a ruled customer of record closes rung 4) is written "closed by ruling [date]" and skipped. With no person present, climb; never stall (VA-153 branch 4).
-  - **The end.** The run ends only when all five rungs are finished and no candidate converged. It then writes a `FLAG FOR THE PRINCIPAL` block. The principal is the person you are working with. The block holds five things:
-    - the best design found: the candidate closest to the gate at the same stress conditions, with its FIT band and margin
-    - the binding constraint with its arithmetic: "the gate needs X, the best design reaches Y, short by X minus Y"; name which constraint binds and by how much, and write "too small", never "impossible"
-    - what would have to be true for it to pass: the value of each binding input at which the gate passes, with its evidence class
-    - the ladder log: rung, candidate, FIT result and loop-backs used, one line each
-    - each rung closed by ruling, and what opening it would allow.
-    The gate verdict stays FAIL.
+  - **The end (VA-184, RD-070; the principal's ruling of 7 Nov 2026: "the agent keeps working until it finds something that is verified across all challemges - not helpful to have failures").** The run ends on one of two things: the Head of Verification's word "verified" on a design with all ten requirements complete, or a dated stop from the person you are working with. A failed form, an empty list, "provisional" and the end of a session do not end it. No gate, band or pass mark moves, and every failure stays in the record.
+    - *Tried.* A candidate is tried once its gate failed after three loop-backs, it was struck at an opportunity screen on its own terms, or it read a no pass on a finished record after three loop-backs. A read of an unfinished record stands as dated record, and that candidate is not yet tried.
+    - *An empty list.* Which design has not been tried, and what would it need? Run `/ive-architecture-generator-custom` on the binding constraint from the ledger's shortfalls, one level wider. A new candidate differs from every ledger entry in who pays, what is sold or which cost line it removes. A change in a number alone is not a candidate. A corrected range or new evidence may re-read a tried form, as a new dated reading with the reason; the first reading stays.
+    - *Nothing new appears.* Write that, tell the person in one line and wait for new input. Do not invent candidates. This is not an end and not a failure.
+    - *Early screen.* A desk sum or a printed all-worst reading may order the list and may place a candidate below another. It adds no mark and gives no verdict, and the candidate below stays untried.
+    - *A failed form.* It goes in the ledger with its reading, and the run moves on. It is not a report to the person. If asked how it is going, tell the truth, including that nothing has passed.
+    - *`SEARCH STATE` block.* Print it at each change of stream and at a stop. It is not an end, and each candidate's verdict stays as read. It holds five things:
+      - the best design found: the candidate closest to the gate at the same stress conditions, with its FIT band and margin
+      - the binding constraint with its arithmetic: "the gate needs X, the best design reaches Y, short by X minus Y"; name which constraint binds and by how much, and write "too small", never "impossible"
+      - what would have to be true for it to pass: the value of each binding input at which the gate passes, with its evidence class
+      - the ladder log: rung, candidate, FIT result and loop-backs used, one line each
+      - each rung closed by ruling, and what opening it would allow.
+    - *After R10, between sessions and across streams.* `/ive-conductor-custom` holds the rules.
 - **Four loop-gate branches (VA-153, RD-037) (Head of R&D, 21 Sep 2026, object-after 23 Sep 12:30).**
   1. *Later owner, adjacent:* a FAIL whose lever the next requirement owns routes forward with the FAIL inherited and the owner named in the verdict block.
   2. *Later owner, non-adjacent:* routes in sequence, the FAIL inherited through every requirement between, with a VA-85 lock on the owner; no requirement between may claim the repair.
   3. *Repair on a re-derived upstream figure:* the repair is claimed, the re-derived figure is named as the critical assumption, the verdict caps at PROVISIONAL, and the upstream requirement's row is annotated, not overwritten.
-  4. *Warning band with no person present (autonomous mode):* accept with conditions and record the decision, or revise once and record the loop-back. Never stall; never choose silently. The choice and its reason go in the verdict block.
+  4. *Warning band with no person present (autonomous mode):* accept with conditions and record the decision, or revise once and record the loop-back. Never stall; never choose silently. The choice and its reason go in the verdict block. This branch covers a warning band at the gate reading only. An all-worst reading under 25 per cent needs no branch: it prints and does not decide (VA-179, amended 6 Nov 2026).
+- **All-worst reading, printed at each challenge (VA-179) (ruled 6 Nov 2026 by the TMTH Chief of Staff under Tom's "U decide"; amended the same day by the same authority after Tom's "Yes, FIT replaces it"; Head of R&D, RD-061).** From the first challenge with a cost and a value figure, print both margins at the all-worst case, volume included, using item 25's table (`Forge/WS1/run-verification-standard.md`: every input at its worst end in one table). Volume is the lowest the design must pass through on its ramp, not the scale it aims at; state it. Where more volume reads lower in this form, the high end is the harmful end: find the end by search for each reading, do not carry it from another form or basis, and read the range script's harmful-ends line (VA-183). Where the model at this challenge does not vary with volume, print the reading at the file's volume, say so and name volume as not yet read; the first challenge whose model varies with volume reads it. If no price is set, the ceiling stands in; say so. Whole cost is the lines built so far plus known head-office and capital lines; name the missing lines. A reading under 25 per cent does not stop the run, is not a FAIL and needs no `closes:` arithmetic. The gate reading and its bands decide whether design continues. Item 30's test decides the move to engineering. Margin points do not add, and a band moves only with a source or measurement for the new end (VA-169).
+  - **Scope.** All modes, mode 3 included: RD-024's "reported, not gating" holds for this reading. The VA-171 rule still sets the pessimistic values, and the gate bands still label the gate reading, so the 15 to 24 band can be accepted with conditions (VA-153 branch 4).
+  - **Search.** The search continues while rungs remain: record each form's all-worst margins. 60 per cent at all-worst is a search aim only and decides no pass. Write the input table before forms are scored and hold it across forms; a form moves an input only through a named mechanism and may not narrow a band to win. When no candidate is left on any list, write a new list (VA-184), and record in the search state that the ceiling is too small and which constraint binds.
+  - **Limits.** This reading uses the run's own figure. Whether a re-estimated figure reads instead sits with the Head of Verification under items 16 and 28. No past verdict changes. A run under way reads this at its next challenge; what it has already recorded stands.
+- **Range reading, information only (VA-180, RD-062) (Head of R&D; countersigned by the Head of Verification 6 Nov 2026; object-after 8 Nov 2026 11:13; Tom may strike it).** Print `.claude/skills/ive-fin-sim-custom/scripts/range_reading.py` on the model the run holds: chance of nil margin, chance of 25 per cent, and the difference volume makes. Nil reads "investors earn the cost of capital" only where all four cost layers are populated; otherwise it reads "nil on the lines built so far; indicative only". State one meaning for band ends for the run, a limit or one chance in ten, and name any exceptions. If the script cannot read what the run holds, the field reads n/a with the reason. This reading is not a test. It moves no item, does not stand in for a VA-171 pessimistic value, and the item 28 scorer does not see it.
+- **Customer return, reading only (VA-181, RD-065) (Head of R&D; countersigned by the Head of Verification 6 Nov 2026; object-after 8 Nov 2026 11:13; Tom may strike it).** From C2, print low value ÷ offered price − 1 at worst, with whether cash is paid upfront or from proceeds. Offered price is the high end of the price band, or the set price where price is fixed. So price sits at its low end in the margin and its high end in the return. Print `independence: NOT shown · shared input: price` (VA-160). If price is set at a ceiling of value × an assumed share, say the return only restates that share (VA-97). The run record prints two bars beside the reading: 50 per cent low ticket, 300 to 1,000 per cent high ticket (Built on Sand, ch. 2); value ÷ price 3 or more (OCV standard, Gate 2). The bars appear in run records only: never in a business case, in anything leaving the studio, on the Check tab or in a challenge verdict. This field stays information. Item 30 does not read it (standard v0.5; Tom, 6 Nov 2026: "Yes, IVE pass").
 - **Close criterion.** Mark R9 complete only when Simulate clears (real PASS) or a BORDERLINE is consciously accepted with its conditions recorded as critical assumptions. An unvalidated provisional pass closes the *design* but leaves the loop open pending data — record it that way.
 
 ---
@@ -408,7 +422,7 @@ This challenge's job is **not** to confirm the current BFF already handles resou
 
 **VA-103 — the juggling question, made mechanical.** Canon reconceives the form factor after every theory of change, asking which BFF best supports all of them so far (Business Architecture Framework, 2023, p.10); a system solved for its functions sequentially is the failure the method names (Core Business Archetype, 2024, p.10). So at every requirement, after the synthesis check: (1) state what changed in the BFF; (2) re-run every earlier requirement's named checks and FIT on the BFF as it now stands, one row each, marked unchanged / re-verified / FAILED — an earlier pass is not evidence once the BFF has moved; (3) at each function gate (C3, C7, C10) re-run every earlier requirement in full on the cumulative BFF and run the consistency audit and venture verification there (extends VA-90's trigger list to after F2). Arrows point inward until nothing moves; only then may the BFF be said to explain the challenges. The closing state at C10 is ten verdicts on one BFF, each re-verified on the same cumulative state — a requirement whose last verification predates the last BFF move is not closed. (Tom, 8 September 2026, on delegation.)
 
-**VA-127 — every actor the architecture needs carries a priced business case, gated against its own alternative.** VA-99 says an enabler carries a business case rather than a KMC; it does not say the case must be priced, and no challenge's output contract asks for the number. So a mechanism can be true (the partner already performs the act) and worthless (routing it through the venture is worth nothing to the partner) and clear every named check. Readback C7, 11 September 2026: the anchor buyer's stated value — its statutory payment-practices report as a by-product — priced at about £1,000 a year against a £1,285 compilation cost, once an OCV was actually computed for the buyer; the small buyer's surplus was £4 at central and negative at the pessimistic corner. The behaviour the whole architecture rested on — confirmation — was allocated to the actor the record had studied least, and the Integration ToC read as answered because it named a theory (North 1990) without pricing the cost the theory says drives adoption. The rule: for each behaviour the architecture depends on, name the actor, price what it gains and what it costs, show the surplus against its best alternative — or name the other force that supplies the behaviour and what that force costs its supplier. Unpriced and unforced is a design defect. (Tom, 11 September 2026: "should always explain why actor carries the product.")
+**VA-127 — every actor the architecture needs carries a priced business case, gated against its own alternative.** VA-99 says an enabler carries a business case rather than a KMC; it does not say the case must be priced, and no challenge's output contract asks for the number. So a mechanism can be true (the partner already performs the act) and worthless (routing it through the venture is worth nothing to the partner) and clear every named check. One studio run, 11 September 2026: the anchor buyer's stated value — its statutory payment-practices report as a by-product — priced at about £1,000 a year against a £1,285 compilation cost, once an OCV was actually computed for the buyer; the small buyer's surplus was £4 at central and negative at the pessimistic corner. The behaviour the whole architecture rested on — confirmation — was allocated to the actor the record had studied least, and the Integration ToC read as answered because it named a theory (North 1990) without pricing the cost the theory says drives adoption. The rule: for each behaviour the architecture depends on, name the actor, price what it gains and what it costs, show the surplus against its best alternative — or name the other force that supplies the behaviour and what that force costs its supplier. Unpriced and unforced is a design defect. (Tom, 11 September 2026: "should always explain why actor carries the product.")
 
 **VA-106 — name the earlier requirements this move also serves, or say it serves none.** The ten requirements are constraints the whole business form factor must satisfy together, so one structural move can close several at once, and a design in which no move ever does is a set of parts rather than one business (VA-1). **State the count and the mechanism at every requirement, in the table above.** "None: this move serves this requirement only" is a legitimate and common answer — the rule asks the question and forbids no answer. **The verification pass scores this from the table you wrote, not from its own reading**, so a requirement that leaves the line blank has not completed its output block. `[evidence: VA-106]`
 
@@ -647,10 +661,10 @@ Run the financial margin of safety calculation. Display it in this format:
 
 ```
 COST FLOOR (from AOM)           £[X] / unit
-REQUIRED PRICE (25% FMOS)       £[Y] / unit    ← cost floor ÷ (1 − 0.25)
+PRICE CLEARING 25% MARGIN       £[Y] / unit    ← cost floor × 1.25. Not FIT Startup's required price
 PRICE CEILING (KMC from R2)     £[Z] / unit
 
-HEADROOM                        £[W] / unit    ← ceiling minus required price
+HEADROOM                        £[W] / unit    ← ceiling minus the price clearing 25% margin
 FMOS                            [X]%           ← (ceiling − floor) ÷ FLOOR
 
 VERDICT: [PASS / BORDERLINE / FAIL]
@@ -660,9 +674,9 @@ VERDICT: [PASS / BORDERLINE / FAIL]
 
 ```
 GATE VERDICT — on the cumulative architecture C1 to C[N]
-  logical limb:      [PASS / PROVISIONAL / FAIL]    checks failed: [n]
-  operational limb:  [PASS / PROVISIONAL / FAIL]    checks failed: [n]
-  financial limb:    [PASS / BORDERLINE / FAIL]     FMOS [X]% · binding gate [name]: [surplus / breach]
+  logical limb:      [PASS / PROVISIONAL / WAIVED / FAIL]    checks failed: [n]   VA-176: WAIVED prints its waiver line
+  operational limb:  [PASS / PROVISIONAL / WAIVED / FAIL]    checks failed: [n]
+  financial limb:    [PASS / BORDERLINE / WAIVED / FAIL]     FMOS [X]% · binding gate [name]: [surplus / breach]
   dispositions:      [every failed check, with its kind]
   capacity figure:   [the single figure, and confirmation prose and arithmetic use the same one]   VA-91
   independence:      [shown / NOT shown — are the two financial halves one measure?]              VA-97
@@ -671,21 +685,25 @@ GATE VERDICT — on the cumulative architecture C1 to C[N]
   inherited:         [worst verdict of any prior challenge this builds on, and which]
   repairs:           [any upstream failed check this closes — name it, show the arithmetic — or "none"]
   loop_backs:        [n this requirement; at 3 — pivot / mutation, stated, with the FIT line that decides]   VA-151
-  ladder:            [rung 1–5 · candidate k of n on that rung · rungs closed by ruling, or "none"; after rung 5, the FLAG FOR THE PRINCIPAL block]   VA-177
+  ladder:            [rung 1–5 · candidate k of n on that rung · rungs closed by ruling, or "none"; at a change of stream or a stop, the SEARCH STATE block]   VA-177, VA-184
   loop-gate branch:  [for every FAIL — this / adjacent / non-adjacent owner · re-derived cap · autonomous choice, with record]   VA-153
+  all-worst:         [fit and business margin at all-worst, volume included; lowest volume stated, or named as not yet read; missing lines named]   VA-179
+  closes:            [optional; not required for an all-worst reading under 25 per cent (amended 6 Nov 2026). If given — each close: later challenge · amount · arithmetic · input moved; margin recomputed with all applied at once]   VA-179
+  range reading:     [chance of nil · chance of 25 per cent · difference volume makes · band ends: limit or one in ten, run default, exceptions named; or n/a with the reason]   VA-180
+  customer return:   [low value ÷ offered price − 1 at worst · upfront or from proceeds · independence: NOT shown · shared input: price · restates an assumed share?; n/a at C1]   VA-181
   launch constraints:[none inside SR1–SRn and this block — or the offending line, which fails the logical limb]   VA-23
   spread count:      [the one count used for any fixed-cost spread, why it is the at-scale count; margin at the PCO's other counts]   VA-162
   shared input:      [none — or the input that drives both the margin and the binding gate; then independence reads NOT shown]   VA-160
   VERDICT:           [PASS / PROVISIONAL / FAIL]  — may not exceed `inherited` unless a repair is shown
 ```
 
-⚠ **FMOS uses the cost denominator: `FMOS = (ceiling − floor) ÷ floor` = `(WTP_low − Cost_high) / Cost_high`** (Simanis, *Built to Hold*, p.7). Do **not** divide by the ceiling/price — `(ceiling − floor) ÷ ceiling` is the gross-margin metric, a different and incompatible figure that understates FMOS. WTP_low = R2 KMC / price ceiling; Cost_high = AOM high-point unit cost.
+⚠ **FMOS uses the cost denominator: `FMOS = (ceiling − floor) ÷ floor` = `(WTP_low − Cost_high) / Cost_high`** (Simanis, *Built to Hold*, p.7). Do **not** divide by the ceiling/price — `(ceiling − floor) ÷ ceiling` is the gross-margin metric, a different and incompatible figure that understates FMOS. WTP_low = the low end of the price the customer would pay, from research or a sourced comparison, and never above value. Value is the R2 Key Monetizable Cost. Where no research or comparison exists, the ceiling is that value, marked "upper limit: no customer return taken off". Customer return prints as information (VA-181) and decides nothing. The Key Monetizable Cost sets value. It is not the price. Cost_high = AOM high-point unit cost.
 
-**For R9:** Use the R2 KMC as the price ceiling. The cost floor updates with the new AOM additions from R9 (Making stream resource moat activities).
+**For R9:** Use the R2 price ceiling, which sits at or below the R2 Key Monetizable Cost. The cost floor updates with the new AOM additions from R9 (Making stream resource moat activities).
 
 **Verdicts:**
 - **PASS (≥25%):** The financial limb's first half clears. Proceed to the three-limb close below — never straight to Section 9.
-- **BORDERLINE (15–24%):** Surface the conditions. With a person present, ask: accept and proceed, or revise? Without one (autonomous mode — VA-153 branch 4): accept with conditions and record the decision in the gate verdict block, or revise once and record the loop-back; never stall and never choose silently. Either way the conditions are recorded as critical assumptions.
+- **BORDERLINE (15–24%):** Surface the conditions. With a person present, ask: accept and proceed, or revise? Without one (autonomous mode — VA-153 branch 4): accept with conditions and record the decision in the gate verdict block, or revise once and record the loop-back; never stall and never choose silently. Either way the conditions are recorded as critical assumptions. PASS and BORDERLINE stay labels on the gate reading, and the gate reading decides whether design continues. All-worst margins print beside it and do not decide (VA-179, amended 6 Nov 2026). Item 30's test decides the move to engineering.
 - **FAIL (<15%):** Return to Section 2 (resource diagnosis). State which lever is off: cost floor too high, or price ceiling too low.
 
 **Theory robustness check (embedded in FIT):**
@@ -806,15 +824,17 @@ Three dispositions, and only three.
 
 > ⚠ **"Caps at PROVISIONAL" is a ceiling, not a floor (clarified 4 September 2026).** It means the verdict **may not be better than** PROVISIONAL. It does **not** mean the verdict reaches PROVISIONAL. **Step 5 still governs**: if any limb fails, the verdict is FAIL, whatever disposition the failed check carried. A disposition explains *why* a check failed; it never makes the check pass. (Found in use: a run hit a breached binding gate — so the financial limb failed — while the check's disposition was a build item, and Step 4 read as though PROVISIONAL were available. The run ruled Step 5 governs and was right.)
 
+**A check the principal waives (VA-176, RD-054 (b)) (approved under Tom's delegation of 23 Sep 2026 13:10, "Act for me"; stands unless he objects by 25 Sep 2026 13:10).** A part of the close may read `WAIVED` only where the principal has released the run from a named check, in his own words, on a date. Print: `WAIVED — by: principal · date · words: "[quoted]" · scope: [which check, which challenges] · depth run instead: [none, or what was checked and its result] · risk accepted: [what is not known as a result] · lapses at: [the event]`. Only the principal waives. A waiver covers only the checks its words name. It releases the run from running a check; it never releases a result already computed, and a computed FAIL stands under Step 5. While any waiver stands, the verdict may not be better than PROVISIONAL, and the record is not called design-complete or VERIFIED. "NOT RUN" and "SENSE CHECK ONLY" are not values: without a waiver, a check not run reads FAIL on its part of the close. Canon: waiver and deviation (NPR 7120.5F Appendix A; EIA-649).
+
 **A check that cannot be classified fails.** If the run cannot place a failed check in one of the three, the disposition is design defect. A standing constraint must be traceable to the PCO or to a recorded instruction from the principal. A constraint invented at the gate to explain a failure is a design defect, and calling it a constraint is the failure mode this rule exists to stop.
 
 ### Step 5 — state the verdict as a conjunction of the three limbs
 
 ```
 GATE VERDICT — on the cumulative architecture C1 to C[N]
-  logical limb:      [PASS / PROVISIONAL / FAIL]    checks failed: [n]
-  operational limb:  [PASS / PROVISIONAL / FAIL]    checks failed: [n]
-  financial limb:    [PASS / BORDERLINE / FAIL]     FMOS [X]% · binding gate [name]: [surplus / breach]
+  logical limb:      [PASS / PROVISIONAL / WAIVED / FAIL]    checks failed: [n]   VA-176: WAIVED prints its waiver line
+  operational limb:  [PASS / PROVISIONAL / WAIVED / FAIL]    checks failed: [n]
+  financial limb:    [PASS / BORDERLINE / WAIVED / FAIL]     FMOS [X]% · binding gate [name]: [surplus / breach]
   dispositions:      [every failed check, with its kind]
   capacity figure:   [the single figure, and confirmation prose and arithmetic use the same one]   VA-91
   independence:      [shown / NOT shown — are the two financial halves one measure?]              VA-97
@@ -823,8 +843,12 @@ GATE VERDICT — on the cumulative architecture C1 to C[N]
   inherited:         [worst verdict of any prior challenge this builds on, and which]
   repairs:           [any upstream failed check this closes — name it, show the arithmetic — or "none"]
   loop_backs:        [n this requirement; at 3 — pivot / mutation, stated, with the FIT line that decides]   VA-151
-  ladder:            [rung 1–5 · candidate k of n on that rung · rungs closed by ruling, or "none"; after rung 5, the FLAG FOR THE PRINCIPAL block]   VA-177
+  ladder:            [rung 1–5 · candidate k of n on that rung · rungs closed by ruling, or "none"; at a change of stream or a stop, the SEARCH STATE block]   VA-177, VA-184
   loop-gate branch:  [for every FAIL — this / adjacent / non-adjacent owner · re-derived cap · autonomous choice, with record]   VA-153
+  all-worst:         [fit and business margin at all-worst, volume included; lowest volume stated, or named as not yet read; missing lines named]   VA-179
+  closes:            [optional; not required for an all-worst reading under 25 per cent (amended 6 Nov 2026). If given — each close: later challenge · amount · arithmetic · input moved; margin recomputed with all applied at once]   VA-179
+  range reading:     [chance of nil · chance of 25 per cent · difference volume makes · band ends: limit or one in ten, run default, exceptions named; or n/a with the reason]   VA-180
+  customer return:   [low value ÷ offered price − 1 at worst · upfront or from proceeds · independence: NOT shown · shared input: price · restates an assumed share?; n/a at C1]   VA-181
   launch constraints:[none inside SR1–SRn and this block — or the offending line, which fails the logical limb]   VA-23
   spread count:      [the one count used for any fixed-cost spread, why it is the at-scale count; margin at the PCO's other counts]   VA-162
   shared input:      [none — or the input that drives both the margin and the binding gate; then independence reads NOT shown]   VA-160
@@ -833,7 +857,7 @@ GATE VERDICT — on the cumulative architecture C1 to C[N]
 
 - **PASS** — all three limbs pass, with no failed check outstanding.
 - **PROVISIONAL** — no limb fails, and every failed check is a standing constraint or a build item, each fully specified. The challenge may route to the next requirement. **The architecture may not be called design-complete, and no later requirement may rely on a capability recorded as a build item.**
-- **FAIL** — any limb fails.
+- **FAIL** — any limb fails. An all-worst reading under 25 per cent prints beside the verdict and is not a limb (VA-179, amended 6 Nov 2026).
 
 ### Step 5a — the verdict composes forward: you cannot fail one requirement and pass the next (VA-95)
 
@@ -857,6 +881,15 @@ python3 .claude/skills/shared/generators/check_verdict_order.py <verdict file or
 ```
 
 A `REFUSED` result means a verdict exceeds the worst verdict it rests on; the cumulative verdict is then the script's, not the prose's. The regression walk of 16 September found eight such lifts in one run — the script exists because reading did not catch them.
+
+**Registry close check — run before the verdict is stated (27 October 2026).** Every criteria-registry row that this challenge owes is marked in the record's `## Registry close` section: `applied — <where>` or `n/a — <reason>`. Print the block, fill it, then run the check:
+
+```
+python3 .scripts/check-registry-close.py --template 9
+python3 .scripts/check-registry-close.py <run>/outputs/c9.md
+```
+
+A `FAIL` result means the challenge is not closed. Fill the missing rows before the verdict, not at verification. The 2 October run closed every challenge with registry rows unread and repaired twelve of them at verification; a paragraph did not prevent it.
 
 ### Step 6 — classify every item carried out of the challenge (VA-82)
 
@@ -889,13 +922,13 @@ State clearly:
 
 **Two modes. Decide which applies before routing.**
 
-**Autonomous run — nobody is in the conversation.** This covers any run under the principal's "act without me" delegation, any dispatched background run, and any run inside a workflow. **Write the capture. Do not ask.** Answer the four questions from the run you have just completed and append them to `04-Projects/TMTH_Venture_Studio/Forge/WS1/ws1-feedback-log.md`. This is part of closing the challenge. A challenge closed without it is not closed.
+**Autonomous run — nobody is in the conversation.** This covers any run under the principal's "act without me" delegation, any dispatched background run, and any run inside a workflow. **Write the capture. Do not ask.** Answer the five questions from the run you have just completed and append them to `04-Projects/TMTH_Venture_Studio/Forge/WS1/ws1-feedback-log.md`. This is part of closing the challenge. A challenge closed without it is not closed.
 
 **Interactive run — a person is in the conversation.** Ask first:
 
 > "Quick WS1 capture? (y / skip)"
 
-If **y**, ask the four questions in sequence and append the answers. If **skip**, route immediately — no friction.
+If **y**, ask the five questions in sequence and append the answers. If **skip**, route immediately — no friction.
 
 **The format is the same in both modes:**
 
@@ -910,6 +943,8 @@ If **y**, ask the four questions in sequence and append the answers. If **skip**
 **3. Correction needed?** Did the output require significant human correction? [yes/no — if yes, what]
 
 **4. One change:** What would improve this challenge skill?
+
+**5. Verdict:** On the fix this run tested, if any, and on the One change above: `untested` | `helped` | `hurt` | `no observed effect` | `confounded`, and the run that shows it. A One change proposed from this run alone is `untested`. Use `confounded` when one run is all the evidence, or when several changes moved together and no run separates them. Only `helped`, shown by a comparison run of the old and the changed skill on the same venture, marks a fix proven in the regression set (Harness² edit verdicts, adopted 27 October 2026).
 ```
 
 **Why the autonomous mode is mandatory (added 4 September 2026).** The WS1 objective is defined on autonomous runs. Under the previous wording the step waited for a y/skip answer that nobody could give, so it dropped with no trace. Four runs across two ventures on 2 and 3 September produced no capture at all, and the entries had to be written from the records two days later. The runs that produce the primary data were the runs producing none.

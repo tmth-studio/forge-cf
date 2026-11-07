@@ -9,7 +9,7 @@ Closes the gap between **what the architecture defines** (what / who / how-much)
 
 **The problem it solves:** the model stack tells you a process exists, who runs it, and what it costs — but nobody can build or run from that. *"U1 guided submission, intake assessor, 265 min/claim, £108"* is not something you can build or hire into. Detailed design produces the **buildable definition**, the **assets it runs on**, and the **interface** for every part.
 
-**When to run:** after PDR (architecture complete — 10 BALM designed, FMOS ≥ 60%, consistency audit PASS), before `/ive-build-pilot-custom`.
+**When to run:** after PDR (architecture complete — 10 BALM designed, consistency audit PASS, FMOS read against the 60% Phase II capital gate), before `/ive-build-pilot-custom`.
 
 **Output:** a detailed-design package — per process a buildable definition, per asset the acceptance criterion its process sets, per connection an interface spec — and a failable CDR gate.
 
@@ -33,7 +33,7 @@ Build → integrate → MRP                     → [TRR / ORR]   built + verifi
 
 Detailed design designs *the architecture as frozen*. If it isn't PDR-complete, you'll detail-design the wrong thing. Confirm on disk:
 - [ ] **VDR frozen** — all 10 BALM requirements solved
-- [ ] **Model stack at C10** — CTM / AOM / ARM / fin-sim — with FMOS ≥ 60% (or a consciously-accepted conditional pass, conditions recorded)
+- [ ] **Model stack at C10** — CTM / AOM / ARM / fin-sim — with FMOS read against the 60% Phase II capital gate. 60 is the capital gate, not a design stop
 - [ ] **Consistency audit PASS** (PDR cleared)
 
 If any is missing → **STOP.** Back to `/ive-conductor-custom`; the venture hasn't cleared PDR. Detail-designing on an unfrozen architecture is wasted work — the design changes underneath you.

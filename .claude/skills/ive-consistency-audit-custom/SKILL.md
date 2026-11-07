@@ -43,7 +43,7 @@ R6 must design a cash flow solution that works within the Business Form Factor R
 **R1 cost structure → R2 value ceiling**
 Already verified by the FIT Verifier, but worth re-checking at full audit: does the R2 price ceiling still hold against the R1 cost structure as finally designed? Cost assumptions sometimes drift between the FIT gate and the completion of all 10 requirements.
 
-*Contradiction signal:* R1 cost structure has changed since the FIT Verifier ran and now pushes required price above the R2 ceiling.
+*Contradiction signal:* R1 cost structure has changed since the FIT Verifier ran and now pushes the price clearing the target margin above the R2 ceiling.
 
 **R3 Scaling mechanism → R8 Lock-in**
 R3 designs the mechanism for reaching scale without a proportional increase in cost. R8 designs a switching cost. If R3's scaling mechanism involves open partner networks or interoperability (to reach scale cheaply), it may compromise R8's lock-in — because open systems are harder to exit-proof.

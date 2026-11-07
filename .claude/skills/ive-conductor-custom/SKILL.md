@@ -58,9 +58,19 @@ Then for **each** challenge R1…R10 the **same** sub-sequence (C[n]):
 
 Gates/audits in sequence: after R3 → **AR** (FIT verifier on F1, computed) · after R10 → fixed-point pass (VA-161) → verify-balm → consistency audit = **PDR** · after PDR → detailed design (buildable process definitions + asset specs + interfaces, via `/ive-detailed-design-custom`) = **CDR** · then build pilot (`/ive-build-pilot-custom`) = **TRR** · then MRP = **ORR**.
 
-**Search ladder re-entry (VA-177, RD-055 (Head of R&D, 23 Sep 2026, object-after 25 Sep 17:00)).** A gate that fails does not end the run while a rung of the search ladder has an untried candidate (the ladder is in every challenge skill's loop-back section). When a challenge's verdict block records a climb to rung 4 or 5, the ledger re-opens at an earlier row: rung 4 at C2 row a (a different customer) or C1 row a (a different line of a named business); rung 5 at P3 (use cases, widened one level). The authority file states `ladder: rung [n], candidate [name], re-entered at [row], [date]`. From that line on, only artifacts dated on or after it count as complete, so the determination algorithm finds the re-opened row as CURRENT. The earlier candidate's artifacts stay on disk as its ladder-log entry and are not overwritten. The conductor never lowers a gate.
+**Search ladder re-entry (VA-177, RD-055 (Head of R&D, 23 Sep 2026, object-after 25 Sep 17:00)).** A gate that fails does not end the run (the ladder is in every challenge skill's loop-back section; VA-184). When a challenge's verdict block records a climb to rung 4 or 5, the ledger re-opens at an earlier row: rung 4 at C2 row a (a different customer) or C1 row a (a different line of a named business); rung 5 at P3 (use cases, widened one level). The authority file states `ladder: rung [n], candidate [name], re-entered at [row], [date]`. From that line on, only artifacts dated on or after it count as complete, so the determination algorithm finds the re-opened row as CURRENT. The earlier candidate's artifacts stay on disk as its ladder-log entry and are not overwritten. The conductor never lowers a gate.
+
+**Keep working until verified (VA-184, RD-070; the principal's ruling of 7 Nov 2026).** The run ends on one of two things: the Head of Verification's word "verified" on a design with all ten requirements complete, or a dated stop from the person you are working with. Which design has not been tried, and what would it need? The challenge skills hold the empty-list rule and the `SEARCH STATE` block. This section holds what happens after a read, between sessions and across streams.
+
+- **A no pass, by kind.** Read which kind it is, then re-enter. A starred item that fails because the record is unfinished: finish the record on this candidate; this uses no loop-back. A margin that fails on a finished record: return to the requirement that owns the input item 25 names as closest to fixing it. A starred item that fails on a finished record: return to the requirement that owns that item. "Provisional": as for a margin, and the form stays listed by how close it came; the person may accept the failed margin in writing at any time, and the run does not ask. Each of the last three uses one loop-back on the candidate; after three, climb. Each return re-runs the fixed-point pass (row j), and a helper without notes reads the design again (item 28). Asking for a read is not a question to the person. The authority file states `no_pass: [kind], re-entered at [row], loop-back [k] of 3, [date]`; from that line on, only artifacts dated on or after it count as complete.
+- **Streams.** Where the person has named an order of preference, search in that order, then wider. Stay in a stream while it has an untried candidate on its written list, then move on, print the `SEARCH STATE` block and give the person one line. Only the person's dated ruling closes a stream or a rung. Another role's "closed" is a record of what happened, not a ruling.
+- **The ledger.** Every form tried goes in the run's ledger with its reading, and in the studio's form ledger for a studio run. No failure is deleted. Ranges are written before a form is scored and held across forms. A range changed after a reading prints its reason and keeps both readings. Searching until something passes favours the forms with the most optimistic ranges, so these guards do not relax during a search.
+- **Parameters.** Investment parameters the person has confirmed hold for every candidate in the search. A re-run of the opportunity screen does not stop to ask again. A new parameter still needs the person.
+- **What comes to the person.** Spend, sends, anything irreversible, a decision only they can take, the pass, and one line at a change of stream. A failed form does not.
+- **Session end.** Before a session ends, write in the authority file: `search: [stream], [candidate], [last word], next: [step], [date]`. On opening, read the last such line before the walk in section C. With no pass and no dated stop on record, continue at the named candidate without asking.
 
 ### C — Determination algorithm (run exactly this, every time)
+0. Read the last `search:` line, if there is one, and take that candidate's ledger (VA-184).
 1. Walk the ledger top to bottom.
 2. The **first** step whose completion artifact is absent = the **CURRENT step**.
 3. The **NEXT ACTION is to complete exactly that one step** — not the next one, not a related decision, not a strategic question.
@@ -102,7 +112,7 @@ Phase 8 — Validation               → IVE: MRP — unit economics in real con
 |------|-----------|-------------------|
 | **PCOR** | PCO Review | Is this the right problem, for the right customer, at a scale that can pay back capital? |
 | **AR** | Architecture Review | Is there a plausible F1 architecture — workaround, value ceiling, scaling path — with positive FMOS headroom? |
-| **PDR** | Preliminary Design Review | Are all 10 BALM requirements designed, FMOS ≥ 60%, and the consistency audit PASS? |
+| **PDR** | Preliminary Design Review | Are all 10 BALM requirements designed and the consistency audit PASS, with FMOS read against the 60% Phase II capital gate? |
 | **CDR** | Critical Design Review | Is every process detailed-designed to buildable depth — a buildable definition per process, an acceptance criterion per asset set by the process that runs it, interfaces specified with an owner on each side — with no open architectural decisions? |
 | **TRR** | Test Readiness Review | Are individual processes verified and the workflow integration test ready to run? |
 | **ORR** | Operational Readiness Review | Has the MRP validated unit economics, and does NPV exceed the hurdle rate? |
@@ -160,11 +170,11 @@ This contract exists because of a logged failure (20 June 2026): a full R1–R3 
 - [ ] R2 (Efficacy) complete — KMC quantified, price ceiling set, Attendant Routines mapped
 - [ ] R3 (Scaling) complete — scaling mechanism designed, working capital solution identified
 - [ ] **Model stack built for R1–R3** — CTM, AOM, ARM/fin-sim at each challenge state, plus VDR entries (per the artifact contract above). Prose design alone does **not** satisfy AR.
-- [ ] FIT Verifier PASS — FMOS ≥ 60% on F1 architecture, **computed from the fin-sim (not a directional estimate)**, able to fail, with pivot trigger stated
+- [ ] FIT Verifier reading in the 25 band — FMOS ≥ 25% on F1 architecture, or 15–24% with the gap logged as a Phase II assumption, **computed from the fin-sim (not a directional estimate)**, able to fail, with pivot trigger stated
 
 ### PDR exit criteria
 - [ ] All 10 BALM requirements designed to IVE standard
-- [ ] FMOS ≥ 60% confirmed (ARM-derived cost floor, not estimated)
+- [ ] FMOS read against the Phase II capital gate (ARM-derived cost floor, not estimated): 60% or above pass, 25–59% tighten or carry as a critical assumption, under 25% fail. 60 is the capital gate, not a design stop
 - [ ] BALM verification audit: all 10 challenges COMPLETE (no Partial or Open)
 - [ ] Consistency audit: PASS (or PASS WITH CONDITIONS — all conditions resolved)
 - [ ] Fixed point reached (VA-161): one full C1–C10 pass changed no answer; the authority file states the pass number and date
@@ -300,7 +310,7 @@ Open in browser after saving.
 
 - This is a custom skill, protected from Dex updates
 - Edit `.claude/skills/ive-conductor-custom/SKILL.md` to modify
-- **Process reference (primary):** `04-Projects/TMTH_Venture_Studio/FinTech_Justice/conductor-{latest-date}.html` — most recent conductor report is the authoritative position summary
+- **Process reference (primary):** `04-Projects/TMTH_Venture_Studio/reference-venture/conductor-{latest-date}.html` — most recent conductor report is the authoritative position summary
 - **Process reference (CDR evidence):** the venture's latest CDR package — gate criteria, FMOS, open items
 - **Process reference (TRR preparation):** the venture's validation plan — slice-ordered validation plan; which slices to build and test first, T4 flows per slice, exit gates, and what is explicitly deferred until each gate clears
 - **Process reference (methodology):** `04-Projects/TMTH_Venture_Studio/TMTH_IVE_Wiki/wiki/Methodology/V_Model_Process.md` — canonical V-model phases and gates

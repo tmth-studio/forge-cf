@@ -248,7 +248,7 @@ Four runs reviewed this seat from general practice. Read against the standard, t
 
 | Run finding | Check | Result under the standard |
 |---|---|---|
-| R1: the print of an operating organisation for a third-party line is not built; Calmly's was hand-assembled; 40-hour stand-up threshold | PR-03, PR-06 | Build item with threshold — as disposed; PR-03 adds the hours line WP-3 lacks |
+| R1: the print of an operating organisation for a third-party line is not built; the reference venture's was hand-assembled; 40-hour stand-up threshold | PR-03, PR-06 | Build item with threshold — as disposed; PR-03 adds the hours line WP-3 lacks |
 | R2: the gate as a refusal is not built; the run reports challenge two, it does not refuse; trigger fewer than half of frontier frames refused | PR-08, PR-12 | Build item — as disposed; PR-12 makes the refusal rate a TPM read from the run records |
 | R3: the term-budget schedule the run must emit, so the sum is derived, not quoted | PR-13 | Build item (Head of Method) — as disposed; PR-13 adds the check cell |
 | R3 §17: the kill band, owner this seat; inference at required reliability, owner this seat | PR-35, PR-16 | Unmeasured inputs — as disposed; PR-15 adds the reliability number both need |
@@ -311,7 +311,7 @@ Four runs reviewed this seat from general practice. Read against the standard, t
 
 **Where these apply.** To the pilot-instance record that follows R10. That record is the design that stands the fixed architecture up from zero (PCO v8 §9; Tom's ruling of 17 September 2026, `ws1-feedback-log.md`). Never at step 6b of a challenge, never at Converge, never in a FIT verdict. A challenge record that answers one of these has the VA-23 design defect.
 
-**Where the record lives.** Forge's v8 pilot-instance record does not yet exist; it is written after R10. The pattern for it is Calmly's launch-form register (`04-Projects/TMTH_Venture_Studio/FinTech_Justice/calmlyresolve-launch-form-register-2026-09-06.html`). See `finance-standard.md` §9 for the same note in full. The figures these three checks read on Forge today are the v7 record's: 172.4 architect-hours a year, 56.5 hours a print, 400 one-off hours. They are cited here as the worked instance, not as the rule.
+**Where the record lives.** Forge's v8 pilot-instance record does not yet exist; it is written after R10. The pattern for it is the reference venture's launch-form register (`04-Projects/TMTH_Venture_Studio/reference-venture/reference-launch-form-register-2026-09-06.html`). See `finance-standard.md` §9 for the same note in full. The figures these three checks read on Forge today are the v7 record's: 172.4 architect-hours a year, 56.5 hours a print, 400 one-off hours. They are cited here as the worked instance, not as the rule.
 
 | ID | Question to the pilot-instance record | Tier | Anchor | Passes when | If it fails |
 |---|---|---|---|---|---|

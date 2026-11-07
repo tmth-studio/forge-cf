@@ -39,7 +39,7 @@
 
 **Working Product** — eliminates a named loss (the Key Monetizable Cost) in the customer's current routine for an outcome they already pursue. *Source: Product_Architecture_Definitions.md.*
 
-**Communications Product** — makes the actor **aware of** the value proposition, and **able to act on it**. The two verbs are the two sub-types: *aware of* is the retrieval gap (the venture does not come to mind at the moment the need fires — advertising, Ehrenberg-Bass memory structures, measured on mental availability rather than conversion); *able to act on it* is the conviction gap plus the practical route (the actor can check the claim against their own numbers, and a way to transact exists — sales and the purchase or acceptance path). Note "act on", not "buy": at Calmly the claimant pays nothing, so their act is acceptance, not purchase. A definition written around buying mis-handles the actor who pays nothing. *Source: Product_Architecture_Definitions.md; sharpened by principal ruling 27 Aug 2026.*
+**Communications Product** — makes the actor **aware of** the value proposition, and **able to act on it**. The two verbs are the two sub-types: *aware of* is the retrieval gap (the venture does not come to mind at the moment the need fires — advertising, Ehrenberg-Bass memory structures, measured on mental availability rather than conversion); *able to act on it* is the conviction gap plus the practical route (the actor can check the claim against their own numbers, and a way to transact exists — sales and the purchase or acceptance path). Note "act on", not "buy": at the reference venture the claimant pays nothing, so their act is acceptance, not purchase. A definition written around buying mis-handles the actor who pays nothing. *Source: Product_Architecture_Definitions.md; sharpened by principal ruling 27 Aug 2026.*
 
 **Payment Product** — converts a completed, evidenced value event into venture revenue without creating a new loss on either side: no working-capital gap for the venture, no payment friction for the customer. *Source: Product_Architecture_Definitions.md.*
 
@@ -56,9 +56,9 @@ Three consequences the definition is worth having for:
 
 **Realised Product** — an instance of a 4-D Product built for real use (live claim documents, live integrations). "Realisation" per ISO/INCOSE product-realisation usage. *Source: principal ruling 27 Aug 2026.*
 
-**Test Product** — an instance produced solely to verify or demonstrate the design, never for live use: worked examples, reference claim files, dry-run packs. Id convention TP-NNN (historic SP ids retained, e.g. Calmly SP-007). *Source: principal ruling 27 Aug 2026; supersedes "specimen" and rejects "fabricated product" (collision with fabricated-content vocabulary).*
+**Test Product** — an instance produced solely to verify or demonstrate the design, never for live use: worked examples, reference claim files, dry-run packs. Id convention TP-NNN (historic SP ids retained, e.g. The reference venture SP-007). *Source: principal ruling 27 Aug 2026; supersedes "specimen" and rejects "fabricated product" (collision with fabricated-content vocabulary).*
 
-**First-article inspection** — exhaustive verification of the FIRST Realised Product of each type against its requirements and its Test Product reference; a named verification event at first live operation (Calmly: tranche 1). *Source: SE/manufacturing practice (FAI); adopted 27 Aug 2026.*
+**First-article inspection** — exhaustive verification of the FIRST Realised Product of each type against its requirements and its Test Product reference; a named verification event at first live operation (the reference venture: tranche 1). *Source: SE/manufacturing practice (FAI); adopted 27 Aug 2026.*
 
 ## Verification terms
 
@@ -70,7 +70,7 @@ Three consequences the definition is worth having for:
 
 **Test Product / Realised Product boundary in verification** — a Test Product proves the design on paper (demonstration-grade); a Realised Product's first article proves the build (test-grade). The two are different verification events and are never conflated. *Source: 27 Aug 2026 ruling.*
 
-**Band-never-bare** — no external document quotes a central estimate without its band and confidence grade. *Source: Calmly operating rule; applies CF-wide.*
+**Band-never-bare** — no external document quotes a central estimate without its band and confidence grade. *Source: The reference venture operating rule; applies CF-wide.*
 
 ## Operating unit and launch terms
 
@@ -78,7 +78,7 @@ Three consequences the definition is worth having for:
 
 **Operating unit** — the smallest complete configuration that delivers the value proposition to a real customer and can be repeated. It includes every process, actor, agreement and capital input that must be live at the same time for value to flow. A signed customer is one input to the unit, not the unit. Always say which species is meant. *Source: Simanis/IVE C3 inputs ("launch and grow the first operating unit"); principal ruling 27 Aug 2026.*
 
-**MRBU (Minimum Representative Business Unit)** — an operating unit that is representative of the at-scale configuration. Its **function is to TEST** the venture, and representativeness follows from that function. Canon: "the smallest scale of the business model that allows all the activities most critical to at-scale profitability to be tested in high fidelity, under conditions that capture the market's real variability." Calmly's MRBU is one dispute-cover cell; representative of at-scale means per-unit economics, not volume.
+**MRBU (Minimum Representative Business Unit)** — an operating unit that is representative of the at-scale configuration. Its **function is to TEST** the venture, and representativeness follows from that function. Canon: "the smallest scale of the business model that allows all the activities most critical to at-scale profitability to be tested in high fidelity, under conditions that capture the market's real variability." the reference venture's MRBU is one dispute-cover cell; representative of at-scale means per-unit economics, not volume.
 
 - **Do not call it "the pilot"** in any new document — see *sales pilot*, which sits on a different axis.
 - **Do not call it "MRP"**. The proposed rename to Minimum Representative Pilot was **rejected 1 Sep 2026**. It failed two of the three naming tests: it is not the source discipline's own term, and it collides with Material Requirements Planning. That is live vocabulary in the same operations register this method borrows from. The genus and species distinction the proposal carried is preserved in full; only the label was refused.
@@ -91,7 +91,7 @@ Three consequences the definition is worth having for:
 
 **Sales pilot** — a bounded, reversible trial agreed with a customer as part of the sales motion. It describes the **customer's level of commitment**, never the venture's configuration. A sales pilot is served by whichever operating unit the venture is running at the time; during launch that is the launch operating unit, not the MRBU. Preferred over "client pilot", which said only whose side the pilot was on rather than what it was. *Source: principal ruling 27 Aug 2026.*
 
-**Open, not resolved here:** whether Calmly's "tranche 1" and its MRBU are the same object under two names. A venture-record question, not a method one. *Raised 27 Aug 2026.*
+**Open, not resolved here:** whether the reference venture's "tranche 1" and its MRBU are the same object under two names. A venture-record question, not a method one. *Raised 27 Aug 2026.*
 
 ## Method and model terms
 
@@ -121,7 +121,7 @@ Three consequences the definition is worth having for:
 
 **HIO (High-Import Outcome)** — the outcome of greatest importance to the target actor, set at a level the venture can meaningfully impact (the level-finding drill: usually one step lower than first instinct). *Source: BALM R2.*
 
-**KMC (Key Monetizable Cost)** — the single biggest monetizable cost in the target actor's current routines for the HIO; P&L line items they no longer pay, cross-department, PLUS the dominant opportunity-cost component where present. Spans all four canon loss classes — expended · foregone · feared/risk-borne · friction/stress — never the expended class alone (VA-63). *Term note: the canon writes "Key Monetizable Loss"; WS1 keeps **Cost** by principal ruling, 1 Sep 2026 — a deliberate, recorded divergence. Source: BALM R2; Calmly two-component extension (VDR Appendix B).*
+**KMC (Key Monetizable Cost)** — the single biggest monetizable cost in the target actor's current routines for the HIO; P&L line items they no longer pay, cross-department, PLUS the dominant opportunity-cost component where present. Spans all four canon loss classes — expended · foregone · feared/risk-borne · friction/stress — never the expended class alone (VA-63). *Term note: the canon writes "Key Monetizable Loss"; WS1 keeps **Cost** by principal ruling, 1 Sep 2026 — a deliberate, recorded divergence. Source: BALM R2; the reference venture two-component extension (VDR Appendix B).*
 
 **OCV (Objective Customer Value)** — the DO / USE-BUY / THINK / FEEL routine map evidencing what the actor does today to achieve the HIO. *Source: BALM R2 / OCV standard (tmth-studio/methods).*
 
@@ -129,7 +129,7 @@ Three consequences the definition is worth having for:
 
 **VDR (Venture Design Record)** — the design record and only the design: PCO line, R1–R10 answers with canonical definitions rendered alongside, BFF evolution. Economics, verification status and investment cases live in separate artefacts. The design authority for its venture (VDR-first protocol). *Source: HoP scope standard (8 Jun 2026); VDR-first ruling (27 Aug 2026).*
 
-**EV anchor / ⬇EV tag** — one anchor (segment expected net recovery) governs claimant price, funder price and site-fee justification; any component or asset derived downstream of it carries the ⬇EV tag and re-derives on any EV change. *Source: Calmly VDR Appendix C (proposal, 27 Aug 2026); generalises as single-anchor pricing coupling.*
+**EV anchor / ⬇EV tag** — one anchor (segment expected net recovery) governs claimant price, funder price and site-fee justification; any component or asset derived downstream of it carries the ⬇EV tag and re-derives on any EV change. *Source: The reference venture VDR Appendix C (proposal, 27 Aug 2026); generalises as single-anchor pricing coupling.*
 
 ---
 

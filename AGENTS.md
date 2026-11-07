@@ -123,10 +123,16 @@ these rules:
   files under `04-Projects/`. The scripts verify their own digests and refuse to
   run if changed. A run must not be able to change the tool that grades it.
 - Do not move a venture past a gate it has failed, and never lower a gate to
-  let a design through. When a requirement fails three loop-backs, follow the
-  search ladder in the challenge skill: a new strategy, a different business
-  form, a different customer or line, then a wider opportunity. Keep going until
-  a design passes or every rung is finished. Only then stop, and give the person
-  the best design found, how far short it falls and what would have to be true
-  for it to pass.
+  let a design through. When a requirement fails three loop-backs, record the
+  failed form and follow the search in the challenge skill: a new strategy, a
+  different business form, a different customer or line, then a wider
+  opportunity. A run ends only on a verified design or a dated stop from the
+  person. If nothing distinct is left to try, say so in one line and wait.
 - Do not create the venture's output files by hand. The method makes them.
+
+## Tell the person this before a run
+
+A run does not stop by itself when a design fails. It keeps trying until a design
+is verified or the person stops it, and that can use a large amount of their agent
+allowance or money. Tell them this at the start, ask whether they want a limit, and
+stop when they say stop.

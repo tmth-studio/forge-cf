@@ -112,3 +112,12 @@ Both pass the writing test (they name what the run must state) and the generalit
 
 - This standard does not lower the bar. Every claim keeps its falsification test and its validation event. It moves *who does what*: the run researches and designs; the person decides and corrects; the world validates, at launch.
 - Where a desk route genuinely returns nothing — no filing, no price, no behaviour — the run says so, states the assumption with its tier, and proceeds. Absence of a source is a Q3 or a Q5 finding, not a reason to ask.
+
+---
+
+## Staged patch — RD-049 / VA-169 (estimate maturity), not yet in force
+
+*Staged by the Head of Product, 2 November 2026, from msg-20260922-0951-05. It lands 48 hours after the Head of Verification countersigns `estimate-maturity-standard.md`, unless Tom objects. No countersign is on record at staging.*
+
+1. **A Q1 claim carries a class, capped at E3 until launch.** Launch evidence is from outside the studio, so it is the first act that can move a Q1 claim to E2.
+2. **The carried-items row takes the ladder form.** In place of "pending data" or "unmeasured", each carried item states: input · class now · next act (one class up) · owner (a role, never a person) · timing (a phase, a gate or a named event).

@@ -289,7 +289,7 @@ The run reviewed the seat from general practice and `launch-sales-standard.md`, 
 
 **Where this applies.** To the pilot-instance record that follows R10 — the design that stands the fixed architecture up from zero (PCO v8 §9; Tom's ruling of 17 September 2026, `ws1-feedback-log.md`). Never at step 6b of a challenge, never at Converge, never in a FIT verdict. A challenge record that answers it has the VA-23 design defect.
 
-**Where the record lives.** Forge's v8 pilot-instance record does not yet exist; it is written after R10. The pattern for it is Calmly's launch-form register (`04-Projects/TMTH_Venture_Studio/FinTech_Justice/calmlyresolve-launch-form-register-2026-09-06.html`). See `finance-standard.md` §9 for the same note in full.
+**Where the record lives.** Forge's v8 pilot-instance record does not yet exist; it is written after R10. The pattern for it is the reference venture's launch-form register (`04-Projects/TMTH_Venture_Studio/reference-venture/reference-launch-form-register-2026-09-06.html`). See `finance-standard.md` §9 for the same note in full.
 
 **The first-deal figures the record carries (R7 v8, NTP first incumbent).** Partnerships seat 20 h: identify 4, appraise 2, three meetings 6, term sheet 2, agreement 2, hand-over 4. Agents 5 h. Secretariat 6 h, plus 20 h legal. Cash £150, plus £2,000 legal. Six to ten weeks, or four to six months where a legal instrument is drawn. Total £1,450, or £4,450 with the instrument. These are pilot-instance readings. They never enter the at-scale block.
 
@@ -297,7 +297,7 @@ The run reviewed the seat from general practice and `launch-sales-standard.md`, 
 |---|---|---|---|---|---|
 | PA-44-P | Do the pilot-instance reading (the founder) and the at-scale reading both appear, with the at-scale reading as the parent, and is the pilot-instance reading the one inside the founder-hours cap? | 1 | `derivation-standard.md` state rule; TPM | Both present; the cap uses the founder reading; the at-scale reading is cited as parent | One reading only → design defect (state mixing); a pilot-instance reading with no at-scale parent → design defect |
 | PA-19-P | Is every first approach conducted by a named person who is not Tom, or by Tom only on an invitation the record cites — with no cold outreach queued for him? | 1 | Tom, 2 September 2026; standing constraint | Every approach names its conductor and its invitation | A cold approach queued for Tom → stop; the record is returned |
-| PA-24-P | Where the first deal uses a legal instrument the at-scale terms do not need, is the divergence logged in the launch-form register with the date it closes? | 1 | Calmly launch-form register pattern; `derivation-standard.md` | The divergence line exists with a close date | Absent → design defect in the pilot-instance record |
+| PA-24-P | Where the first deal uses a legal instrument the at-scale terms do not need, is the divergence logged in the launch-form register with the date it closes? | 1 | The reference venture launch-form register pattern; `derivation-standard.md` | The divergence line exists with a close date | Absent → design defect in the pilot-instance record |
 
 ---
 

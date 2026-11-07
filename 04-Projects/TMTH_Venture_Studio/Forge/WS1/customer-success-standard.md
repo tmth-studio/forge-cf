@@ -219,7 +219,7 @@ The two runs reviewed this seat from general practice. Read against the standard
 
 **Where this applies.** To the pilot-instance record that follows R10. That record is the design that stands the fixed architecture up from zero (PCO v8 §9; Tom's ruling of 17 September 2026, `ws1-feedback-log.md`). Never at step 6b of a challenge, never at Converge, never in a FIT verdict. A challenge record that answers it has the VA-23 design defect.
 
-**Where the record lives.** Forge's v8 pilot-instance record does not yet exist; it is written after R10. The pattern for it is Calmly's launch-form register (`04-Projects/TMTH_Venture_Studio/FinTech_Justice/calmlyresolve-launch-form-register-2026-09-06.html`). See `finance-standard.md` §9 for the same note in full.
+**Where the record lives.** Forge's v8 pilot-instance record does not yet exist; it is written after R10. The pattern for it is the reference venture's launch-form register (`04-Projects/TMTH_Venture_Studio/reference-venture/reference-launch-form-register-2026-09-06.html`). See `finance-standard.md` §9 for the same note in full.
 
 | ID | Question to the pilot-instance record | Tier | Anchor | Passes when | If it fails |
 |---|---|---|---|---|---|

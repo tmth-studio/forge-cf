@@ -59,29 +59,29 @@ The product use routine marks every step **active or passive**, and marks some a
 
 ### Rule 1 — Sell the passive steps. They are the value. · scope: craft
 
-A step the customer performs *passively* is one where they get the outcome without doing anything. That is the product working. Calmly's routine step 6 reads: *"Disputes arise and resolve entirely outside the site — intake, gate, valuation, resolution, payout — entirely passive for site. Carries Component 1."* That sentence is the feature. It needs almost no rewriting.
+A step the customer performs *passively* is one where they get the outcome without doing anything. That is the product working. The reference venture's routine step 6 reads: *"Disputes arise and resolve entirely outside the site — intake, gate, valuation, resolution, payout — entirely passive for site. Carries Component 1."* That sentence is the feature. It needs almost no rewriting.
 
 **Features should dramatise passive, cost-carrying steps.**
 
 ### Rule 2 — Active steps are the price of adoption. Answer them, do not hide them. · scope: craft
 
-Every active step is effort you are asking for, and each is a place the sale dies. Calmly's routine has four: build the business case, supply 12 months of dispute history, embed cover at formation, decommission the in-house function. Each needs an answer in the asset — how long, who does it, what it costs.
+Every active step is effort you are asking for, and each is a place the sale dies. The reference venture's routine has four: build the business case, supply 12 months of dispute history, embed cover at formation, decommission the in-house function. Each needs an answer in the asset — how long, who does it, what it costs.
 
 **Every active step in the routine gets an objection answered in the asset.** If it is not answered, you have found the hole in your funnel before the customer does.
 
 ### Rule 3 — Preconditions are pure ask with no give. Name them or they ambush you. · scope: craft
 
-A step marked **precondition** delivers no cost reduction to the customer at all. Calmly has two: supplying historical dispute outcomes, and a shadow-mode scoring period with no cover in force. The customer does work and waits, and receives nothing yet.
+A step marked **precondition** delivers no cost reduction to the customer at all. The reference venture has two: supplying historical dispute outcomes, and a shadow-mode scoring period with no cover in force. The customer does work and waits, and receives nothing yet.
 
 **Preconditions must be visible in the asset, with what they buy.** Concealing them converts a known cost into a surprise, which is where deals die late — the most expensive place. And a venture with many preconditions has an adoption problem the marketing cannot fix; that finding belongs back in C5, not in a brochure.
 
 ---
 
-## Worked example — Calmly Resolve, site-side
+## Worked example — the reference venture Resolve, site-side
 
 | Asset element | Derived value | VDR source |
 |---|---|---|
-| Hero claim | Participants transact more, and at higher values, when a guaranteed exit is visible at commitment | C2 Appendix B, Component 2 — "requires a credible guarantee… exclusive to Calmly's architecture" |
+| Hero claim | Participants transact more, and at higher values, when a guaranteed exit is visible at commitment | C2 Appendix B, Component 2 — "requires a credible guarantee… exclusive to the reference venture's architecture" |
 | Mechanism | One snippet embeds cover at contract formation; the fee nets at source; disputes run entirely outside the platform | Routine steps 4, 5, 6 |
 | Feature 1 | Cover appears where the deal is made | Step 4 (active, C7) |
 | Feature 2 | Disputes resolve without you | Step 6 (passive, carries Component 1) |
@@ -109,7 +109,7 @@ One discipline held while writing it: the record marks the shadow-mode duration 
 - **Cannot cite, but is true** → an undocumented architecture element. Record it in the VDR, then use it.
 - **Cannot cite, and is not in the architecture** → invention. Delete it.
 
-This makes asset production a **verification instrument for the architecture**. Writing the Calmly page surfaced two architecture-level findings before it surfaced a copy problem: the value case was being led from the non-exclusive component, and a precondition had no customer-facing answer. Both were cheaper to find in a draft than in a meeting.
+This makes asset production a **verification instrument for the architecture**. Writing the the reference venture page surfaced two architecture-level findings before it surfaced a copy problem: the value case was being led from the non-exclusive component, and a precondition had no customer-facing answer. Both were cheaper to find in a draft than in a meeting.
 
 ---
 

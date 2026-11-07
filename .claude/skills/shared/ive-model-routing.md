@@ -17,7 +17,7 @@ The token spend is not uniform in judgment content. Adversarial and gate work ne
 
 | Tier | What runs there | Skills / stages |
 |---|---|---|
-| **Session default (strongest model — Fable or whatever Tom is running)** | Contested reasoning, adversarial verification, gate verdicts, generative synthesis | `balm-pco-custom`, `balm-challenge-1..10-custom`, `ive-consistency-audit-custom`, `ive-fit-verifier-custom`, `ive-design-loop-custom`, `ive-architecture-generator-custom`, `ive-detailed-design-custom` gate decisions, `verify-venture-custom`, `head-of-verification-calmly-custom` |
+| **Session default (strongest model — Fable or whatever Tom is running)** | Contested reasoning, adversarial verification, gate verdicts, generative synthesis | `balm-pco-custom`, `balm-challenge-1..10-custom`, `ive-consistency-audit-custom`, `ive-fit-verifier-custom`, `ive-design-loop-custom`, `ive-architecture-generator-custom`, `ive-detailed-design-custom` gate decisions, `verify-venture-custom`, `head-of-verification-custom` |
 | **Opus subagent (production tier)** | Bulk document/model production once inputs are settled | Production stages of `ive-fin-sim-custom`, `ive-writeup-custom`, `ive-valuation-custom`, `ive-wiki-entry-custom`; mechanical sweeps inside any skill (HTML rendering, diagram generation, formatting passes, file assembly) |
 
 No stage routes to Haiku by default — the quality floor there is unverified for IVE material. Candidate for later: wiki-entry rendering, only after a clean side-by-side check.

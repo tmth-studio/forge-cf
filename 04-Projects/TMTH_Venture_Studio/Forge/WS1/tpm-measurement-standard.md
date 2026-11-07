@@ -85,3 +85,12 @@ Contrast the old form: `WTP = £10,000 [assumed]`. Same number, no warrant, no c
 - **Model-stack skills** (`ive-ctm-custom`, `ive-aom-custom`, `ive-fin-sim-custom`) — every load-bearing figure output as a TPM record; FMOS propagated as a band.
 - **`ive-assumption-audit-custom`** — tags each assumption V/Val + method + elicitable/emergent, and prescribes the convergence action by type.
 - **`/verify-venture-custom`** — scores verification-soundness separately from validation-maturity; does not penalise a sound design for unfielded validation parameters at a pre-operational gate. *(Grader change — pending Tom's sign-off; see `verify-venture-tpm-change-proposal.md`.)*
+
+---
+
+## Staged patch — RD-049 / VA-169 (estimate maturity), not yet in force
+
+*Staged by the Head of Product, 2 November 2026, from msg-20260922-0951-05. It lands 48 hours after the Head of Verification countersigns `estimate-maturity-standard.md`, unless Tom objects. No countersign is on record at staging, so the six-field record above stays in force until then.*
+
+1. **Seventh field, `class`, beside the tier.** The tier says where the figure came from. The class says how mature the estimate is: E5 screening · E4 parametric · E3 built up · E2 revealed · E1 measured. The ceiling for anything produced inside the studio is E3.
+2. **The "assumed / no method" sentence, reconciled with clause 5 of the estimate maturity standard.** Replace it with: "A missing basis of estimate is a flagged defect to close. The estimate itself is not the defect. An E5 or E4 figure with its four-line basis is a legitimate input, read at its class band."

@@ -13,6 +13,22 @@ Do not include value claims or cost assumptions from mechanisms not yet establis
 
 ---
 
+## Moving a design to engineering: an IVE pass (Tom, 6 November 2026)
+
+Tom: "lets stick to ours", then "Yes, IVE pass". The test is item 30 of the run verification standard, v0.5 (`04-Projects/TMTH_Venture_Studio/Forge/WS1/run-verification-standard.md`). This section does not change the challenge gates below.
+
+**Item 30 reads two margins at the all-worst case, volume included. Both must be 25 per cent or more, and a borderline is a fail:**
+- fit margin at each challenge: price ceiling ÷ cost floor − 1
+- business margin of the whole design: price ÷ whole cost − 1
+
+**Who decides:** this skill prints the readings. The Head of Verification gives the verdict. A PASS in Step 6 of this skill is a gate label, not an IVE pass.
+
+**The other two gates:** 25% per requirement, with its 15–24 and under-15 bands, decides whether design continues. 60% at Phase II, with its 25–59 and under-25 bands, decides Phase II capital. All-worst margins print at each challenge and decide only at item 30.
+
+**Not IVE marks, not read for a verdict (standard, line 86):** margin 50, customer return 50 or 300, 2.25 and 6, the money-at-risk band, price solved at 25 or 40, stated at-scale volume. These are FIT Startup's and stay a reference under that name. Older records keep their dates; their verdicts are not rewritten. The text this section replaced is in `04-Projects/TMTH_Venture_Studio/R_and_D/rd-068-ive-restored-2026-11-06.md`.
+
+---
+
 Gates the transition from F1 (neutralise the value barrier) to F2 (normalise the customer routine). Runs immediately after R1, R2, and R3 are designed — before any F2 work begins.
 
 **The test:** Does the gap between what it costs to deliver the workaround (cost floor, from R1) and what the customer can pay (price ceiling, from R2) clear a 25% financial margin of safety?
@@ -47,12 +63,12 @@ A 50% FMOS means the venture remains profitable even if total unit costs rise 50
 
 Gate thresholds — **TWO gates** (canonical single source: `04-Projects/TMTH_Venture_Studio/Forge/WS1/criteria-registry.md`). Apply the gate that matches what you are running:
 
-**Per-requirement / F1→F2 early-warning gate** — this is the gate the design loop runs after each requirement:
+**Per-requirement / F1→F2 early-warning gate** — this is the gate the design loop runs after each requirement. It decides whether design continues. It is not item 30's test.
 - **≥ 25%**: PASS — clears the per-requirement minimum. Proceed.
-- **15–24%**: BORDERLINE — proceed only with the gap logged as a critical Phase II assumption.
+- **15–24%**: BORDERLINE — proceed only with the gap logged as a critical Phase II assumption. PASS and BORDERLINE stay labels on the gate reading, and the gate reading decides whether design continues. All-worst margins print beside it and do not decide (VA-179, amended 6 Nov 2026). Item 30's test decides the move to engineering.
 - **< 15%**: FAIL — return to R1 or R2.
 
-**Phase II capital gate** — after all 10 requirements, the go/no-go for Phase II capital:
+**Phase II capital gate** — after all 10 requirements, the go/no-go for Phase II capital.
 - **≥ 60%**: PASS — clears the IVE Phase II target (avg complex-project overrun is 62%, Flyvbjerg & Gardner 2023).
 - **25–59%**: BORDERLINE — viable but below target; tighten toward ≥ 60% or carry as the critical assumption Phase II fieldwork tests first.
 - **< 25%**: FAIL.
@@ -135,19 +151,19 @@ These line items are not used in the FMOS calculation — they exist solely to p
 
 ## Step 3: Collect the R2 price ceiling
 
-The price ceiling is the maximum the customer can pay while still being better off than their current situation. It is bounded by the Key Monetizable Cost — the specific cost the customer currently bears that the venture eliminates or absorbs.
+The price ceiling is the low end of the price the customer would pay, from research or a sourced comparison, and never above value. Value is the Key Monetizable Cost — the specific cost the customer currently bears that the venture eliminates or absorbs. The Key Monetizable Cost sets value. It is not the price. Before R2 names value, the ceiling is indicative and the record marks it so.
 
 Ask:
 
-> "What is the Key Monetizable Cost from R2? And what is the maximum price you can charge per unit — the point at which the customer is exactly indifferent between your venture and doing nothing?"
+> "What is the Key Monetizable Cost from R2? And what price per unit do research or a sourced comparison support?"
 
 Collect:
 - **Key Monetizable Cost** (the customer's current burden — the theoretical maximum transfer)
-- **Price Ceiling** (the price at which the customer is indifferent — usually below the KMC to ensure the customer retains a surplus)
+- **Price Ceiling** (the low end of the sourced price, and never above value)
 
-If the user is unsure of the price ceiling, prompt:
+If no research or sourced comparison exists yet, the ceiling is that value. Mark it "upper limit: no customer return taken off", and prompt:
 
-> "What share of the Key Monetizable Cost do you need to leave with the customer for them to choose you? The remainder is your price ceiling."
+> "What research or sourced comparison would show the price this customer would pay? Customer return prints as information (VA-181) and decides nothing."
 
 Label it: **Price Ceiling (£X per unit)**.
 
@@ -189,11 +205,11 @@ FMOS = (Price Ceiling − Cost Floor) / Cost Floor × 100%
 
 The denominator is the **cost floor**, not the price ceiling. This expresses the margin as a markup over cost — consistent with Simanis (*Built to Hold*, Jan 2025, p. 7). A 50% FMOS means WTP = 1.5 × Cost, so costs can rise 50% before breaking even.
 
-Then calculate the required price at 60% FMOS (the IVE Phase II target), and at 25% FMOS (the minimum gate), to show headroom or gap:
+Then calculate the price clearing 60% margin (the IVE Phase II target) and the price clearing 25% margin (the minimum gate), to show headroom or gap.
 
 ```
-Required Price at 60% FMOS = Cost Floor × 1.60
-Required Price at 25% FMOS = Cost Floor × 1.25
+Price clearing 60% margin = Cost Floor × 1.60
+Price clearing 25% margin = Cost Floor × 1.25
 ```
 
 Show the working with full layer breakdown:
@@ -208,8 +224,8 @@ Show the working with full layer breakdown:
 | Price Ceiling (R2) | £X | KMC × customer surplus fraction |
 | Net contribution | £X | Price Ceiling − Cost Floor |
 | **FMOS** | **X%** | Net contribution ÷ **Cost Floor** |
-| Required price at 60% FMOS (target) | £X | Cost Floor × 1.60 |
-| Required price at 25% FMOS (minimum gate) | £X | Cost Floor × 1.25 |
+| Price clearing 60% margin (target) | £X | Cost Floor × 1.60 |
+| Price clearing 25% margin (minimum gate) | £X | Cost Floor × 1.25 |
 | Gap to price ceiling | £X | Clears by £X, or short by £X |
 
 If SC is excluded (R3 not yet run), add a flag row: "⚠ SC layer not included — FMOS is indicative only."
@@ -278,7 +294,7 @@ Known fragile results — flag immediately if cited: ego depletion (Baumeister) 
 
 ## Step 6: Verdict
 
-**Which band applies:** the templates below are worded for the **Phase II capital gate** (≥ 60% PASS). When running the **per-requirement gate** (the design-loop SIMULATE step), use the per-requirement bands instead — PASS ≥ 25%, BORDERLINE 15–24%, FAIL < 15% — and keep the same prose. See the two-gate canonical in Step 4 / the criteria registry.
+**Which band applies:** the templates below are worded for the **Phase II capital gate** (≥ 60% PASS). When running the **per-requirement gate** (the design-loop SIMULATE step), use the per-requirement bands instead — PASS ≥ 25%, BORDERLINE 15–24%, FAIL < 15% — and keep the same prose. See the two-gate canonical in Step 4 / the criteria registry. PASS and BORDERLINE stay labels on the gate reading, and the gate reading decides whether design continues. All-worst margins print beside it and do not decide (VA-179, amended 6 Nov 2026). Item 30 decides the move to engineering. These verdicts are gate labels. An IVE pass is the Head of Verification's verdict, as set out at the top of this skill.
 
 ### PASS (FMOS ≥ 60%, I and T clear)
 
@@ -305,7 +321,7 @@ Known fragile results — flag immediately if cited: ego depletion (Baumeister) 
 
 > **Verdict: FAIL — return to R1**
 >
-> FMOS is X%. At the current cost floor of £X per unit, the required price to reach the 25% minimum gate is £[Cost Floor × 1.25] — which exceeds the price ceiling of £Z by £[gap]. The architecture cannot survive even modest cost overruns.
+> FMOS is X%. At the current cost floor of £X per unit, the price clearing 25% margin, the minimum gate, is £[Cost Floor × 1.25] — which exceeds the price ceiling of £Z by £[gap]. The architecture cannot survive even modest cost overruns.
 >
 > **Diagnosis:** The BFF is too expensive. The Workaround Strategy does not achieve sufficient cost reduction relative to the conventional BFF.
 >
@@ -320,7 +336,7 @@ Known fragile results — flag immediately if cited: ego depletion (Baumeister) 
 
 > **Verdict: FAIL — return to R2**
 >
-> FMOS is X%. The cost floor (£X) is reasonable, but the price ceiling (£Y) is too low — the customer's Key Monetizable Cost doesn't create enough headroom. Even at minimum gate (25%), the required price is £[Cost Floor × 1.25], and the ceiling only reaches £Y.
+> FMOS is X%. The cost floor (£X) is reasonable, but the price ceiling (£Y) is too low — the customer's Key Monetizable Cost doesn't create enough headroom. Even at minimum gate, the price clearing 25% margin is £[Cost Floor × 1.25], and the ceiling only reaches £Y.
 >
 > **Diagnosis:** The venture is targeting a monetizable cost that isn't large enough to fund the workaround. Either the KMC is underestimated, or the wrong cost is being monetized.
 >
@@ -448,7 +464,7 @@ Save to: `04-Projects/{venture-slug}/{venture-slug}-unit-economics-{challenge}-{
 | Total VC per unit | Subtotal row |
 | **Whole costs / unit** | Unit sales per month (dim row) · "Cost categories" sub-label · individual RC/SC/IC items allocated per unit across three volumes |
 | Subtotal | Total allocated whole costs / unit |
-| **Required price vs ceiling** | Total cost per unit · Required price at target FMOS · Price ceiling (from R2) · dim note on excluded items (challenges not yet designed) |
+| **Price clearing target margin vs ceiling** | Total cost per unit · Price clearing target margin · Price ceiling (from R2) · dim note on excluded items (challenges not yet designed) |
 | **Surplus / (deficit)** | Difference per unit with tags · Total difference per month (highlighted row) |
 | Summary table | FMOS at ceiling per scenario · breakeven volumes |
 | Footer note | What's excluded at this gate and why · source file reference |
@@ -479,5 +495,5 @@ Open in browser after saving.
 - **If fin-sim has been run:** pull 'total costs per unit' directly from `{venture-slug}-fin-sim.html` rather than re-collecting cost components
 - **On PASS:** next skill is the R4 requirement (F2 begins)
 - **On FAIL:** route back to R1 (`/balm-challenge-1-custom`) or R2 (`/balm-challenge-2-custom`) with the diagnosis from Step 6
-- **FMOS formula:** `(Price Ceiling − Cost Floor) / Cost Floor` — denominator is **cost**, not price. Source: Simanis, *Built to Hold* (Jan 2025, p. 7). A 50% FMOS = costs can overrun 50% before breaking even. Gate: ≥60% (Phase II target) / 25% (minimum). Do NOT use the gross margin formula `(P−C)/P` — that is a different metric and gives a materially lower number.
+- **FMOS formula:** `(Price Ceiling − Cost Floor) / Cost Floor` — denominator is **cost**, not price. Source: Simanis, *Built to Hold* (Jan 2025, p. 7). A 50% FMOS = costs can overrun 50% before breaking even. Gates: 60% (Phase II capital) and 25% (per requirement). Neither is the test for "verified" or for engineering; item 30's FIT test is. Do NOT use the gross margin formula `(P−C)/P` — that is a different metric and gives a materially lower number.
 - **Related skills:** `/ive-fin-sim-custom` (full model), `/theory-of-change-custom` (R1/R2 ToC), `/verify-balm-custom` (completeness audit). Note: `/ive-ctm-custom` and `/ive-aom-custom` are deprecated — CTM/AOM update mode now lives inside each `balm-challenge-N-custom` skill (Sections 5 and 6). Diagram format specs: `.claude/skills/shared/ctm-diagram-spec.md` and `.claude/skills/shared/aom-diagram-spec.md`.

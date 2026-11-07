@@ -2,7 +2,7 @@
 
 **Purpose:** primary data for the CF improvement loop. Captured at the close of each BALM challenge via the Section 9 feedback step. Analyzed periodically to surface skill defects, criteria gaps, and patterns across ventures.
 
-**Format:** one entry per challenge run. Append below — do not edit prior entries.
+**Format:** one entry per challenge run. Append below — do not edit prior entries. Five questions; the fifth, `Verdict`, was added 27 October 2026 (Harness² edit verdicts).
 **Analyzed by:** Head of Product, on demand or weekly.
 
 ---

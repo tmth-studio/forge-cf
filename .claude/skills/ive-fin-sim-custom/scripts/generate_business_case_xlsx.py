@@ -62,6 +62,75 @@ MONEY = '#,##0;[Red]-#,##0'
 MONEY2 = '#,##0.00;[Red]-#,##0.00'
 PCT = '0.0%'
 NUM = '#,##0'
+RED = Font(color="C00000")              # derived or assumed readings, red (spec v1.3)
+READINGS_TAB, PRICE_CASES_TAB = "20 Readings", "21 Price cases"
+READING_UNITS = {}  # reading defined names -> the unit the model states, filled while building (NCR-211)
+EXTRA_VALUES = {}  # reading and price-case defined names -> base value, filled while building (spec v1.3)
+
+
+def _dotted(doc, path):
+    cur = doc
+    for part in path.split("."):
+        cur = cur[int(part)] if isinstance(cur, list) else cur[part]
+    return cur
+
+
+def plan_readings(m, base_vals):
+    """Spec v1.3 `readings`: resolve every reading to a value and a fixed row on tab 20.
+
+    An item takes its value from one of: `from` (a named file and a dotted path, copied at build — re-run the
+    builder when the file changes), `value` (a literal), or `formula` (a live formula over other readings, written
+    {rd:name}, and Master inputs, written {in:key}; + - * / and brackets only). Rows are fixed before any tab is
+    written, so tab 10 can read a reading on a later tab."""
+    blk = m.get("readings")
+    if not blk:
+        return None
+    base_dir = m.get("_model_dir", ".")
+    files = {}
+    for k, rel in (blk.get("source_files") or {}).items():
+        with open(os.path.join(base_dir, rel)) as fh:
+            files[k] = yaml.safe_load(fh)
+    items, by = [], {}
+    for i, it in enumerate(blk["items"]):
+        row = 5 + i
+        ref = f"'{READINGS_TAB}'!$B${row}"
+        rec = dict(it, row=row, ref=ref)
+        if "from" in it:
+            v = _dotted(files[it["from"]["file"]], it["from"]["path"])
+            rec["val"] = v if isinstance(v, str) else float(v)     # a text reading (unit: text) is copied as text
+        elif "value" in it:
+            rec["val"] = it["value"] if isinstance(it["value"], str) else float(it["value"])
+        items.append(rec)
+        by[it["name"]] = rec
+    import re as _re
+    tok = _re.compile(r"\{(rd|in):([^}]+)\}")
+    for rec in items:                       # formulas: live text and a Python value, in file order
+        if "formula" not in rec:
+            continue
+        def xl(mo):
+            return by[mo.group(2)]["ref"] if mo.group(1) == "rd" else "{IN:%s}" % mo.group(2)
+        def py(mo):
+            return repr(by[mo.group(2)]["val"]) if mo.group(1) == "rd" else repr(float(base_vals[mo.group(2)]))
+        expr = rec["formula"]
+        if not _re.fullmatch(r"[\s\d.+\-*/()]*", tok.sub("0", expr)):
+            raise ValueError(f"reading {rec['name']}: only + - * / and brackets are allowed in a formula")
+        rec["xl"] = "=" + tok.sub(xl, expr)
+        rec["val"] = float(eval(tok.sub(py, expr), {"__builtins__": {}}, {}))
+    vr = blk.get("verdict_reading")
+    if vr and vr not in by:
+        raise ValueError(f"verdict_reading {vr} is not a reading")
+    return {"items": items, "by": by, "verdict_reading": vr, "note": blk.get("note", "")}
+
+
+def price_case_values(m, base_vals, price):
+    """Spec v1.3 `price_cases`: the whole model at another fee. Every product price is scaled so revenue per
+    transaction equals `price`; nothing else moves."""
+    R0 = compute(m, base_vals)
+    k = price / R0["interim_price"]
+    vals = dict(base_vals)
+    for i, _ in enumerate(m["products"]):
+        vals[f"product.{i}.price"] = base_vals[f"product.{i}.price"] * k
+    return compute(m, vals)
 
 
 # ----------------------------------------------------------------------------------------------
@@ -492,6 +561,9 @@ def build(m, out_dir):
     base_vals = {k: v["value"] for k, v in inputs.items()}
     R = compute(m, base_vals)
     b = Book(m)
+    RD = plan_readings(m, base_vals)
+    EXTRA_VALUES.clear()
+    READING_UNITS.clear()
     slug = m["venture"]["slug"]
     cur = m["venture"].get("currency", "GBP")
 
@@ -861,15 +933,18 @@ def build(m, out_dir):
 
     # ---- 10 Pricing ------------------------------------------------------------------------
     ws = b.sheet("10 Pricing", [58, 16, 16, 16, 16])
-    b.title(ws, "Pricing — cost floor, interim price, margin of safety, required price",
-            "Margin of safety = (price − cost) ÷ cost. Gate: 25% or more passes; 15% to 24% borderline; under 15% fails. Required price = cost × (1 + target margin). IFC steps 4 and 5.")
+    b.title(ws, "Pricing — cost floor, interim price, margin of safety, price clearing the target margin",
+            "Margin of safety = (price − cost) ÷ cost. Gate: 25% or more passes; 15% to 24% borderline; under 15% fails. Price clearing the target margin = cost × (1 + target margin). IFC steps 4 and 5.")
     rows10 = [
         ("Whole cost per transaction (cost floor)", f"={CPT}", MONEY2),
         ("Interim price per transaction (revenue ÷ transactions, at the prices on tab 1)", f"={REV}/{TRANS}", MONEY2),
         ("Margin of safety = (price − cost) ÷ cost", "=(B5-B4)/B4", PCT),
         ("Target margin of safety", f"={I['finance.target_margin']}", PCT),
-        ("Verdict", f'=IF(B6>={FMOS_PASS},"PASS",IF(B6>={FMOS_BORDER},"BORDERLINE","FAIL"))', None),
-        ("Required price per transaction = cost × (1 + target)", "=B4*(1+B7)", MONEY2),
+        (("Verdict — on the ruled reading, tab 20 row %d (%s); the central margin in B6 is read on tab 20 as verdict_central"
+          % (RD["by"][RD["verdict_reading"]]["row"], RD["verdict_reading"])) if RD and RD["verdict_reading"] else "Verdict",
+         (f'=IF({RD["by"][RD["verdict_reading"]]["ref"]}>={FMOS_PASS},"PASS",IF({RD["by"][RD["verdict_reading"]]["ref"]}>={FMOS_BORDER},"BORDERLINE","FAIL"))'
+          if RD and RD["verdict_reading"] else f'=IF(B6>={FMOS_PASS},"PASS",IF(B6>={FMOS_BORDER},"BORDERLINE","FAIL"))'), None),
+        ("Price clearing the target margin, per transaction = cost × (1 + target)", "=B4*(1+B7)", MONEY2),
         ("Price uplift needed to reach target (required ÷ interim)", "=B9/B5", PCT),
         ("Margin from failure: margin of safety less the 15% floor (percentage points)", f"=B6-{FMOS_BORDER}", PCT),
         ("Price fall that takes the margin of safety to the 15% floor", f"=B5-B4*(1+{FMOS_BORDER})", MONEY2),
@@ -884,19 +959,20 @@ def build(m, out_dir):
         ws[f"A{r_}"].font = ws[f"B{r_}"].font = BOLD
     FMOS = b.name("margin_of_safety", ws, "B6", "Margin of safety at the interim price, base scenario")
     b.name("interim_price", ws, "B5", "Interim price per transaction")
-    b.name("verdict", ws, "B8", "Verdict on the margin of safety: PASS, BORDERLINE or FAIL")
-    REQ = b.name("required_price", ws, "B9", "Required price per transaction at the target margin of safety")
-    UPLIFT = b.name("price_uplift_to_target", ws, "B10", "Price uplift needed to reach the target margin of safety (required ÷ interim)")
+    b.name("verdict", ws, "B8", ("Verdict on the ruled reading (tab 20): PASS, BORDERLINE or FAIL" if RD and RD["verdict_reading"]
+                                 else "Verdict on the margin of safety: PASS, BORDERLINE or FAIL"))
+    REQ = b.name("required_price", ws, "B9", "Price per transaction clearing the target margin of safety")
+    UPLIFT = b.name("price_uplift_to_target", ws, "B10", "Price clearing the target margin as a share of the interim price (that price ÷ interim); above 100% an uplift is needed, below 100% none is")
     b.name("margin_from_failure", ws, "B11", "Margin of safety less the 15% floor, in percentage points")
     b.name("price_fall_to_floor", ws, "B12", "Price fall per transaction that takes the margin of safety to the 15% floor")
-    b.header(ws, 14, ["Product", "Interim price", "Required price at target", "Share of transactions", ""])
+    b.header(ws, 14, ["Product", "Interim price", "Price clearing the target margin", "Share of transactions", ""])
     for i, p in enumerate(m["products"]):
         r_ = 15 + i
         ws.cell(row=r_, column=1, value=p["name"])
         ws.cell(row=r_, column=2, value=f"={I[f'product.{i}.price']}").number_format = MONEY2
         ws.cell(row=r_, column=3, value=f"=B{r_}*{UPLIFT}").number_format = MONEY2
         ws.cell(row=r_, column=4, value=f"={I[f'product.{i}.share']}").number_format = PCT
-        b.name(f"required_price_product_{i+1}", ws, f"C{r_}", f"Required price at the target margin of safety — {p['name']}")
+        b.name(f"required_price_product_{i+1}", ws, f"C{r_}", f"Price clearing the target margin of safety — {p['name']}")
     # sensitivity — values computed here, labelled
     fmos0, sens, worst = sensitivity(m, inputs)
     sr = 15 + len(m["products"]) + 2
@@ -926,8 +1002,8 @@ def build(m, out_dir):
     # ---- 11 Unit P&L -----------------------------------------------------------------------
     ws = b.sheet("11 Unit P&L", [52, 16, 16, 30])
     b.title(ws, "Synthesis — whole-cost profit and loss, one operating unit per month",
-            "At the interim price and at the required price. Surplus ÷ whole cost recomputes the margin of safety. IFC step 5.")
-    b.header(ws, 4, ["Line", "At interim price", "At required price", "Note"])
+            "At the interim price and at the price clearing the target margin. Surplus ÷ whole cost recomputes the margin of safety. IFC step 5.")
+    b.header(ws, 4, ["Line", "At interim price", "At price clearing target margin", "Note"])
     rows11 = [
         ("Transactions per month", f"={TRANS}", f"={TRANS}", NUM),
         ("Price per transaction", f"={REV}/{TRANS}", f"={REQ}", MONEY2),
@@ -953,7 +1029,7 @@ def build(m, out_dir):
         for col in "ABC":
             ws[f"{col}{r_}"].font = BOLD
     UNIT_SURPLUS = b.name("unit_surplus", ws, "B17", "Surplus per operating unit per month at the interim price")
-    b.name("unit_surplus_at_required", ws, "C17", "Surplus per operating unit per month at the required price")
+    b.name("unit_surplus_at_required", ws, "C17", "Surplus per operating unit per month at the price clearing the target margin")
     FMOS_RE = b.a(ws, "B18")
     FMOS_REQ_RE = b.a(ws, "C18")
 
@@ -1406,7 +1482,7 @@ def build(m, out_dir):
     cf = "'14 Cash flow'"
     checks = [
         ("Margin of safety on the pricing tab equals surplus ÷ whole cost on the unit P&L", f"={FMOS}", f"={FMOS_RE}"),
-        ("At the required price, surplus ÷ whole cost equals the target margin of safety", f"={I['finance.target_margin']}", f"={FMOS_REQ_RE}"),
+        ("At the price clearing the target margin, surplus ÷ whole cost equals the target margin of safety", f"={I['finance.target_margin']}", f"={FMOS_REQ_RE}"),
         ("Venture surplus equals units × unit surplus", f"={VENTURE_SURPLUS}", f"={VS_CHECK}"),
         ("Cash chain: closing month twelve = opening month one + sum of net cash flows", f"={cf}!{CASH_CHAIN[0]}", f"={cf}!{CASH_CHAIN[1]}+SUM({cf}!{CASH_CHAIN[2]}:{CASH_CHAIN[3]})"),
         ("Year-one volume equals units open × steady-state transactions × sum of the ramp", f"='13 Sales'!N{VOL_ROW}", f"={U1}*{TRANS}*SUM('13 Sales'!B5:M5)"),
@@ -1433,6 +1509,113 @@ def build(m, out_dir):
     ws.cell(row=ce + 3, column=4, value=f"={scen}")
     b.name("all_checks", ws, f"D{ce+2}", "ALL CHECKS PASS when every check row passes")
 
+    # ---- 20 Readings (spec v1.3, optional) --------------------------------------------------
+    if RD:
+        ws = b.sheet(READINGS_TAB, [62, 16, 12, 8, 30, 90, 10])
+        b.title(ws, "Readings — figures read outside this workbook's central model, and live rebuilds of its inputs",
+                RD["note"] or "Values copied from the named file at build are re-read only when the builder is re-run. "
+                "Red = derived or assumed. A formula row is live.")
+        b.header(ws, 4, ["Reading", "Value", "Unit", "Tier", "Owner (role)", "Source", "Check"])
+        for rec in RD["items"]:
+            r_ = rec["row"]
+            ws.cell(row=r_, column=1, value=rec.get("label", rec["name"]))
+            if "formula" in rec:
+                xl = rec["xl"]
+                import re as _re
+                xl = _re.sub(r"\{IN:([^}]+)\}", lambda mo: I[mo.group(1)], xl)
+                c = ws.cell(row=r_, column=2, value=xl)
+            else:
+                c = ws.cell(row=r_, column=2, value=rec["val"])
+            unit = rec.get("unit", "")
+            if not isinstance(rec["val"], str):
+                c.number_format = PCT if unit == "share" else (MONEY2 if unit in ("GBP", cur) else '#,##0.0000')
+            if str(rec.get("tier", "")) in ("4", "T4", "red") or rec.get("red"):
+                c.font = RED
+            ws.cell(row=r_, column=3, value=unit)
+            ws.cell(row=r_, column=4, value=str(rec.get("tier", "")))
+            ws.cell(row=r_, column=5, value=rec.get("owner", ""))
+            src = rec.get("source", "")
+            if "from" in rec:
+                src = (src + " · " if src else "") + "copied at build from %s, %s" % (
+                    (m["readings"]["source_files"] or {})[rec["from"]["file"]], rec["from"]["path"])
+            ws.cell(row=r_, column=6, value=src).alignment = Alignment(wrap_text=True, vertical="top")
+            if rec.get("check_against"):
+                kind, key = rec["check_against"].split(":", 1)
+                other = RD["by"][key]["ref"] if kind == "rd" else I[key]
+                tol = rec.get("check_tolerance", 0.00001)
+                ws.cell(row=r_, column=7, value=f'=IF(ABS(B{r_}-{other})<{tol},"PASS","FAIL")')
+            nm = "rd_" + rec["name"]
+            b.name(nm, ws, f"B{r_}", rec.get("label", rec["name"]))
+            EXTRA_VALUES[nm] = rec["val"]
+            READING_UNITS[nm] = rec.get("unit", "")
+        r_ = RD["items"][-1]["row"] + 2
+        ws.cell(row=r_, column=1, value="Verdict on the central margin of safety (tab 10, B6) — the builder's own reading").font = BOLD
+        ws.cell(row=r_, column=2, value=f'=IF({FMOS}>={FMOS_PASS},"PASS",IF({FMOS}>={FMOS_BORDER},"BORDERLINE","FAIL"))')
+        b.name("verdict_central", ws, f"B{r_}", "Verdict on the central margin of safety (tab 10, B6)")
+        EXTRA_VALUES["verdict_central"] = R["verdict"]
+        ws.cell(row=r_ + 1, column=1, value="All reading checks").font = BOLD
+        ws.cell(row=r_ + 1, column=7, value=f'=IF(COUNTIF(G5:G{RD["items"][-1]["row"]},"FAIL")=0,"ALL PASS","CHECK FAILED")')
+        b.name("readings_checks", ws, f"G{r_+1}", "ALL PASS when every reading check passes")
+        EXTRA_VALUES["readings_checks"] = "ALL PASS"
+        ws.freeze_panes = "B5"
+
+    # ---- 21 Price cases (spec v1.3, optional) -----------------------------------------------
+    PC = m.get("price_cases") or []
+    if PC:
+        ws = b.sheet(PRICE_CASES_TAB, [58] + [16] * (len(R["forecast"]) + 1))
+        b.title(ws, "Price cases — the forecast statements at other fees",
+                "Values computed by the builder at each fee, with every other input at its base value; not live. "
+                "The prices on tab 1 drive every other tab. Re-run the builder when an input changes.")
+        r_ = 4
+        base_pc = {"label": m.get("price_cases_base_label") or "At the tab 1 price (live)", "price": R["interim_price"]}
+        if m.get("price_cases_base_status"):
+            base_pc["status"] = m["price_cases_base_status"]
+        blocks = [(base_pc, R, True)] + \
+                 [(pc, price_case_values(m, base_vals, float(pc["price"])), False) for pc in PC]
+        for j, (pc, Rc, live) in enumerate(blocks):
+            ws.cell(row=r_, column=1, value="%s — fee %s%.2f per transaction" % (pc["label"], "£" if cur == "GBP" else "", Rc["interim_price"])).font = BOLD
+            if pc.get("status"):
+                ws.cell(row=r_ + 1, column=1, value=pc["status"]).font = RED
+            b.header(ws, r_ + 2, ["Measure"] + ["Year %d" % y["year"] for y in Rc["forecast"]] + ["Total"])
+            meas = [("Revenue", "revenue", "forecast_revenue"), ("Operating profit", "op", "forecast_operating_profit"),
+                    ("Profit after tax", "pat", "forecast_profit_after_tax"), ("Closing cash", "cash", "forecast_closing_cash"),
+                    ("Net assets", "net_assets", "forecast_net_assets")]
+            for k_, (lab, key, base_nm) in enumerate(meas):
+                rr = r_ + 3 + k_
+                ws.cell(row=rr, column=1, value=lab)
+                for yi, y in enumerate(Rc["forecast"]):
+                    col = get_column_letter(2 + yi)
+                    if live:
+                        v = f"={b.names[base_nm + '_year_%d' % y['year']][0]}" if (base_nm + '_year_%d' % y['year']) in b.names else y[key]
+                    else:
+                        v = y[key]
+                    ws.cell(row=rr, column=2 + yi, value=v).number_format = MONEY
+                    if not live:
+                        nm = "pc%d_%s_year_%d" % (j, base_nm.replace("forecast_", ""), y["year"])
+                        b.name(nm, ws, f"{col}{rr}", "%s, year %d, %s" % (lab, y["year"], pc["label"]))
+                        EXTRA_VALUES[nm] = y[key]
+                if key in ("revenue", "op", "pat"):
+                    tc = get_column_letter(2 + len(Rc["forecast"]))
+                    ws.cell(row=rr, column=2 + len(Rc["forecast"]),
+                            value=f"=SUM(B{rr}:{get_column_letter(1 + len(Rc['forecast']))}{rr})").number_format = MONEY
+                    if not live:
+                        nm = "pc%d_%s_total" % (j, base_nm.replace("forecast_", ""))
+                        b.name(nm, ws, f"{tc}{rr}", "%s, all years, %s" % (lab, pc["label"]))
+                        EXTRA_VALUES[nm] = sum(y[key] for y in Rc["forecast"])
+            rr = r_ + 3 + len(meas)
+            ws.cell(row=rr, column=1, value="Central margin of safety at this fee")
+            ws.cell(row=rr, column=2, value=(f"={FMOS}" if live else Rc["fmos"])).number_format = PCT
+            ws.cell(row=rr + 1, column=1, value="Lowest forecast closing cash")
+            ws.cell(row=rr + 1, column=2, value=f"=MIN(B{r_+6}:{get_column_letter(1 + len(Rc['forecast']))}{r_+6})").number_format = MONEY
+            if not live:
+                b.name("pc%d_price" % j, ws, f"A{r_}", pc["label"])
+                EXTRA_VALUES["pc%d_price" % j] = float(pc["price"])
+                b.name("pc%d_margin_of_safety" % j, ws, f"B{rr}", "Central margin of safety, %s" % pc["label"])
+                EXTRA_VALUES["pc%d_margin_of_safety" % j] = Rc["fmos"]
+                b.name("pc%d_lowest_closing_cash" % j, ws, f"B{rr+1}", "Lowest forecast closing cash, %s" % pc["label"])
+                EXTRA_VALUES["pc%d_lowest_closing_cash" % j] = min(y["cash"] for y in Rc["forecast"])
+            r_ = rr + 3
+
     # ---- write -----------------------------------------------------------------------------
     os.makedirs(out_dir, exist_ok=True)
     xlsx = os.path.join(out_dir, f"{slug}-business-case-evidence.xlsx")
@@ -1449,6 +1632,15 @@ def inputs_value(m, key):
 def fmt_val(name, v):
     if isinstance(v, str):
         return v
+    # A reading states its own unit; the unit decides, never a word inside the name (NCR-211:
+    # "cost_rate_held_line" holds pounds and printed as a percentage because its name contains "rate").
+    unit = READING_UNITS.get(name)
+    if unit == "share":
+        return f"{v:.1%}"
+    if unit:
+        sign = {"GBP": "£", "USD": "$"}.get(unit)
+        if sign:
+            return f"{sign}{v:,.4f}" if abs(v) < 100 else f"{sign}{v:,.0f}"
     if any(t in name for t in ("fmos", "share", "rate", "penetration", "reduction", "margin", "uplift")):
         if isinstance(v, float) and abs(v) < 5:
             return f"{v:.1%}"
@@ -1497,6 +1689,11 @@ def write_cell_index(b, m, R, xlsx, path):
         "book_per_unit": R["book_unit"], "book_capital_per_unit": R["book_capital_unit"],
         "book_at_scale": R["book_unit"] * R["units"], "book_capital_at_scale": R["book_capital_unit"] * R["units"],
     }
+    val_by_name.update(EXTRA_VALUES)
+    rdv = (m.get("readings") or {}).get("verdict_reading")
+    if rdv:
+        _v = EXTRA_VALUES["rd_" + rdv]
+        val_by_name["verdict"] = "PASS" if _v >= FMOS_PASS else ("BORDERLINE" if _v >= FMOS_BORDER else "FAIL")
     for y in R["forecast"]:
         n_ = y["year"]
         val_by_name[f"forecast_revenue_year_{n_}"] = y["revenue"]
@@ -1542,6 +1739,9 @@ def write_cell_index(b, m, R, xlsx, path):
             f.write(f"| {label_for(k, m)} | {end} | {fm:.1%} | {d:+.1%} |\n")
         f.write(f"\nBinding input: **{R['binding_input']}**. Margin of safety at the worst corner (every input adverse): **{R['fmos_worst_corner']:.1%}**. "
                 f"Verdict at base: **{R['verdict']}** ({R['fmos']:.1%} against a 25% gate).\n")
+        if rdv:
+            f.write(f"\nRuled verdict (tab 10, B8): **{val_by_name['verdict']}**, read on `rd_{rdv}` = {EXTRA_VALUES['rd_' + rdv]:.1%} (tab 20). "
+                    f"The central verdict above is `verdict_central`.\n")
 
 
 def main():
@@ -1550,12 +1750,13 @@ def main():
         sys.exit(2)
     with open(sys.argv[1]) as f:
         m = yaml.safe_load(f)
+    m["_model_dir"] = os.path.dirname(os.path.abspath(sys.argv[1]))
     out_dir = sys.argv[2] if len(sys.argv) > 2 else os.path.dirname(os.path.abspath(sys.argv[1]))
     xlsx, cells, R = build(m, out_dir)
     print(f"workbook:   {xlsx}")
     print(f"cell index: {cells}")
     print(f"units {R['units']} · transactions/unit/month {R['trans']:,.0f} · cost per transaction {R['cost_per_trans']:,.2f} · "
-          f"interim price {R['interim_price']:,.2f} · margin of safety {R['fmos']:.1%} {R['verdict']} · required price {R['required_price']:,.2f} · "
+          f"interim price {R['interim_price']:,.2f} · margin of safety {R['fmos']:.1%} {R['verdict']} · price clearing target margin {R['required_price']:,.2f} · "
           f"binding input: {R['binding_input']} · worst corner {R['fmos_worst_corner']:.1%}")
 
 
