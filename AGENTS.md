@@ -130,6 +130,18 @@ these rules:
   person. If nothing distinct is left to try, say so in one line and wait.
 - Do not create the venture's output files by hand. The method makes them.
 
+## Ask for feedback at the end of each session
+
+Write what you found to the feedback log, as the skills say. Then ask the person
+whether they want to send feedback to the people who keep this method. Send nothing
+without their yes.
+
+If they say yes, draft it from the form in `.github/ISSUE_TEMPLATE/agent-feedback.yml`
+and show them the full text. Leave out the venture's idea, customers, company names,
+figures, personal details, keys and file paths. The issue is public. After they
+approve the text, open it at https://github.com/tmth-studio/forge-cf/issues/new/choose
+or give them the text to post. Ask once. If they say no, drop it.
+
 ## Tell the person this before a run
 
 A run does not stop by itself when a design fails. It keeps trying until a design

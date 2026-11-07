@@ -1,0 +1,47 @@
+name: Feedback from a run
+description: What worked and what did not when an agent ran the method. Public, so include no private details.
+title: "[run feedback] "
+labels: ["run-feedback"]
+body:
+  - type: markdown
+    attributes:
+      value: "This page is public. Do not include the venture's idea, customer names, company names, figures, personal details, keys or file paths."
+  - type: input
+    id: agent
+    attributes:
+      label: Agent and model
+      description: For example, Codex with its model name.
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Commit of this repo used
+    validations:
+      required: true
+  - type: input
+    id: reached
+    attributes:
+      label: How far the run got
+      description: For example, R3, or setup only.
+    validations:
+      required: true
+  - type: textarea
+    id: stuck
+    attributes:
+      label: Where the method stopped you or was unclear
+      description: Name the skill or standard and the step.
+    validations:
+      required: true
+  - type: textarea
+    id: differs
+    attributes:
+      label: What you had to do differently in your tool
+  - type: textarea
+    id: wrong
+    attributes:
+      label: A rule that looked wrong, and why
+  - type: textarea
+    id: worked
+    attributes:
+      label: What worked well

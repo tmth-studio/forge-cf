@@ -1,6 +1,6 @@
 # Bundle provenance
 
-built: 2026-11-07T13:52:25Z
+built: 2026-11-07T14:07:10Z
 vault commit: 9453ac88 (working tree; uncommitted edits included)
 builder: 04-Projects/TMTH_Venture_Studio/Forge/WS1/build-cf-bundle.sh
 
@@ -74,6 +74,7 @@ bad759e71950ade6  .claude/skills/shared/generators/test_pool_at_risk.py
 8378efae35cc6349  .claude/skills/theory-of-change-custom/SKILL.md
 b2ff9a06d74b1a4e  .claude/skills/verify-balm-custom/SKILL.md
 788d08116d4b6020  .claude/skills/verify-venture-custom/SKILL.md
+683a1438c9a916c5  .github/ISSUE_TEMPLATE/agent-feedback.yml
 36ddeb7c09aa3a6b  .github/copilot-instructions.md
 60c9bdd905fcf45a  .gitignore
 c941ec7ce145aa8f  04-Projects/Family_High_Performance/context/va-design-discipline.md
@@ -108,9 +109,9 @@ efa71abdcbd8b085  04-Projects/TMTH_Venture_Studio/Forge/WS1/tpm-measurement-stan
 666f8c86cf6fa5c7  04-Projects/TMTH_Venture_Studio/Forge/WS1/ws1-feedback-log.md
 69825776d64ddbbd  04-Projects/TMTH_Venture_Studio/TMTH_IVE_Wiki/wiki/Methodology/Model_Stack.md
 c4b1868b1e3ac202  04-Projects/TMTH_Venture_Studio/TMTH_IVE_Wiki/wiki/Methodology/V_Model_Process.md
-96d7ff7007ac383e  AGENTS.md
+8ccdf5d8e39412e7  AGENTS.md
 336cc4fbf19beaad  CLAUDE.md
-ec442c566e909a0e  FEEDBACK.md
+5dadcb5c71a7b2be  FEEDBACK.md
 42fbbc9d55ee0d14  GEMINI.md
 7f1e52ccf10d596b  README.md
 89e90272b75f5846  docs/index.html
